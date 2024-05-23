@@ -1,14 +1,15 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Signup from "@/components/signup";
+import PortfolioAbout from "@/components/portfolio/PortfolioAbout";
 
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen ">
-      <Button>Click me</Button>
-        <p>lorem500</p>
-      <Signup />
+    <main className=" min-h-screen w-full">
+     
+        <PortfolioAbout/>
+  
     </main>
   );
 }

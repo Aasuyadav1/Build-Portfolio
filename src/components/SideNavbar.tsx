@@ -63,7 +63,7 @@ export default function SideNavbar() {
               <SettingsIcon className="h-5 w-5" />
               Settings
             </Link>
-          </div> 
+          </div>
         </div>
       </nav>
       <div className=" w-full fixed md:hidden">
@@ -101,7 +101,7 @@ export default function SideNavbar() {
                     })}
                   </div>
                 </div>
-                 <div className="px-4">
+                <div className="px-4">
                   <Link
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
                     href="#"
@@ -109,7 +109,7 @@ export default function SideNavbar() {
                     <SettingsIcon className="h-5 w-5" />
                     Settings
                   </Link>
-                </div> 
+                </div>
               </div>
             </SheetContent>
           </Sheet>
@@ -124,8 +124,6 @@ export default function SideNavbar() {
     </>
   );
 }
-
-
 
 function BriefcaseIcon(props: any) {
   return (
