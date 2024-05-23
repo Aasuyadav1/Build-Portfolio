@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button"
 import { DialogTrigger, DialogTitle, DialogDescription, DialogHeader, DialogFooter, DialogContent, Dialog } from "@/components/ui/dialog"
 
 export default function Signup() {
+ 
   return (
-    <Dialog defaultOpen>
+    <Dialog >
       <DialogTrigger asChild>
         <Button >Open Login</Button>
       </DialogTrigger>
