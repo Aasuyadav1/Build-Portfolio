@@ -6,7 +6,7 @@ import PortfolioAbout from "@/components/portfolio/PortfolioAbout";
 
 export default function Home() {
   return (
-    <main className=" min-h-screen w-full">
+    <main className="h-full  w-full">
      
         <PortfolioAbout/>
   

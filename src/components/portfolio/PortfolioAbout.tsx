@@ -1,6 +1,7 @@
 import React from 'react';
 import PortfolioLinks from './PortfolioLinks';
 import SkillsSection from './PortfolioSkills';
+import PortfolioProjectCard from './PortfolioProjectCard';
 
 const PortfolioAbout = () => {
   const allSkills = [
@@ -30,7 +31,7 @@ const PortfolioAbout = () => {
     }
   ]
   return (
-    <section className='flex flex-col justify-center items-center w-full h-screen p-4'>
+    <section className='flex flex-col justify-center items-center w-full h-full  p-4'>
       <div className='flex justify-center items-center w-full max-w-[200px]  md:max-w-[250px] aspect-square p-1 rounded-full border-solid border-4 border-secondary'>
         <img 
           className='rounded-full object-cover w-full h-full' 
@@ -47,6 +48,7 @@ const PortfolioAbout = () => {
       <PortfolioLinks allSkills={allSkills} />
 
     <SkillsSection/>
+    <PortfolioProjectCard/>
     </section>
   );
 }
