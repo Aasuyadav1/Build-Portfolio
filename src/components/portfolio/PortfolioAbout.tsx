@@ -1,5 +1,6 @@
 import React from 'react';
 import PortfolioLinks from './PortfolioLinks';
+import SkillsSection from './PortfolioSkills';
 
 const PortfolioAbout = () => {
   const allSkills = [
@@ -45,6 +46,7 @@ const PortfolioAbout = () => {
 
       <PortfolioLinks allSkills={allSkills} />
 
+    <SkillsSection/>
     </section>
   );
 }
