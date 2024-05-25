@@ -13,12 +13,13 @@ const PortfolioLinks = ({ allSkills } : Props) => {
     console.log(allIcons);
   }, []);
   return (
-    <section className=" fixed bottom-0 right-0 bg-iconbg  p-3  border-l-4 border-t-4 rounded-tl-[40px] border-solid border-secondary ">
-      <div className="mt-1 flex flex-col gap-2">
+    <section className="w-fit     p-3  ">
+      <div className="mt-1 flex flex-wrap justify-center items-center w-fit gap-2">
       {allSkills.map((skill) => (
         <SocialIcon 
           key={skill.network}
           url={skill.url}
+          style={{ height: 40, width: 40 }}
           network={skill.network.toLowerCase()}
           target="_blank"
         />
