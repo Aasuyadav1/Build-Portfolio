@@ -6,10 +6,10 @@ import { Textarea } from '../ui/textarea'
 
 const PortfolioContact = () => {
   return (
-    <section className=' border-2 mt-4 w-full flex justify-center items-center rounded-sm px-4 py-4 border-solid border-iconbg'>
-      
+    <section className='mt-4 w-full  h-full '>
+      <h1 className='text-2xl  font-bold text-primary'>#Contact Me</h1>
+       <div className='flex mt-4 w-full h-full  justify-center items-center rounded-sm px-2 py-6 border-2 border-solid border-iconbg'>
        <form className='max-w-[500px] w-full flex flex-col gap-3'>
-        <h1 className='text-xl  font-bold text-primary'>Contact Me</h1>
        <div>
             <Label className='text-secondary' htmlFor="name">Name</Label>
             <Input id="name" className='outline-secondary focus:outline-secondary' type="text" placeholder='Enter your name'/>
@@ -24,6 +24,7 @@ const PortfolioContact = () => {
         </div>
         <Button type='submit'>Send Message</Button>
        </form>
+       </div>
     </section>
   )
 }

@@ -30,9 +30,9 @@ const SkillsSection: React.FC = () => {
   }, []);
 
   return (
-    <div className='border-2 mt-4 w-full rounded-sm px-4 py-4 border-solid border-iconbg'>
-      <h1 className='text-xl font-bold text-secondary'>#Skills</h1>
-      <div className='flex mt-2 flex-wrap gap-2 '>
+    <div className=' mt-4 w-full '>
+      <h1 className='text-2xl font-bold text-primary'>#Skills</h1>
+      <div className='flex mt-4 px-2 py-6 border-2 border-solid border-iconbg rounded-sm w-full h-full flex-wrap gap-2 '>
        {
         ['html', 'css', 'javascript'].map((skil)=>(
           <div className='px-2 transition-colors hover:bg-iconbg cursor-pointer  rounded-md border-2 border-solid border-secondary text-primary'>

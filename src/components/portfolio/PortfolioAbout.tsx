@@ -1,8 +1,6 @@
 import React from 'react';
 import PortfolioLinks from './PortfolioLinks';
-import SkillsSection from './PortfolioSkills';
-import PortfolioProjectCard from './PortfolioProjectCard';
-import PortfolioContact from './PortfolioContact';
+
 
 const PortfolioAbout = () => {
   const allSkills = [
@@ -32,8 +30,9 @@ const PortfolioAbout = () => {
     }
   ]
   return (
-    <section className='flex flex-col justify-center items-center w-full h-screen  p-4'>
-     <div className='w-full h-full  flex flex-col justify-center items-center'>
+    <section className=' w-full h-full'>
+      <h1 className='text-2xl font-bold rounded-sm text-primary mt-4'>#About</h1>
+     <div className='w-full h-full mt-2 py-6 px-2 flex flex-col justify-center items-center border-2 border-solid border-iconbg'>
      <div className='flex justify-center items-center w-full max-w-[200px]  md:max-w-[250px] aspect-square p-1 rounded-full border-solid border-4 border-secondary'>
         <img 
           className='rounded-full object-cover w-full h-full' 
@@ -49,12 +48,6 @@ const PortfolioAbout = () => {
       </div>
       <PortfolioLinks allSkills={allSkills} />
      </div>
-
-       
-
-    {/*<SkillsSection/>
-    <PortfolioProjectCard/>
-    <PortfolioContact/> */}
     </section>
   );
 }
