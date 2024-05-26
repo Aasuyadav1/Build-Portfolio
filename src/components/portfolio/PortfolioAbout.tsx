@@ -39,6 +39,11 @@ const PortfolioAbout = () => {
           className='rounded-full object-cover w-full h-full' 
           src="https://images.unsplash.com/photo-1618641986557-1ecd230959aa?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" 
           alt="user's image" 
+          width={250}
+          height={250}
+          objectFit='cover'
+          quality={100}
+         
           title='user image' 
         />
       </div>
