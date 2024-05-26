@@ -1,5 +1,6 @@
 import React from 'react';
 import PortfolioLinks from './PortfolioLinks';
+import Image from 'next/image';
 
 
 const PortfolioAbout = () => {
@@ -34,7 +35,7 @@ const PortfolioAbout = () => {
       <h1 className='text-2xl font-bold rounded-sm text-primary mt-4'>#About</h1>
      <div className='w-full h-full mt-2 py-6 px-2 flex flex-col justify-center items-center border-2 border-solid border-iconbg'>
      <div className='flex justify-center items-center w-full max-w-[200px]  md:max-w-[250px] aspect-square p-1 rounded-full border-solid border-4 border-secondary'>
-        <img 
+        <Image 
           className='rounded-full object-cover w-full h-full' 
           src="https://images.unsplash.com/photo-1618641986557-1ecd230959aa?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D" 
           alt="user's image" 

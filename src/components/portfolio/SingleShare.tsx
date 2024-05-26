@@ -1,6 +1,7 @@
 import React from "react";
 import { SocialIcon } from "react-social-icons";
 import { RiGithubFill } from "react-icons/ri";
+import Image from "next/image";
 
 const SingleShare = () => {
   return (
@@ -9,7 +10,7 @@ const SingleShare = () => {
       <div className="w-full py-6 px-2 h-full border-2 border-solid border-iconbg mt-4 flex justify-center items-center">
       <div className=" max-w-[380px] w-full px-6 py-10 flex flex-col justify-center rounded-lg items-center border-2 border-solid border-primary bg-iconbg">
         <div className="flex justify-center items-center w-full max-w-[150px]  md:max-w-[150px] aspect-square p-1 rounded-full border-solid border-4 border-secondary">
-          <img
+          <Image
             className="rounded-full object-cover w-full h-full"
             src="https://images.unsplash.com/photo-1618641986557-1ecd230959aa?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
             alt="user's image"
