@@ -17,12 +17,9 @@ export const dbConnect = async (): Promise<void> => {
   }
 
   try {
-    const mongooseInstance = mongoose.createConnection(process.env.MONGOOSE_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    const db = await mongoose.connect(process.env.MONGOOSE_URI);
 
-    connection.isConnected = mongooseInstance.readyState;
+    connection.isConnected = db.connections[0].readyState;
 
     if (connection.isConnected === 1) {
       console.log("Connected to database");
