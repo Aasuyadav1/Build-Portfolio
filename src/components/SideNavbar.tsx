@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
 
@@ -53,6 +54,9 @@ export default function SideNavbar() {
                   </Link>
                 );
               })}
+              <Button onClick={() => signIn('google')}>
+                sign out
+              </Button>
             </div>
           </div>
           <div className="px-4">
