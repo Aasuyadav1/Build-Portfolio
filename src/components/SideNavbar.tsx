@@ -34,7 +34,7 @@ export default function SideNavbar() {
   ];
   return (
     <>
-      <nav className="hidden fixed   h-screen w-64 shrink-0 border-r bg-gray-100 dark:border-gray-800 dark:bg-gray-900 md:block ">
+      <nav className="hidden fixed   h-screen w-64 shrink-0 border-r  bg-gray-100 dark:border-gray-800 dark:bg-gray-900 md:block ">
         <div className="flex h-full flex-col justify-between py-6">
           <div className="space-y-6 px-4">
             <Link className="flex items-center gap-2 font-bold" href="#">
