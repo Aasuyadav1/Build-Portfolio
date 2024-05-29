@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '../ui/textarea';
 
 interface InputProps {
   classes?: string;
@@ -10,7 +11,8 @@ interface InputProps {
   name?: string;
   icon?: string;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
+  textarea?: boolean;
 }
 
 const InputAdmin: React.FC<InputProps> = ({
@@ -21,22 +23,36 @@ const InputAdmin: React.FC<InputProps> = ({
   name,
   icon,
   value,
-  onChange
+  onChange,
+  textarea = false,
 }) => {
   return (
-    <div className='flex flex-col gap-2 px-4 rounded-md py-4 text-black bg-gray-100 border'>
-      <Label htmlFor={label}>{label}</Label>
-      <Input
-        id={label}
-        className={`${classes} text-black`}
-        placeholder={placeholder}
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-      />
+    <div className={`flex flex-col gap-2 px-4 rounded-md py-4 text-black bg-gray-100 border ${classes}`}>
+      {label && <Label htmlFor={name}>{label}</Label>}
+      {
+        textarea ? (
+          <Textarea
+            id={name}
+            placeholder={placeholder}
+            name={name}
+            value={value}
+            className={`${classes} `}
+            onChange={onChange}
+          />
+        ) : (
+          <Input
+            id={name}
+            placeholder={placeholder}
+            type={type}
+            name={name}
+            value={value}
+            className={`${classes} text-black`}
+            onChange={onChange}
+          />
+        )
+      }
     </div>
-  );
+  );  
 }
 
 export default InputAdmin;
