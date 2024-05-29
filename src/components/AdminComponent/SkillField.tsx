@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState, useEffect } from "react";
 import skillIcons from "@/Data/skillIcon";
+import { Separator } from "../ui/separator";
 
 interface Skill {
   value: string;
@@ -102,7 +103,10 @@ export function SkillField() {
                 </Command>
               </PopoverContent>
             </Popover>
-            <Input type="text" placeholder="Enter custom skill..." />
+            <Separator />
+            <p className="text-sm text-primary">* Enter custom image and skill name </p>
+            <Input type="text" placeholder="Enter custom image..." />
+            <Input type="text" placeholder="Enter skill name..." />
           </div>
           <DialogFooter>
             <Button type="submit">Select</Button>
