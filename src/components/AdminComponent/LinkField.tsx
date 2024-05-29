@@ -82,7 +82,14 @@ export function LinkField() {
                   className="w-full justify-between"
                 >
                   {selectedFramework
-                    ? selectedFramework.label
+                    ? <div>
+                      <SocialIcon
+                            style={{ height: 30, width: 30 }}
+                            url={`https://${selectedFramework.value}.com`}
+                            className="mr-2"
+                          />
+                          {selectedFramework.label}
+                    </div>
                     : "Select Links..."}
                   <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -90,7 +97,7 @@ export function LinkField() {
               <PopoverContent className="w-[--radix-popover-trigger-width] max-h-[--radix-popover-content-available-height] p-0">
                 <Command className="w-full">
                   <CommandInput placeholder="Search link..." className="h-9" />
-                  <ScrollArea className="h-[200px]">
+                  <ScrollArea className="h-[170px]">
                   <CommandEmpty>No framework found.</CommandEmpty>
                   <CommandList >
                     <CommandGroup className="w-full">

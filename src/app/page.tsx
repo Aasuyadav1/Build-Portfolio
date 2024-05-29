@@ -6,6 +6,8 @@ import Signup from "@/components/signup";
 import InputAdmin from "@/components/AdminComponent/InputAdmin";
 import PortfolioAbout from "@/components/portfolio/PortfolioAbout";
 import LinkCard from "@/components/AdminComponent/LinkCard";
+import SkillCard from "@/components/AdminComponent/SkillCard";
+import { SkillField } from "@/components/AdminComponent/SkillField";
 
 export default function Home() {
   const [formData, setFormData] = React.useState({
@@ -38,6 +40,8 @@ export default function Home() {
         name="headlines"
       />
       <LinkCard/>
+      <SkillCard/>
+      <SkillField/>
     </main>
   );
 }
