@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Signup from "@/components/signup";
 import InputAdmin from "@/components/AdminComponent/InputAdmin";
 import PortfolioAbout from "@/components/portfolio/PortfolioAbout";
+import LinkCard from "@/components/AdminComponent/LinkCard";
 
 export default function Home() {
   const [formData, setFormData] = React.useState({
@@ -36,6 +37,7 @@ export default function Home() {
         value={formData.headlines}
         name="headlines"
       />
+      <LinkCard/>
     </main>
   );
 }
