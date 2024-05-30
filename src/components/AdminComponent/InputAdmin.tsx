@@ -13,6 +13,8 @@ interface InputProps {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
   textarea?: boolean;
+  image?: boolean;
+  imageUrl?: string;
 }
 
 const InputAdmin: React.FC<InputProps> = ({
@@ -25,6 +27,8 @@ const InputAdmin: React.FC<InputProps> = ({
   value,
   onChange,
   textarea = false,
+  image = false,
+  imageUrl
 }) => {
   return (
     <div className={`flex flex-col gap-2 px-4 rounded-md py-4 text-black bg-gray-100 border ${classes}`}>
@@ -40,7 +44,8 @@ const InputAdmin: React.FC<InputProps> = ({
             onChange={onChange}
           />
         ) : (
-          <Input
+          <>
+            <Input
             id={name}
             placeholder={placeholder}
             type={type}
@@ -49,6 +54,12 @@ const InputAdmin: React.FC<InputProps> = ({
             className={`${classes} text-black`}
             onChange={onChange}
           />
+          {
+            image ? (
+              <img className='aspect-video object-cover rounded-md' src={imageUrl} alt="image" />
+            ) : null
+          }
+          </>
         )
       }
     </div>
