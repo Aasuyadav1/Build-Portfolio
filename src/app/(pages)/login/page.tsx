@@ -1,21 +1,22 @@
 "use client"
-import React, { useEffect } from 'react'
-import { useSession } from 'next-auth/react'
-import { Button } from '@/components/ui/button';
-import { signIn } from 'next-auth/react';
-import { dbConnect } from '@/lib/dbConnect';
+import React from 'react';
+import { signIn, signOut } from 'next-auth/react';
+import { Button } from '@/components/ui/button'; // Ensure Button component is properly implemented
+import { useSession } from 'next-auth/react';
 
-const page = () => {
-    useEffect(() => {
-     
-    },[])
-    const session = useSession()
-    console.log(session)
+
+const LoginPage = () => {
+  const { data: session } = useSession();
+  console.log(session)
   return (
     <div>
-        <Button onClick={() => signIn('google')}>Login</Button>
+      <h1>Welcome to My App</h1>
+      <Button onClick={() => signIn('google')}>Login with Google</Button>
+      {
+        session && <Button onClick={() => signOut()}>Logout</Button>
+      }
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default LoginPage;
