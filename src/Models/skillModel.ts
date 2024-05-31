@@ -18,6 +18,7 @@ const skillSchema: Schema<skilltype> = new Schema({
   skills: [
     {
       skillname: String,
+      skillimage: String
     },
   ],
 });
