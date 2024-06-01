@@ -1,34 +1,33 @@
 "use client";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
 
 export default function SideNavbar() {
   const NavList = [
     {
-      name: "Home",
-      href: "#",
+      name: "Preview",
+      href: "/",
       icon: HomeIcon,
     },
     {
       name: "About",
-      href: "#",
+      href: "/dashboard/about",
       icon: InfoIcon,
     },
     {
       name: "Skills",
-      href: "#",
+      href: "/dashboard/skill",
       icon: MenuIcon,
     },
     {
       name: "Projects",
-      href: "#",
+      href: "/dashboard/project",
       icon: MountainIcon,
     },
     {
-      name: "Profile",
-      href: "#",
+      name: "Link",
+      href: "/dashboard/link",
       icon: UserIcon,
     },
   ];
@@ -37,7 +36,7 @@ export default function SideNavbar() {
       <nav className="hidden fixed   h-screen w-64 shrink-0 border-r  bg-gray-100 dark:border-gray-800 dark:bg-gray-900 md:block ">
         <div className="flex h-full flex-col justify-between py-6">
           <div className="space-y-6 px-4">
-            <Link className="flex items-center gap-2 font-bold" href="#">
+            <Link href='/' className="flex items-center gap-2 font-bold" >
               <MountainIcon className="h-6 w-6" />
               <span>Acme Inc</span>
             </Link>
@@ -54,9 +53,7 @@ export default function SideNavbar() {
                   </Link>
                 );
               })}
-              <Button onClick={() => signIn('google')}>
-                sign out
-              </Button>
+             
             </div>
           </div>
           <div className="px-4">

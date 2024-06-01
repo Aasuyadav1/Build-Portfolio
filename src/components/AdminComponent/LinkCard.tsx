@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const LinkCard = () => {
-  const icons = [
+  const icons: {name: string}[] = [
     {
       name: "github",
     },
@@ -26,7 +26,8 @@ const LinkCard = () => {
   ];
   return (
     <div className="flex flex-wrap mt-10 gap-2">
-      {icons.map((icon) => (
+      { icons && icons.length > 0 ? (
+        icons.map((icon) => (
         <div className="flex flex-col  gap-2 bg-slate-100 px-4 py-2 max-w-[250px] w-full rounded-md relative">
           
           <DropdownMenu>
@@ -65,9 +66,16 @@ const LinkCard = () => {
             </p>
           </div>
         </div>
-      ))}
+      ) )
+      ) : <div>
+        <h1>No Links Found</h1>
+      </div> }
     </div>
   );
 };
 
 export default LinkCard;
+
+
+
+

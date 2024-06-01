@@ -29,7 +29,8 @@ import User from '@/Models/userModel';
       }
       return true;
     },
-  }
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

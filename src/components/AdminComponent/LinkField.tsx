@@ -63,7 +63,7 @@ export function LinkField() {
     <div className="max-w-[400px]">
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">Add Link</Button>
+          <Button  className="w-full">Add Link</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

@@ -40,7 +40,7 @@ export function SkillField() {
     <div className="max-w-[400px]">
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">Select Skill</Button>
+          <Button >Select Skill</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
