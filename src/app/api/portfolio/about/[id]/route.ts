@@ -2,6 +2,7 @@ import { dbConnect } from "@/lib/dbConnect";
 import About from "@/Models/aboutModel";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
+import { aboutValidation } from "@/Schema/aboutValidation";
 
 export const GET = async (req: NextRequest, { params }: any) => {
     try {
@@ -40,9 +41,11 @@ export const PUT = async (req: NextRequest, { params }: any) => {
     try {
         const id = params.id
 
-        const { about, image } = await req.json()
+        const data = await req.json()
 
-        if(!about || !image){
+        const {headlines, description, name, image} : any = aboutValidation.safeParse(data)
+
+        if(!headlines || !description || !name || !image){
             return new NextResponse("Missing fields", {status: 400})
         }
 
@@ -50,8 +53,10 @@ export const PUT = async (req: NextRequest, { params }: any) => {
 
         const updateAbout = await About.findByIdAndUpdate(id, {
             $set: {
-                about,
-                image
+                name,
+                image,
+                description,
+                headlines  
             }
         })
 

@@ -11,15 +11,22 @@ import User from '@/Models/userModel';
     }),
   ],
   callbacks: {
+    async session({ session } : any) {
+      // store the user id from MongoDB to session
+      const sessionUser = await User.findOne({ email: session.user.email });
+      session.user.id = sessionUser._id.toString();
+
+      return session;
+    },
     async signIn( {user , account }: any) {
       if (account?.provider === 'google') {
-        const { name, email } = user;
+        const { name, email, image } = user;
         try {
           await dbConnect();
           const existingUser = await User.findOne({ email });
   
           if (!existingUser) {
-            await User.create({ name, email });
+            await User.create({ name, email, image });
           }
           return true;
         } catch (error) {

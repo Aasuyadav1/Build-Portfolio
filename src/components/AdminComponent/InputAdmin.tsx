@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '../ui/textarea';
@@ -15,9 +15,10 @@ interface InputProps {
   textarea?: boolean;
   image?: boolean;
   imageUrl?: string;
+  error?: string;
 }
 
-const InputAdmin: React.FC<InputProps> = ({
+const InputAdmin = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(({
   classes,
   label,
   placeholder,
@@ -28,24 +29,25 @@ const InputAdmin: React.FC<InputProps> = ({
   onChange,
   textarea = false,
   image = false,
-  imageUrl
-}) => {
+  imageUrl,
+  error,
+}, ref) => {
   return (
     <div className={`flex flex-col gap-2 px-4 rounded-md py-4 text-black bg-gray-100 border ${classes}`}>
       {label && <Label htmlFor={name}>{label}</Label>}
-      {
-        textarea ? (
-          <Textarea
-            id={name}
-            placeholder={placeholder}
-            name={name}
-            value={value}
-            className={`${classes} `}
-            onChange={onChange}
-          />
-        ) : (
-          <>
-            <Input
+      {textarea ? (
+        <Textarea
+          id={name}
+          placeholder={placeholder}
+          name={name}
+          value={value}
+          className={`${classes} `}
+          onChange={onChange}
+          ref={ref as React.Ref<HTMLTextAreaElement>}
+        />
+      ) : (
+        <>
+          <Input
             id={name}
             placeholder={placeholder}
             type={type}
@@ -53,17 +55,16 @@ const InputAdmin: React.FC<InputProps> = ({
             value={value}
             className={`${classes} text-black`}
             onChange={onChange}
+            ref={ref as React.Ref<HTMLInputElement>}
           />
-          {
-            image ? (
-              <img className='aspect-video object-cover rounded-md' src={imageUrl} alt="image" />
-            ) : null
-          }
-          </>
-        )
-      }
+          {image && <img className='aspect-video object-cover rounded-md' src={imageUrl} alt="image" />}
+        </>
+      )}
+      {error && <span className="text-red-500 text-sm">{error}</span>}
     </div>
   );  
-}
+});
+
+InputAdmin.displayName = 'InputAdmin';
 
 export default InputAdmin;

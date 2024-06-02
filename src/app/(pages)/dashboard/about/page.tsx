@@ -1,98 +1,124 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import InputAdmin from "@/components/AdminComponent/InputAdmin";
-import { LinkField } from "@/components/AdminComponent/LinkField";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { aboutValidation } from "@/Schema/aboutValidation";
+import { useForm, FieldError } from "react-hook-form";
+import { useSession } from "next-auth/react";
 
+type AboutFormData = {
+  name: string;
+  heading: string;
+  about: string;
+};
 
-const Page = () => {
-  const [imagePreview, setImagePreview] = useState("");
-  const [formData, setFormData] : any = React.useState({
-    name: "",
-    heading: "",
-    about: "",
-    image: "",
-  });
+const Page: React.FC = () => {
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const { data: session } = useSession();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<AboutFormData>();
 
-  const handleChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    if (
-      e.target instanceof HTMLInputElement &&
-      e.target.type === "file" &&
-      e.target.files
-    ) {
-      const file = e.target.files[0];
-      setFormData({
-        ...formData,
-        image: file,
+  const onSubmit = async (data: AboutFormData) => {
+    console.log(data);
+    console.log("submit invoked", session);
+    try {
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("heading", data.heading);
+      formData.append("about", data.about);
+
+      const response = await fetch("/api/portfolio/about/addabout", {
+        method: "POST",
+        body: JSON.stringify({
+          userid: session?.user?.id,
+          name: data.name,
+          heading: data.heading,
+          about: data.about,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-      setImagePreview(URL.createObjectURL(file));
-    } else {
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-      });
+
+      const res = await response.json();
+
+      if (response.ok) {
+        console.log(res);
+      } else {
+        console.error("Failed to submit data", res);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    console.log(formData);
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setValue("image", e.target.files);
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
   useEffect(() => {
     return () => {
-      // Clean up the URL.createObjectURL to avoid memory leaks
       if (imagePreview) {
         URL.revokeObjectURL(imagePreview);
       }
     };
   }, [imagePreview]);
 
+  const getErrorMessage = (error: FieldError | undefined): string | undefined => {
+    return error?.message;
+  };
+
   return (
     <div className="w-full mt-2 border rounded-md px-4 py-10">
-        <h1 className="text-2xl font-medium">Personal Details</h1>
-        <div className="w-full flex justify-end">
-            <Button>Add Project</Button>
-        </div>
-        <div className="w-full mt-4 grid grid-cols-2 gap-x-6 ">
-      <div className="flex flex-col gap-9">
-        <InputAdmin
-          label="Name"
-          placeholder="Enter your name"
-          onChange={handleChange}
-          value={formData.name}
-          name="name"
-        />
-        <InputAdmin
-          label="About"
-          placeholder="Enter details about yourself"
-          onChange={handleChange}
-          value={formData.about}
-          name="about"
-          textarea={true}
-        />
+      <h1 className="text-2xl font-medium">Personal Details</h1>
+      <div className="w-full flex justify-end">
+        <Button>Add Project</Button>
       </div>
-      <div className="flex flex-col gap-9">
-        <InputAdmin
-          label="Heading"
-          placeholder="Enter your headlines"
-          onChange={handleChange}
-          value={formData.heading}
-          name="heading"
-        />
-        <InputAdmin
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full mt-4 grid grid-cols-2 gap-x-6">
+        <div className="flex flex-col gap-9">
+          <InputAdmin
+            label="Name"
+            placeholder="Enter your name"
+            {...register("name")}
+            error={getErrorMessage(errors.name)}
+          />
+          <InputAdmin
+            label="About"
+            placeholder="Enter details about yourself"
+            {...register("about")}
+            error={getErrorMessage(errors.about)}
+            textarea={true}
+          />
+        </div>
+        <div className="flex flex-col gap-9">
+          <InputAdmin
+            label="Heading"
+            placeholder="Enter your headlines"
+            {...register("heading")}
+            error={getErrorMessage(errors.heading)}
+          />
+          <InputAdmin
             type="file"
             label="Image"
             placeholder="Upload project image"
-            onChange={handleChange}
+            onChange={handleImageChange}
             name="image"
             image={!!imagePreview}
             imageUrl={imagePreview}
-          /> 
-          
-      </div>
+          />
         </div>
+        <div className="col-span-2 flex justify-end">
+          <Button type="submit">Submit</Button>
+        </div>
+      </form>
     </div>
   );
 };
