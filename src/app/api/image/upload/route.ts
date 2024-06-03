@@ -1,36 +1,28 @@
-import { NextResponse, NextRequest } from "next/server";
-import formidable from 'formidable';
-import fs from 'fs';
-import uploadToCloudinary from "@/utils/cloudinary";
 
-export const config = {
-    api: {
-      bodyParser: false,
-    },
-  };
+import uploadToCloudinary from "@/utils/handleupload";
+import { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
-    const form = new formidable.IncomingForm();
+export async function POST(req: NextRequest) {
+  // your auth check here if required
 
-  form.parse(req, async (err : any, fields : any, files : any) => {
-    if (err) {
-      return new NextResponse('Error uploading the file', { status: 500 });
-    }
+  const formData = await req.formData();
+  const file = formData.get("file") as File;
 
-    const file = files.file as formidable.File;
-    const path = file.filepath;
+  const fileBuffer = await file.arrayBuffer();
 
-    try {
-      // Upload the file to Cloudinary
-      const imageUrl = await uploadToCloudinary(path, 'your_folder_name');
+  const mimeType = file.type;
+  const encoding = "base64";
+  const base64Data = Buffer.from(fileBuffer).toString("base64");
 
-      // Delete the local file after upload
-      fs.unlinkSync(path);
+  // this will be used to upload the file
+  const fileUri = "data:" + mimeType + ";" + encoding + "," + base64Data;
 
-      return new NextResponse(imageUrl, { status: 200 });
-    } catch (error) {
-      console.error(error);
-      return new NextResponse('Error uploading the file', { status: 500 });
-    }
-  });
+  const res = await uploadToCloudinary(fileUri, file.name);
+
+  if (res.success && res.result) {
+     return NextResponse.json({ 
+        message: "success", imgUrl: res.result.secure_url 
+     }); 
+   } else return NextResponse.json({ message: "failure" });
 }

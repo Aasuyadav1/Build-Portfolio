@@ -10,6 +10,7 @@ type AboutFormData = {
   name: string;
   heading: string;
   about: string;
+  image: string
 };
 
 const Page: React.FC = () => {
@@ -26,10 +27,18 @@ const Page: React.FC = () => {
     console.log(data);
     console.log("submit invoked", session);
     try {
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("heading", data.heading);
-      formData.append("about", data.about);
+        
+       console.log("image is uploaded",data.image);
+
+       const imageurl = await fetch("/api/image/upload", {
+        method: "POST",
+        body: JSON.stringify({ path: data.image }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("image is uploaded",imageurl);
 
       const response = await fetch("/api/portfolio/about/addabout", {
         method: "POST",
@@ -58,8 +67,9 @@ const Page: React.FC = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log(file);
     if (file) {
-      setValue("image", e.target.files);
+      setValue("image", file);
       setImagePreview(URL.createObjectURL(file));
     }
   };
