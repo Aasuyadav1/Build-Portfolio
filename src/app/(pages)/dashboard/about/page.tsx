@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import InputAdmin from "@/components/AdminComponent/InputAdmin";
 import { Button } from "@/components/ui/button";
-import { aboutValidation } from "@/Schema/aboutValidation";
 import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
 
@@ -10,7 +9,7 @@ type AboutFormData = {
   name: string;
   heading: string;
   about: string;
-  image: string
+  image: string;
 };
 
 const Page: React.FC = () => {
@@ -22,15 +21,37 @@ const Page: React.FC = () => {
     setValue,
     formState: { errors },
   } = useForm<AboutFormData>();
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [aboutId, setAboutId] = useState<string>("");
+
+  useEffect(() => {
+    if (session) {
+      getUserAbout();
+    }
+  }, [session]);
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   const onSubmit = async (data: AboutFormData) => {
     console.log(data);
     console.log("submit invoked", session);
-    try {
-        
-       console.log("image is uploaded",data.image);
 
-       const imageurl = await fetch("/api/image/upload", {
+    if (isUpdate) {
+      await updateUserAbout(data);
+    } else {
+      await addUserAbout(data);
+    }
+  };
+
+  const addUserAbout = async (data: AboutFormData) => {
+    try {
+      const imageurl = await fetch("/api/image/upload", {
         method: "POST",
         body: JSON.stringify({ path: data.image }),
         headers: {
@@ -38,9 +59,74 @@ const Page: React.FC = () => {
         },
       });
 
-      console.log("image is uploaded",imageurl);
+      console.log("image is uploaded", imageurl);
 
       const response = await fetch("/api/portfolio/about/addabout", {
+        method: "POST",
+        body: JSON.stringify({
+          userid: session?.user?.id,
+          name: data.name,
+          heading: data.heading,
+          about: data.about,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const res = await response.json();
+
+      if (response.ok) {
+        console.log(res);
+      } else {
+        console.error("Failed to submit data", res);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getUserAbout = async () => {
+    try {
+      const response = await fetch(`/api/portfolio/about/getabout/${session?.user?.id}`, {
+        method: "GET",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("update user data");
+        setIsUpdate(true);
+        console.log(data);
+        setValue("name", data.name);
+        setAboutId(data._id);
+        setValue("heading", data.heading);
+        setValue("about", data.about);
+        setValue("image", data.image);
+      } else {
+        setIsUpdate(false);
+        console.log(data);
+      }
+
+      console.log("add user data");
+    } catch (error) {
+      console.log("error getting user about", error);
+    }
+  };
+
+  const updateUserAbout = async (data: AboutFormData) => {
+    try {
+      const imageurl = await fetch("/api/image/upload", {
+        method: "POST",
+        body: JSON.stringify({ path: data.image }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("image is uploaded", imageurl);
+
+      const response = await fetch(`/api/portfolio/about/${aboutId}`, {
         method: "POST",
         body: JSON.stringify({
           userid: session?.user?.id,
@@ -69,18 +155,10 @@ const Page: React.FC = () => {
     const file = e.target.files?.[0];
     console.log(file);
     if (file) {
-      setValue("image", file);
+      setValue("image", file.name);
       setImagePreview(URL.createObjectURL(file));
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (imagePreview) {
-        URL.revokeObjectURL(imagePreview);
-      }
-    };
-  }, [imagePreview]);
 
   const getErrorMessage = (error: FieldError | undefined): string | undefined => {
     return error?.message;

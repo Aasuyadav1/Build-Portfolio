@@ -38,7 +38,7 @@ const data = await res.json();
       name,
       heading,
       about,
-      image
+      image: data.result.secure_url
     });
 
     if (!newAbout) {
