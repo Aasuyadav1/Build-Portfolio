@@ -7,6 +7,7 @@ import InputAdmin from "@/components/AdminComponent/InputAdmin";
 import PortfolioAbout from "@/components/portfolio/PortfolioAbout";
 import LinkCard from "@/components/AdminComponent/LinkCard";
 import SkillCard from "@/components/AdminComponent/SkillCard";
+import ProjectCard from "@/components/AdminComponent/ProjectCard";
 import { SkillField } from "@/components/AdminComponent/SkillField";
 
 export default function Home() {
@@ -42,6 +43,7 @@ export default function Home() {
       <LinkCard/>
       <SkillCard/>
       <SkillField/>
+      <ProjectCard/>
     </main>
   );
 }
