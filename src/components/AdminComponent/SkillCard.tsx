@@ -11,7 +11,7 @@ const SkillCard = () => {
     },
   ];
 
-  const handleDelete = (id : any) => {
+  const handleDelete = async (id : any) => {
     try {
       const response = await fetch(`/api/portfolio/skills/${id}`, {
         method: "DELETE"

@@ -8,6 +8,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import { ScrollArea } from "../ui/scroll-area";
 import { getKeys, SocialIcon } from "react-social-icons";
@@ -21,13 +22,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CommandList } from "cmdk";
 import { useState, useEffect } from "react";
 
 interface Framework {
@@ -39,6 +38,7 @@ export function LinkField() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [frameworks, setFrameworks] = useState<Framework[]>([]);
+  const [customLink, setCustomLink] = useState("");
 
   useEffect(() => {
     const allIcons = getKeys();
@@ -59,11 +59,38 @@ export function LinkField() {
     console.log("Selected framework:", selectedFramework);
   }, [value, selectedFramework, frameworks]);
 
+  const addLink = async () => {
+    if (customLink && value) {
+      alert("Only one link can be added at a time");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/portfolio/links", {
+        method: "POST",
+        body: JSON.stringify({
+          link: customLink || `https://${selectedFramework?.value}.com`,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="max-w-[400px]">
       <Dialog>
         <DialogTrigger asChild>
-          <Button  className="w-full">Add Link</Button>
+          <Button className="w-full">Add Link</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -81,16 +108,18 @@ export function LinkField() {
                   aria-expanded={open}
                   className="w-full justify-between"
                 >
-                  {selectedFramework
-                    ? <div>
+                  {selectedFramework ? (
+                    <div>
                       <SocialIcon
-                            style={{ height: 30, width: 30 }}
-                            url={`https://${selectedFramework.value}.com`}
-                            className="mr-2"
-                          />
-                          {selectedFramework.label}
+                        style={{ height: 30, width: 30 }}
+                        url={`https://${selectedFramework.value}.com`}
+                        className="mr-2"
+                      />
+                      {selectedFramework.label}
                     </div>
-                    : "Select Links..."}
+                  ) : (
+                    "Select Links..."
+                  )}
                   <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -98,46 +127,55 @@ export function LinkField() {
                 <Command className="w-full">
                   <CommandInput placeholder="Search link..." className="h-9" />
                   <ScrollArea className="h-[170px]">
-                  <CommandEmpty>No framework found.</CommandEmpty>
-                  <CommandList >
-                    <CommandGroup className="w-full">
-                      {frameworks.map((framework) => (
-                        <CommandItem
-                          key={framework.value}
-                          value={framework.value}
-                          onSelect={(currentValue) => {
-                            setValue(
-                              currentValue === value ? "" : currentValue
-                            );
-                            setOpen(false);
-                          }}
-                        >
-                          <SocialIcon
-                            style={{ height: 30, width: 30 }}
-                            url={`https://${framework.value}.com`}
-                            className="mr-2"
-                          />
-                          {framework.label}
-                          <CheckIcon
-                            className={cn(
-                              "ml-auto h-4 w-4",
-                              value === framework.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
+                    <CommandEmpty>No framework found.</CommandEmpty>
+                    <CommandList>
+                      <CommandGroup className="w-full">
+                        {frameworks.map((framework) => (
+                          <CommandItem
+                            key={framework.value}
+                            value={framework.value}
+                            onSelect={(currentValue) => {
+                              setValue(
+                                currentValue === value ? "" : currentValue
+                              );
+                              setCustomLink("");
+                              setOpen(false);
+                            }}
+                          >
+                            <SocialIcon
+                              style={{ height: 30, width: 30 }}
+                              url={`https://${framework.value}.com`}
+                              className="mr-2"
+                            />
+                            {framework.label}
+                            <CheckIcon
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                value === framework.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
                   </ScrollArea>
                 </Command>
               </PopoverContent>
             </Popover>
-            <Input type="text" placeholder="ex. https://example.com" />
+            <Input
+              type="text"
+              placeholder="ex. https://example.com"
+              value={customLink}
+              onChange={(e) => setCustomLink(e.target.value)}
+              disabled={!!value}
+            />
           </div>
           <DialogFooter>
-            <Button type="submit">Add now</Button>
+            <Button type="submit" onClick={addLink}>
+              Add now
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
