@@ -10,6 +10,23 @@ const SkillCard = () => {
       name: "html",
     },
   ];
+
+  const handleDelete = (id : any) => {
+    try {
+      const response = await fetch(`/api/portfolio/skills/${id}`, {
+        method: "DELETE"
+      })
+
+      const data = await response.json();
+
+      if(response.ok){
+        console.log(data.data)
+        alert("Skill deleted successfully")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="flex flex-wrap mt-10 gap-2">
       {skill && skill.length > 0 ? (

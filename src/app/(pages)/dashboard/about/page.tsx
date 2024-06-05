@@ -23,6 +23,7 @@ const Page: React.FC = () => {
   } = useForm<AboutFormData>();
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [aboutId, setAboutId] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
 
   useEffect(() => {
     if (session) {
@@ -39,14 +40,13 @@ const Page: React.FC = () => {
   }, [imagePreview]);
 
   const onSubmit = async (data: AboutFormData) => {
-    console.log(data);
-    console.log("submit invoked", session);
-
+    setIsLoading(true); // Start loading
     if (isUpdate) {
       await updateUserAbout(data);
     } else {
       await addUserAbout(data);
     }
+    setTimeout(() => setIsLoading(false), 1000); // End loading
   };
 
   const addUserAbout = async (data: AboutFormData) => {
@@ -97,12 +97,10 @@ const Page: React.FC = () => {
       if (response.ok) {
         console.log("update user data");
         setIsUpdate(true);
-        console.log(data);
-        setValue("name", data.name);
-        setAboutId(data._id);
-        setValue("heading", data.heading);
-        setValue("about", data.about);
-        setValue("image", data.image);
+        setValue("name", data.data[0].name);
+        setAboutId(data.data[0]._id);
+        setValue("heading", data.data[0].heading);
+        setValue("about", data.data[0].about);
       } else {
         setIsUpdate(false);
         console.log(data);
@@ -116,20 +114,11 @@ const Page: React.FC = () => {
 
   const updateUserAbout = async (data: AboutFormData) => {
     try {
-      const imageurl = await fetch("/api/image/upload", {
-        method: "POST",
-        body: JSON.stringify({ path: data.image }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log("image is uploaded", imageurl);
+      console.log(aboutId);
 
       const response = await fetch(`/api/portfolio/about/${aboutId}`, {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify({
-          userid: session?.user?.id,
           name: data.name,
           heading: data.heading,
           about: data.about,
@@ -168,7 +157,10 @@ const Page: React.FC = () => {
     <div className="w-full mt-2 border rounded-md px-4 py-10">
       <h1 className="text-2xl font-medium">Personal Details</h1>
       <div className="w-full flex justify-end">
-        <Button>Add Project</Button>
+        <Button onClick={handleSubmit(onSubmit)} disabled={isLoading}>
+          {isUpdate ? "Update" : "Add"}
+          {isLoading && <span className="loader ml-2"></span>}
+        </Button>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full mt-4 grid grid-cols-2 gap-x-6">
         <div className="flex flex-col gap-9">
@@ -204,7 +196,10 @@ const Page: React.FC = () => {
           />
         </div>
         <div className="col-span-2 flex justify-end">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className="flex gap-4" disabled={isLoading}>
+            {isUpdate ? "Update" : "Add"}
+            {isLoading && <span className="loader ml-2"></span>}
+          </Button>
         </div>
       </form>
     </div>

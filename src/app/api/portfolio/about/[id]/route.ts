@@ -5,64 +5,79 @@ import { NextRequest } from "next/server";
 import { aboutValidation } from "@/Schema/aboutValidation";
 
 export const GET = async (req: NextRequest, { params }: any) => {
-    try {
-        const id = params.id
+  try {
+    const id = params.id;
 
-        await dbConnect()
+    await dbConnect();
 
-        const about = await About.findById(id)
+    const about = await About.findById(id);
 
-        if(!about) return new NextResponse("Failed to get about", {status: 500})
+    if (!about) return new NextResponse("Failed to get about", { status: 500 });
 
-        return NextResponse.json({
-            success: true, message: 'about fetched successfully', data: about})
-    } catch (error) {
-        console.log(error)
-    }
-}
+    return NextResponse.json({
+      success: true,
+      message: 'About fetched successfully',
+      data: about,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const DELETE = async (req: NextRequest, { params }: any) => {
-    try {
-        const id = params.id
+  try {
+    const id = params.id;
 
-        await dbConnect()
+    await dbConnect();
 
-        const deleteAbout = await About.findByIdAndDelete(id)
+    const deleteAbout = await About.findByIdAndDelete(id);
 
-        if(!deleteAbout) return new NextResponse("Failed to delete about", {status: 500})
+    if (!deleteAbout) return new NextResponse("Failed to delete about", { status: 500 });
 
-        return new NextResponse("About deleted successfully", {status: 200})
-    } catch (error) {
-        console.log(error)
-    }
-}
+    return new NextResponse("About deleted successfully", { status: 200 });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const PUT = async (req: NextRequest, { params }: any) => {
-    try {
-        const id = params.id
+  try {
+    const id = params.id;
 
-        const data = await req.json()
+    const data = await req.json();
 
-        const {headlines, description, name, image} : any = aboutValidation.safeParse(data)
+    console.log(data);
+    console.log(id);
 
-        if(!headlines || !description || !name || !image){
-            return new NextResponse("Missing fields", {status: 400})
-        }
+    const validation = await aboutValidation.safeParse(data);
 
-        await dbConnect()
+    console.log("val", validation);
 
-        const updateAbout = await About.findByIdAndUpdate(id, {
-            $set: {
-                name,
-                image,
-                description,
-                headlines  
-            }
-        })
-
-        return new NextResponse("About updated successfully", {status: 200})
-        
-    } catch (error) {
-        console.log(error)
+    if (!validation.success) {
+      console.log(validation.error);
+      return new NextResponse("Validation failed", { status: 400 });
     }
-}
+
+    console.log(validation.data);
+    const { heading, about, name, image } = validation.data;
+
+    await dbConnect();
+
+    const updateAbout = await About.findByIdAndUpdate(id, {
+      $set: {
+        name,
+        heading,
+        about,
+        image,  // Assuming image is a part of the schema
+      },
+    });
+
+    if (!updateAbout) return new NextResponse("Failed to update about", { status: 500 });
+
+    return new NextResponse("About updated successfully", { status: 200 });
+
+  } catch (error) {
+    console.log(error);
+    return new NextResponse("Server error", { status: 500 });
+  }
+};
