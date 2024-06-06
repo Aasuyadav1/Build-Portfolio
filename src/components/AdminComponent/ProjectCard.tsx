@@ -22,19 +22,22 @@ const ProjectCard = () => {
     },
   ];
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 mt-4">
       {projects && projects.length > 0 ? (
-        projects.map((project) =>
-            <div className="flex flex-col mt-1   bg-slate-100 px-4 py-2 max-w-[250px] w-full rounded-md ">
-            <img className="w-full object-cover h-[150px] aspect-square rounded-md" src={project.image} alt="" />
-              <h3 className="font-medium text-md truncate">
-                {project.name}
-              </h3>
-              <p className="truncate text-gray-800 text-sm">
-                {project.description}
-              </p>
-            </div>
-        )
+        projects.map((project) => (
+          <div className="flex flex-col mt-1   bg-slate-100 px-4 py-2 max-w-[250px] w-full rounded-md ">
+            <img
+              className="w-full object-cover h-[150px] aspect-square rounded-md"
+              src={project.image}
+              alt=""
+            />
+            <h3 className="font-medium mt-2 text-md truncate ">{project.name}</h3>
+
+            <p className="truncate text-[#000000ea]  text-sm">
+              {project.description}
+            </p>
+          </div>
+        ))
       ) : (
         <div>No Projects Found</div>
       )}
