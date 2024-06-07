@@ -17,7 +17,7 @@ const Page = ({ params }: any) => {
   } = useForm();
   const { data: session } = useSession();
 
-  const handleChange = (e) => {
+  const handleChange = (e : any) => {
     if (
       e.target instanceof HTMLInputElement &&
       e.target.type === "file" &&
@@ -202,7 +202,7 @@ const Page = ({ params }: any) => {
               type="file"
               label="Image"
               placeholder="Upload project image"
-              onChange={handleChange}
+              // onChange={handleChange}
               // {...register("image")}
               image={!!imagePreview}
               imageUrl={imagePreview}
