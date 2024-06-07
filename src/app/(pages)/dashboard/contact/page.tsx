@@ -5,7 +5,7 @@ import { LinkField } from "@/components/AdminComponent/LinkField";
 import { useSession } from "next-auth/react";
 
 const page = () => {
-  const { data: session } = useSession();
+  const { data: session  } = useSession () ;
   const getSkills = async () => {
     try {
       const response = await fetch("/api/portfolio/links" + session?.user?.id );
