@@ -6,6 +6,7 @@ import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
 
 type AboutFormData = {
+  userid: string;
   name: string;
   heading: string;
   about: string;
