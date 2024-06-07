@@ -2,8 +2,17 @@
 import React, { useState, useEffect } from "react";
 import InputAdmin from "@/components/AdminComponent/InputAdmin";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
+
+type ProjectFormData = {
+  title: string;
+  description: string;
+  live: string;
+  Github: string;
+  skills: string;
+  technologies: string;
+};
 
 const Page = ({ params }: any) => {
   const [imagePreview, setImagePreview] = useState("");
@@ -14,10 +23,10 @@ const Page = ({ params }: any) => {
     reset,
     setValue,
     getValues,
-  } = useForm();
+  } = useForm<ProjectFormData>();
   const { data: session } = useSession();
 
-  const handleChange = (e : any) => {
+  const handleChange = (e: any) => {
     if (
       e.target instanceof HTMLInputElement &&
       e.target.type === "file" &&
@@ -47,12 +56,9 @@ const Page = ({ params }: any) => {
     try {
       const id = params.id[0];
 
-      const response = await fetch(
-        "/api/portfolio/project/allprojects" + id,
-        {
-          method: "GET",
-        }
-      );
+      const response = await fetch("/api/portfolio/project/allprojects" + id, {
+        method: "GET",
+      });
 
       const data = await response.json();
 
@@ -60,8 +66,8 @@ const Page = ({ params }: any) => {
         console.log(data);
         setValue("title", data.data[0].title);
         setValue("description", data.data[0].description);
-        setValue("link", data.data[0].link);
-        setValue("githublink", data.data[0].githublink);
+        setValue("live", data.data[0].link);
+        setValue("Github", data.data[0].githublink);
       }
     } catch (error) {
       console.log(error);
@@ -76,9 +82,9 @@ const Page = ({ params }: any) => {
           title: getValues("title"),
           description: getValues("description"),
           skills: getValues("skills"),
-          githublink: getValues("githublink"),
-          projectlink: getValues("link"),
-          image: getValues("image"),
+          github: getValues("Github"),
+          link: getValues("live"),
+          // image: getValues("image"),
         }),
         headers: {
           "Content-Type": "application/json",
@@ -105,8 +111,8 @@ const Page = ({ params }: any) => {
             title: getValues("title"),
             description: getValues("description"),
             skills: getValues("skills"),
-            githublink: getValues("githublink"),
-            projectlink: getValues("link"),
+            github: getValues("Github"),
+            link: getValues("live"),
           }),
           headers: {
             "Content-Type": "application/json",
@@ -122,6 +128,12 @@ const Page = ({ params }: any) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const getErrorMessage = (
+    error: FieldError | undefined
+  ): string | undefined => {
+    return error?.message;
   };
 
   return (
@@ -146,7 +158,7 @@ const Page = ({ params }: any) => {
                   message: "Title must be less than 50 characters",
                 },
               })}
-              error={errors?.title?.message}
+              error={getErrorMessage(errors?.title)}
             />
             <InputAdmin
               label="Description"
@@ -162,7 +174,7 @@ const Page = ({ params }: any) => {
                   message: "Description must be less than 200 characters",
                 },
               })}
-              error={errors?.description?.message}
+              error={getErrorMessage(errors?.description)}
             />
             <InputAdmin
               label="Technologies"
@@ -178,7 +190,7 @@ const Page = ({ params }: any) => {
                   message: "Technologies must be less than 50 characters",
                 },
               })}
-              error={errors?.technologies?.message}
+              error={getErrorMessage(errors?.technologies)}
             />
             <InputAdmin
               label="Live Link"
@@ -194,7 +206,7 @@ const Page = ({ params }: any) => {
                   message: "Live link must be less than 100 characters",
                 },
               })}
-              error={errors?.live?.message}
+              error={getErrorMessage(errors?.live)}
             />
           </div>
           <div className="flex flex-col gap-9">
@@ -221,7 +233,7 @@ const Page = ({ params }: any) => {
                   message: "Github link must be less than 100 characters",
                 },
               })}
-              error={errors?.Github?.message}
+              error={getErrorMessage(errors?.Github)}
             />
           </div>
         </div>
