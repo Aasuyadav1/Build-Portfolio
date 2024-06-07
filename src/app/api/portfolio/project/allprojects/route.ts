@@ -2,9 +2,9 @@ import { dbConnect } from "@/lib/dbConnect";
 import Project from "@/Models/projectModel";
 import { NextResponse, NextRequest } from "next/server";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async (req: NextRequest, {params} : any) => {
     try {
-        const userid = "dd"
+        const userid = params.id
 
         await dbConnect()
 

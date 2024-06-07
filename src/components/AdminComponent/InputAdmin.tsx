@@ -15,7 +15,7 @@ interface InputProps {
   textarea?: boolean;
   image?: boolean;
   imageUrl?: string;
-  error?: string;
+  error?: string | undefined;
 }
 
 const InputAdmin = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(({
@@ -60,7 +60,7 @@ const InputAdmin = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps
           {image && <img className='aspect-video object-cover rounded-md' src={imageUrl} alt="image" />}
         </>
       )}
-      {error && <span className="text-red-500 text-sm">{error}</span>}
+      {error && <span className="text-red-400 font-medium text-sm">{error}</span>}
     </div>
   );  
 });
