@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model, model } from "mongoose";
+import mongoose, { Schema, Document, Model} from "mongoose";
 
 interface skilltype extends Document {
   userid: object;
