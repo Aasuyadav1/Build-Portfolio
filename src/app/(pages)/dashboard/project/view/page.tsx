@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import ProjectCard from "@/components/AdminComponent/ProjectCard";
 import { useSession } from "next-auth/react";
