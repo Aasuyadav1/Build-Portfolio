@@ -6,7 +6,7 @@ import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
 
 type AboutFormData = {
-  userid: string;
+  userid: string | undefined ;
   name: string;
   heading: string;
   about: string;
@@ -190,7 +190,7 @@ const Page: React.FC = () => {
             type="file"
             label="Image"
             placeholder="Upload project image"
-            onChange={handleImageChange}
+            // onChange={handleImageChange}
             name="image"
             image={!!imagePreview}
             imageUrl={imagePreview}

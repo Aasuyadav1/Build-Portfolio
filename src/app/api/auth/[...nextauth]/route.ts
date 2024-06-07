@@ -16,7 +16,7 @@ import User from '@/Models/userModel';
       const sessionUser = await User.findOne({ email: session.user.email });
     
        if(sessionUser) {
-        session.user.id = sessionUser._id;
+         session.user.id = sessionUser._id;
        }
       
 
