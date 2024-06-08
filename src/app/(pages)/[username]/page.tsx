@@ -1,13 +1,15 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PortfolioAbout from '../../../components/portfolio/PortfolioAbout'
 import SkillsSection from '@/components/portfolio/PortfolioSkills'
 import PortfolioProjectCard from '@/components/portfolio/PortfolioProjectCard'
 import PortfolioContact from '@/components/portfolio/PortfolioContact'
 import SingleShare from '@/components/portfolio/SingleShare'
+import { useSession } from 'next-auth/react'
 
 const page = ({params}: any) => {
   const [userid, setUserId] = useState('')
+  const {data: session} = useSession()
 
   const fetchUser = async () => {
     try {
@@ -29,6 +31,11 @@ const page = ({params}: any) => {
       console.log("error on fetching the user " ,error)
     }
   }
+
+  useEffect(()=>{
+    console.log(session?.user)
+    fetchUser()
+  },[])
 
   return (
     <section className='flex flex-col gap-10 py-2 px-2'>

@@ -11,7 +11,7 @@ interface InputProps {
   name?: string;
   icon?: string;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement> | any) => void;
   textarea?: boolean;
   image?: boolean;
   imageUrl?: string;

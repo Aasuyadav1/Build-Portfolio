@@ -6,11 +6,11 @@ import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
 
 type AboutFormData = {
-  userid: string | undefined ;
+  userid: string | undefined;
   name: string;
   heading: string;
   about: string;
-  image: string;
+  image: FileList; // Use FileList to handle file input
 };
 
 const Page: React.FC = () => {
@@ -24,7 +24,7 @@ const Page: React.FC = () => {
   } = useForm<AboutFormData>();
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [aboutId, setAboutId] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (session) {
@@ -41,35 +41,52 @@ const Page: React.FC = () => {
   }, [imagePreview]);
 
   const onSubmit = async (data: AboutFormData) => {
-    setIsLoading(true); // Start loading
-    if (isUpdate) {
-      await updateUserAbout(data);
-    } else {
-      await addUserAbout(data);
-    }
-    setTimeout(() => setIsLoading(false), 1000); // End loading
-  };
+    setIsLoading(true);
+    let imageUrl = imagePreview;
 
-  const addUserAbout = async (data: AboutFormData) => {
-    try {
-      const imageurl = await fetch("/api/image/upload", {
+    // Upload the image first if it exists
+    if (data.image && data.image.length > 0) {
+      const formData = new FormData();
+      formData.append("file", data.image[0]);
+
+      const imageResponse = await fetch("/api/image/upload", {
         method: "POST",
-        body: JSON.stringify({ path: data.image }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        body: formData,
       });
 
-      console.log("image is uploaded", imageurl);
+      const imageResult = await imageResponse.json();
+      if (imageResponse.ok) {
+        imageUrl = imageResult.imgUrl;
+      } else {
+        console.error("Failed to upload image", imageResult);
+        setIsLoading(false);
+        return;
+      }
+    }
 
+    const aboutData = {
+      userid: session?.user?.id,
+      name: data.name,
+      heading: data.heading,
+      about: data.about,
+      image: imageUrl,
+    };
+
+    if (isUpdate) {
+      await updateUserAbout(aboutData);
+    } else {
+      await addUserAbout(aboutData);
+    }
+    setTimeout(() => setIsLoading(false), 1000);
+  };
+
+  const addUserAbout = async (
+    data: Omit<AboutFormData, "image"> & { image: string }
+  ) => {
+    try {
       const response = await fetch("/api/portfolio/about/addabout", {
         method: "POST",
-        body: JSON.stringify({
-          userid: session?.user?.id,
-          name: data.name,
-          heading: data.heading,
-          about: data.about,
-        }),
+        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
         },
@@ -89,9 +106,12 @@ const Page: React.FC = () => {
 
   const getUserAbout = async () => {
     try {
-      const response = await fetch(`/api/portfolio/about/getabout/${session?.user?.id}`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `/api/portfolio/about/getabout/${session?.user?.id}`,
+        {
+          method: "GET",
+        }
+      );
 
       const data = await response.json();
 
@@ -102,6 +122,7 @@ const Page: React.FC = () => {
         setAboutId(data.data[0]._id);
         setValue("heading", data.data[0].heading);
         setValue("about", data.data[0].about);
+        setImagePreview(data.data[0].image); // Set the current image preview
       } else {
         setIsUpdate(false);
         console.log(data);
@@ -113,17 +134,14 @@ const Page: React.FC = () => {
     }
   };
 
-  const updateUserAbout = async (data: AboutFormData) => {
+  const updateUserAbout = async (
+    data: Omit<AboutFormData, "image"> & { image: string }
+  ) => {
     try {
-      console.log(aboutId);
-
+      console.log(data);
       const response = await fetch(`/api/portfolio/about/${aboutId}`, {
         method: "PUT",
-        body: JSON.stringify({
-          name: data.name,
-          heading: data.heading,
-          about: data.about,
-        }),
+        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
         },
@@ -142,15 +160,17 @@ const Page: React.FC = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    console.log(file);
-    if (file) {
-      setValue("image", file.name);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setValue("image", files);
       setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  const getErrorMessage = (error: FieldError | undefined): string | undefined => {
+  const getErrorMessage = (
+    error: FieldError | undefined
+  ): string | undefined => {
     return error?.message;
   };
 
@@ -163,7 +183,10 @@ const Page: React.FC = () => {
           {isLoading && <span className="loader ml-2"></span>}
         </Button>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full mt-4 grid grid-cols-2 gap-x-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full mt-4 grid grid-cols-2 gap-x-6"
+      >
         <div className="flex flex-col gap-9">
           <InputAdmin
             label="Name"
@@ -190,8 +213,8 @@ const Page: React.FC = () => {
             type="file"
             label="Image"
             placeholder="Upload project image"
-            // onChange={handleImageChange}
-            name="image"
+            onChange={handleImageChange} // Use onImageChange for file input
+            error={getErrorMessage(errors.image)}
             image={!!imagePreview}
             imageUrl={imagePreview}
           />
