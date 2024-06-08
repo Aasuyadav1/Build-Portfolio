@@ -3,15 +3,13 @@ import React, { useState } from "react";
 import { SocialIcon } from "react-social-icons";
 import { RiGithubFill } from "react-icons/ri";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 
-const SingleShare = () => {
-  const {data : session } = useSession();
+const SingleShare = ({id}:any) => {
   const [allLinks, setAllLinks] = useState([])
 
   const getlinks = async () => {
     try {
-      const response = await fetch("/api/portfolio/links/getlinks/" + session?.user?.id );
+      const response = await fetch("/api/portfolio/links/getlinks/" + id );
 
       const data = await response.json();
 

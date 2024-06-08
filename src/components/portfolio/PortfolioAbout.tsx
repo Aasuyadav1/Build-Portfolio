@@ -2,11 +2,10 @@
 import React, { useState } from 'react';
 import PortfolioLinks from './PortfolioLinks';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
 
 
-const PortfolioAbout = () => {
-  const { data: session } = useSession()
+
+const PortfolioAbout = ({id} : any) => {
   const [aboutData, setAboutData] = useState([])
   const [allLinks, setAllLinks] = useState([])
   const allSkills = [
@@ -38,7 +37,7 @@ const PortfolioAbout = () => {
 
   const getUserAbout = async () => {
     try {
-      const response = await fetch(`/api/portfolio/about/getabout/${session?.user?.id}`, {
+      const response = await fetch(`/api/portfolio/about/getabout/${id}`, {
         method: "GET",
       });
 
@@ -58,7 +57,7 @@ const PortfolioAbout = () => {
 
   const getlinks = async () => {
     try {
-      const response = await fetch("/api/portfolio/links/getlinks/" + session?.user?.id );
+      const response = await fetch("/api/portfolio/links/getlinks/" + id );
 
       const data = await response.json();
 

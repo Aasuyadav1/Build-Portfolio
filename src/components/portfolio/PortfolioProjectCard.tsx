@@ -1,15 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { useSession } from "next-auth/react";
 
-const PortfolioProjectCard = () => {
+const PortfolioProjectCard = ({id}:any) => {
   const [allProjects, setAllProjects] = useState([]);
-  const { data: session } = useSession();
 
   const getProjects = async () => {
     try {
       const response = await fetch(
-        "/api/portfolio/project/allprojects/" + session?.user?.id,
+        "/api/portfolio/project/allprojects/" + id,
         {
           method: "GET",
         }

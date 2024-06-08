@@ -1,17 +1,16 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
+
 
 interface Icon {
   name: string;
   body: string;
 }
 
-const SkillsSection: React.FC = () => {
+const SkillsSection = ({id}:any) => {
   const [skillIcons, setSkillIcons] = useState<Icon[]>([]);
   const [allSkills, setAllSkills] = useState([])
-  const {data: session} = useSession()
 
   // const fetchIcons = async () => {
   //   try {
@@ -29,7 +28,7 @@ const SkillsSection: React.FC = () => {
 
   const getSkills = async () => {
     try {
-      const response = await fetch('/api/portfolio/allskill/'+ session?.user?.id,
+      const response = await fetch('/api/portfolio/allskill/'+ id,
         {
           method: 'GET',
         }
