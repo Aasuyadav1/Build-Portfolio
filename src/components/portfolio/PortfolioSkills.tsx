@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 interface Icon {
   name: string;
@@ -9,24 +10,47 @@ interface Icon {
 
 const SkillsSection: React.FC = () => {
   const [skillIcons, setSkillIcons] = useState<Icon[]>([]);
+  const [allSkills, setAllSkills] = useState([])
+  const {data: session} = useSession()
 
-  const fetchIcons = async () => {
-    try {
-      // for single icon https://api.iconify.design/skill-icons/aftereffects.svg?height=16
-      const response = await axios.get('https://api.iconify.design/collection?prefix=skill-icons&pretty=1');
-      if (response.status === 200) {
-        console.log(response.data.uncategorized);
-        setSkillIcons(response.data.uncategorized);
+  // const fetchIcons = async () => {
+  //   try {
+  //     // for single icon https://api.iconify.design/skill-icons/aftereffects.svg?height=16
+  //     const response = await axios.get('https://api.iconify.design/collection?prefix=skill-icons&pretty=1');
+  //     if (response.status === 200) {
+  //       console.log(response.data.uncategorized);
+  //       setSkillIcons(response.data.uncategorized);
        
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const getSkills = async () => {
+    try {
+      const response = await fetch('/api/portfolio/allskill/'+ session?.user?.id,
+        {
+          method: 'GET',
+        }
+      )
+
+      const data = await response.json();
+
+      if(response.ok){
+        console.log("skills fetched successfully", data)
+        setAllSkills(data.data)
       }
     } catch (error) {
-      console.error(error);
+      console.log(error)
     }
-  };
+  }
+
+
 
 
   useEffect(() => {
-    fetchIcons();
+    // fetchIcons();
   }, []);
 
   return (

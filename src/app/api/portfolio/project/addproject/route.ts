@@ -2,8 +2,11 @@ import { dbConnect } from "@/lib/dbConnect";
 import Project from "@/Models/projectModel";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
+export const POST = async (req: NextRequest, {params}:any) => {
     try {
+         
+        const userid = params.id
+
         const { projectname, description, skills, githublink, projectlink, image } : any = req.json()
 
         if(!projectname || !description || !skills || !githublink || !projectlink || !image){
@@ -13,6 +16,7 @@ export const POST = async (req: NextRequest) => {
         await dbConnect()
 
         const newProject = await Project.create({
+            userid,
             projects: [
                 {
                     projectname,

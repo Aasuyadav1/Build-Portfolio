@@ -21,24 +21,24 @@ export const POST = async (req: NextRequest) => {
       return new NextResponse("Missing fields", { status: 400 });
     }
 
-    const form = new FormData();
-  form.set("file", image);
+    // const form = new FormData();
+    // form.set("file", image);
 
-    const res = await fetch("/api/image/upload", {
-      method: "POST",
-      body: form,
- });
+    // const res = await fetch("/api/image/upload", {
+    //   method: "POST",
+    //   body: form,
+    // });
 
-const data = await res.json();
+    // const data = await res.json();
 
     await dbConnect();
 
     const newAbout = await About.create({
-      userid: json.userid,  // Ensure this matches your schema
+      userid: json.userid, // Ensure this matches your schema
       name,
       heading,
       about,
-      image: data.result.secure_url
+      // image: data.result.secure_url,
     });
 
     if (!newAbout) {
@@ -48,7 +48,7 @@ const data = await res.json();
     return NextResponse.json({
       success: true,
       message: "About added successfully",
-      data: newAbout
+      data: newAbout,
     });
   } catch (error) {
     console.log(error);

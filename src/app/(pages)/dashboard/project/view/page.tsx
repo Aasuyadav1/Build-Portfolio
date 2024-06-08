@@ -11,7 +11,7 @@ const page = () => {
     try {
 
       const response = await fetch(
-        "/api/portfolio/project/allprojects" + session?.user?.id,
+        "/api/portfolio/project/allprojects/" + session?.user?.id,
         {
           method: "GET",
         }
@@ -29,7 +29,7 @@ const page = () => {
 
   const deleteProject = async ( id : any) => {
     try {
-       const response = await fetch(`/api/portfolio/project/deleteproject/${id}`, {
+       const response = await fetch(`/api/portfolio/project/${id}`, {
         method: "DELETE",
        })
 

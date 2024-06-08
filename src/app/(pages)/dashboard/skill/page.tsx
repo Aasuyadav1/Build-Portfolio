@@ -13,7 +13,7 @@ const page = () => {
 
   const getSkills = async () => {
     try {
-      const response = await fetch('/api/portfolio/skills'+ session?.user?.id,
+      const response = await fetch('/api/portfolio/allskill/'+ session?.user?.id,
         {
           method: 'GET',
         }

@@ -1,9 +1,14 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import PortfolioLinks from './PortfolioLinks';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 
 const PortfolioAbout = () => {
+  const { data: session } = useSession()
+  const [aboutData, setAboutData] = useState([])
+  const [allLinks, setAllLinks] = useState([])
   const allSkills = [
     {
       network : 'Github',
@@ -30,6 +35,41 @@ const PortfolioAbout = () => {
       url : 'mailto:q1z5v@example.com'
     }
   ]
+
+  const getUserAbout = async () => {
+    try {
+      const response = await fetch(`/api/portfolio/about/getabout/${session?.user?.id}`, {
+        method: "GET",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setAboutData(data.data)
+        console.log("user about fetched successfully")
+       
+      } else {
+        console.log(data);
+      }
+    } catch (error) {
+      console.log("error getting user about", error);
+    }
+  };
+
+  const getlinks = async () => {
+    try {
+      const response = await fetch("/api/portfolio/links/getlinks/" + session?.user?.id );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("links are fetched successfully",data);
+        setAllLinks(data.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <section className=' w-full h-full'>
       <h1 className='text-2xl font-bold rounded-sm text-primary mt-4'>#About</h1>

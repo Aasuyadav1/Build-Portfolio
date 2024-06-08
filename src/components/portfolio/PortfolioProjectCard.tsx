@@ -1,11 +1,34 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const PortfolioProjectCard = () => {
+  const [allProjects, setAllProjects] = useState([]);
+  const { data: session } = useSession();
+
+  const getProjects = async () => {
+    try {
+      const response = await fetch(
+        "/api/portfolio/project/allprojects/" + session?.user?.id,
+        {
+          method: "GET",
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("project data fetched successfully", data);
+        setAllProjects(data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className="mt-4 w-full ">
-        <h1 className="text-2xl font-bold text-primary">
-            #Projects
-        </h1>
+      <h1 className="text-2xl font-bold text-primary">#Projects</h1>
       <div className="w-ful mt-4 border-2 px-2 py-6  border-solid border-iconbg rounded-sm flex flex-wrap gap-2">
         <div className="p-2 max-w-[300px] w-full border-2 border-solid border-iconbg rounded-md">
           <img

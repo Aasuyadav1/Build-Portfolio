@@ -56,7 +56,7 @@ const Page = ({ params }: any) => {
     try {
       const id = params.id[0];
 
-      const response = await fetch("/api/portfolio/project/allprojects" + id, {
+      const response = await fetch("/api/portfolio/project/" + id, {
         method: "GET",
       });
 
@@ -76,7 +76,7 @@ const Page = ({ params }: any) => {
 
   const addProject = async () => {
     try {
-      const response = await fetch("/api/portfolio/project/addproject", {
+      const response = await fetch("/api/portfolio/project/addproject/" + session?.user?.id, {
         method: "POST",
         body: JSON.stringify({
           title: getValues("title"),
@@ -104,7 +104,7 @@ const Page = ({ params }: any) => {
   const updateProject = async (id: any) => {
     try {
       const response = await fetch(
-        "/api/portfolio/project/updateproject" + id,
+        "/api/portfolio/project/" + id,
         {
           method: "PUT",
           body: JSON.stringify({

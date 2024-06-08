@@ -6,9 +6,9 @@ import { useSession } from "next-auth/react";
 
 const page = () => {
   const { data: session  } = useSession () ;
-  const getSkills = async () => {
+  const getlinks = async () => {
     try {
-      const response = await fetch("/api/portfolio/links" + session?.user?.id );
+      const response = await fetch("/api/portfolio/links/getlinks" + session?.user?.id );
 
       const data = await response.json();
 
@@ -20,7 +20,7 @@ const page = () => {
     }
   };
 
-  const removeSkills = async (id: any) => {
+  const removeLinks = async (id: any) => {
     try {
       const response = await fetch(`/api/portfolio/links/${id}`, {
         method: "DELETE",

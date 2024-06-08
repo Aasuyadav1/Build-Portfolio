@@ -1,9 +1,29 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import { SocialIcon } from "react-social-icons";
 import { RiGithubFill } from "react-icons/ri";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 const SingleShare = () => {
+  const {data : session } = useSession();
+  const [allLinks, setAllLinks] = useState([])
+
+  const getlinks = async () => {
+    try {
+      const response = await fetch("/api/portfolio/links/getlinks/" + session?.user?.id );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("links are fetched successfully",data);
+        setAllLinks(data.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className="mt-4 w-full h-full">
       <h1 className="text-2xl font-bold text-primary">#Single share</h1>
