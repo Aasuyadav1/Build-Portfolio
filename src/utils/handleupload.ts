@@ -1,5 +1,6 @@
 import { cloudinary } from "./cloudinary";
 import { NextRequest } from "next/server";
+import { UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 
 type UploadResponse = 
   { success: true; result?: UploadApiResponse } | 
