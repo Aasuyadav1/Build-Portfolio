@@ -40,9 +40,9 @@ export default function Home() {
         value={formData.headlines}
         name="headlines"
       />
-      <LinkCard/>
-      <SkillCard/>
-      <SkillField/>
+      {/* <LinkCard/> */}
+      {/* <SkillCard/> */}
+      {/* <SkillField/> */}
       <ProjectCard/>
     </main>
   );

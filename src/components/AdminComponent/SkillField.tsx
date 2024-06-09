@@ -1,3 +1,4 @@
+'use client'
 import * as React from "react";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
@@ -27,38 +28,43 @@ import {
 import { useState, useEffect } from "react";
 import skillIcons from "@/Data/skillIcon";
 import { Separator } from "../ui/separator";
+import { useSession } from "next-auth/react";
 
 interface Skill {
   value: string;
   label: string;
 }
 
-export function SkillField() {
+export function SkillField({getSkills} : {getSkills: () => void}) {
   const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [value, setValue] = useState("");
   const [skills, setSkills] = useState<Skill[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [customSkill, setCustomSkill] = useState({
-    skillname: "",
-    skillimage: "",
+    value: "",
+    label: "",
   });
+  const { data: session } = useSession();
 
   const selectedSkill = skills.find((skill) => skill.value === value);
 
   const addNewSkill = async () => {
-    if ((customSkill.skillname && customSkill.skillimage) || value) {
+    if (customSkill.value && customSkill.label && value) {
       alert("Only one skill can be added at a time");
+      console.log("custom skill", customSkill);
+      console.log("value", value);
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/portfolio/skills", {
+      const response = await fetch(`/api/portfolio/skills/addskill/${session?.user?.id}`, {
         method: "POST",
         body: JSON.stringify({
-          skillname: customSkill.skillname || value,
-          skillimage: customSkill.skillimage || "",
+          value: customSkill.value || value,
+          label: customSkill.label || value,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +74,11 @@ export function SkillField() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.data);
+        setCustomSkill({ value: "", label: "" });
+        getSkills();
+        setValue("");
+        setDialogOpen(false);
+
       }
 
       setIsLoading(false);
@@ -94,9 +104,9 @@ export function SkillField() {
 
   return (
     <div className="max-w-[400px]">
-      <Dialog>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
-          <Button>Select Skill</Button>
+          <Button onClick={() => setDialogOpen(true)}>Select Skill</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -114,7 +124,7 @@ export function SkillField() {
                   {selectedSkill ? (
                     <div className="flex items-center gap-2">
                       <img
-                        style={{ height: 30, width: 30 }}
+                        style={{ height: 25, width: 25 }}
                         src={`https://skillicons.dev/icons?i=${selectedSkill.value}`}
                         className="mr-2"
                       />
@@ -141,7 +151,7 @@ export function SkillField() {
                               setValue(
                                 currentValue === value ? "" : currentValue
                               );
-                              setCustomSkill({ skillname: "", skillimage: "" });
+                              setCustomSkill({ value: "", label: "" });
                               setOpen(false);
                             }}
                           >
@@ -172,18 +182,18 @@ export function SkillField() {
             </p>
             <Input
               type="text"
-              value={customSkill.skillimage}
+              value={customSkill.label}
               onChange={(e) =>
-                setCustomSkill({ ...customSkill, skillimage: e.target.value })
+                setCustomSkill({ ...customSkill, label: e.target.value })
               }
-              placeholder="Enter custom image..."
+              placeholder="Enter custom image URL..."
               disabled={!!value}
             />
             <Input
               type="text"
-              value={customSkill.skillname}
+              value={customSkill.value}
               onChange={(e) =>
-                setCustomSkill({ ...customSkill, skillname: e.target.value })
+                setCustomSkill({ ...customSkill, value: e.target.value })
               }
               placeholder="Enter skill name..."
               disabled={!!value}

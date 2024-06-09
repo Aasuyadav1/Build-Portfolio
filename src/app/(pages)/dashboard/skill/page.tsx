@@ -6,14 +6,14 @@ import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 
 const page = () => {
-  const {data: session} = useSession()
+  const {data: session, status} = useSession()
 
   const [skills, setSkills] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
   const getSkills = async () => {
     try {
-      const response = await fetch('/api/portfolio/allskill/'+ session?.user?.id,
+      const response = await fetch('/api/portfolio/skills/allskill/'+ session?.user?.id,
         {
           method: 'GET',
         }
@@ -36,7 +36,8 @@ const page = () => {
       })
 
       if(response.ok){
-        console.log("product is delted  successfully")
+        console.log("skill deleted successfully")
+        getSkills()
       }
     } catch (error) {
       console.log(error)
@@ -44,16 +45,20 @@ const page = () => {
   }
 
   useEffect(() => {
-    // getSkills()
-  },[])
+ 
+      getSkills()
+    
+  },[status === 'authenticated'])
+
+  if(status === 'loading') return <div className="w-full h-screen flex justify-center items-center">...loading</div>
  
   return (
     <div className="w-full mt-2 border rounded-md p-4">
         <h1 className="text-2xl font-medium">Skills</h1>
         <div className='mt-4 max-w-[200px] w-full'>
-        <SkillField/>
+        <SkillField getSkills={getSkills}/>
         </div>
-        <SkillCard/>
+        <SkillCard skill={skills} deleteSkill={deleteSkill} getSkills={getSkills}/>
     </div>
   )
 }

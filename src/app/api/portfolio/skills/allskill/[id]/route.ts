@@ -1,8 +1,8 @@
 import { dbConnect } from "@/lib/dbConnect";
 import Skill from "@/Models/skillModel";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export const GET = async ({params} : any) => {
+export const GET = async (req: NextRequest,{params} : any) => {
     try {
 
         await dbConnect()
@@ -13,7 +13,11 @@ export const GET = async ({params} : any) => {
             userid: userid
         })
         
-        return NextResponse.json(skills)
+        return NextResponse.json({
+            success: true,
+            message: "skills fetched successfully",
+            data: skills
+        })
     } catch (error) {
         console.log(error)
     }

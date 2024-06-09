@@ -2,11 +2,8 @@ import mongoose, { Schema, Document, Model} from "mongoose";
 
 interface skilltype extends Document {
   userid: object;
-  skills: [
-    {
-      skillname: string;
-    }
-  ];
+  label: string;
+  value: string;
 }
 
 const skillSchema: Schema<skilltype> = new Schema({
@@ -15,12 +12,13 @@ const skillSchema: Schema<skilltype> = new Schema({
     ref: "User",
     required: true,
   },
-  skills: [
-    {
-      skillname: String,
-      skillimage: String
-    },
-  ],
+  label: {
+    type: String,
+  },
+  value: {
+    type: String,
+    required: true,
+  }
 });
 
 const Skill =

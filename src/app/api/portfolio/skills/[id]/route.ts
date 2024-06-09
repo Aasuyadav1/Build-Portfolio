@@ -33,9 +33,9 @@ export const PUT = async (req: NextRequest, ) => {
     }
 }
 
-export const DELETE = async (req: NextRequest) => {
+export const DELETE = async (req: NextRequest, {params}: any) => {
     try {
-       const id = req.nextUrl.searchParams.get("id")
+       const id = params.id
        
        if(!id){
         return new NextResponse("Missing id", {status: 400})
@@ -44,6 +44,8 @@ export const DELETE = async (req: NextRequest) => {
        await dbConnect()
 
        const deleteSkill = await Skill.findByIdAndDelete(id)
+
+       return new NextResponse("deleted successfully", {status: 200})
     } catch (error) {
         console.log(error)
     }
