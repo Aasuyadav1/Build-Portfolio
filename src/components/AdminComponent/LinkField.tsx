@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
@@ -28,17 +29,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 interface Framework {
   value: string;
   label: string;
 }
 
-export function LinkField() {
+export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [frameworks, setFrameworks] = useState<Framework[]>([]);
   const [customLink, setCustomLink] = useState("");
+  const { data: session } = useSession();
 
   useEffect(() => {
     const allIcons = getKeys();
@@ -53,33 +56,47 @@ export function LinkField() {
     (framework) => framework.value === value
   );
 
-  useEffect(() => {
-    console.log("Current frameworks:", frameworks);
-    console.log("Selected value:", value);
-    console.log("Selected framework:", selectedFramework);
-  }, [value, selectedFramework, frameworks]);
+  // useEffect(() => {
+  //   console.log("Current frameworks:", frameworks);
+  //   console.log("Selected value:", value);
+  //   console.log("Selected framework:", selectedFramework);
+  // }, [value, selectedFramework, frameworks]);
+
+  const isValidUrl = (url: string) => {
+    const urlPattern = new RegExp(
+      /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g
+    );
+    return urlPattern.test(url);
+  };
 
   const addLink = async () => {
-    if (customLink && value) {
-      alert("Only one link can be added at a time");
-      return;
+    if (!customLink || !selectedFramework?.value) {
+      return alert("Please fill in all fields.");
+    }
+
+    if (!isValidUrl(customLink)) {
+      return alert("Please enter a valid URL.");
     }
 
     try {
-      const response = await fetch("/api/portfolio/links", {
-        method: "POST",
-        body: JSON.stringify({
-          link: customLink || `https://${selectedFramework?.value}.com`,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "/api/portfolio/links/addlinks/" + session?.user?.id,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            link: customLink,
+            label: selectedFramework?.value,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data.data);
+        fetchLinks();
       }
     } catch (error) {
       console.log(error);
@@ -169,7 +186,6 @@ export function LinkField() {
               placeholder="ex. https://example.com"
               value={customLink}
               onChange={(e) => setCustomLink(e.target.value)}
-              disabled={!!value}
             />
           </div>
           <DialogFooter>

@@ -2,12 +2,8 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 interface linkType extends Document {
   userid: mongoose.Types.ObjectId;
-  links: [
-    {
-      label: string;
-      link: string;
-    }
-  ];
+  label: string;
+  link: string;
 }
 
 const linkSchema: Schema<linkType> = new Schema({
@@ -16,12 +12,14 @@ const linkSchema: Schema<linkType> = new Schema({
     ref: "User",
     required: true,
   },
-  links: [
-    {
-      label: String,
-      link: String,
-    },
-  ],
+  label: {
+    type: String,
+    required: true
+  },
+  link: {
+    type: String,
+    required: true
+  }
 });
 
 const Link =

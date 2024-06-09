@@ -2,24 +2,23 @@ import { dbConnect } from "@/lib/dbConnect";
 import Link from "@/Models/linkModel";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
+export const POST = async (req: NextRequest, {params} : any) => {
     try {
         
-        const { linkname, linkimage} = await req.json()
+        const { label, link} = await req.json()
 
-        if(!linkname || !linkimage){
+        const id = params?.id
+
+        if(!label || !link){
             return new NextResponse("Missing fields", {status: 400})
         }
 
         await dbConnect()
 
         const newLink = await Link.create({
-            links: [
-                {
-                    linkname,
-                    linkimage
-                }
-            ]
+            userid: id,
+            label,
+            link
         })
 
         if(!newLink){

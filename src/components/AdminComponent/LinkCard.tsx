@@ -9,26 +9,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const LinkCard = () => {
-  const icons: {name: string}[] = [
-    {
-      name: "github",
-    },
-    {
-      name: "linkedin",
-    },
-    {
-      name: "twitter",
-    },
-    {
-        name: "instagram",
-    }
-  ];
+interface Props {
+  fetchLinks: () => void,
+  removeLinks: (id: any) => void,
+  icons: {label : string, link: string, _id: string}[]
+}
+
+const LinkCard = ({fetchLinks, removeLinks, icons}: Props) => {
+ 
   return (
     <div className="flex flex-wrap mt-10 gap-2">
       { icons && icons.length > 0 ? (
         icons.map((icon) => (
-        <div className="flex flex-col  gap-2 bg-slate-100 px-4 py-2 max-w-[250px] w-full rounded-md relative">
+        <div key={icon._id} className="flex flex-col  gap-2 bg-slate-100 px-4 py-2 max-w-[250px] w-full rounded-md relative">
           
           <DropdownMenu>
             
@@ -49,20 +42,25 @@ const LinkCard = () => {
           </svg></DropdownMenuTrigger>
             <DropdownMenuContent className="absolute top-4 -left-4">
              
-              <DropdownMenuItem className="hover:bg-accent font-normal">Edit</DropdownMenuItem>
-              <DropdownMenuItem className="text-red-500 hover:bg-red-100  font-medium">Delete</DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-accent font-normal" onClick={(e) => {
+                if(!icon.link.startsWith('http://') && !icon.link.startsWith('https://')) {
+                  window.open(`http://${icon.link}`, "_blank");
+                }
+                window.open(icon.link, "_blank");
+              }}>View</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => removeLinks(icon._id)} className="text-red-500 hover:bg-red-100  font-medium">Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <SocialIcon
             style={{ height: 35, width: 35 }}
-            key={icon.name}
-            network={icon.name}
-            url={`https://github.com/Aasu-Yadav`}
+            key={icon.label}
+            network={icon.label}
+            url={icon.link}
           />
           <div>
-            <h1 className="font-medium text-sm truncate">{icon.name}</h1>
+            <h1 className="font-medium text-sm truncate">{icon.label}</h1>
             <p className="truncate text-gray-800 text-sm">
-              https://{icon.name}.com
+              {icon.link}
             </p>
           </div>
         </div>

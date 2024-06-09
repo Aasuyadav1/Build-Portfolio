@@ -12,10 +12,10 @@ export const GET = async (req: NextRequest, { params }: any) => {
 
     await dbConnect();
 
-    const links = await Link.findOne({ userid });
+    const links = await Link.find({ userid: userid });
 
     if (!links) {
-      return new NextResponse("Failed to get links", { status: 404 });
+      return new NextResponse("User not added links", { status: 404 });
     }
 
     return NextResponse.json({
