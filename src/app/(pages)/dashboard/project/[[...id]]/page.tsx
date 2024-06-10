@@ -12,6 +12,7 @@ type ProjectFormData = {
   Github: string;
   skills: string;
   technologies: string;
+  image: FileList;
 };
 
 const Page = ({ params }: any) => {
@@ -24,7 +25,10 @@ const Page = ({ params }: any) => {
     setValue,
     getValues,
   } = useForm<ProjectFormData>();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [projectId, setProjectId] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleChange = (e: any) => {
     if (
@@ -34,27 +38,68 @@ const Page = ({ params }: any) => {
     ) {
       const file = e.target.files[0];
       setImagePreview(URL.createObjectURL(file));
-      // setValue("image", file); // Use setValue to update the file input in the form
+      setValue("image", e.target.files);
     }
   };
 
   useEffect(() => {
     return () => {
-      // Clean up the URL.createObjectURL to avoid memory leaks
       if (imagePreview) {
         URL.revokeObjectURL(imagePreview);
       }
     };
   }, [imagePreview]);
 
-  const onSubmit = async (data: any) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data: ProjectFormData) => {
+    setIsLoading(true);
+    let imageUrl = imagePreview;
+
+    if (data.image && data.image.length > 0) {
+      const formData = new FormData();
+      formData.append("file", data.image[0]);
+
+      const imageResponse = await fetch("/api/image/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const imageResult = await imageResponse.json();
+      if (imageResponse.ok) {
+        imageUrl = imageResult.imgUrl;
+      } else {
+        console.error("Failed to upload image", imageResult);
+        setIsLoading(false);
+        return;
+      }
+    }
+
+    const ProjectData = {
+      userid: session?.user?.id,
+      title: data.title,
+      description: data.description,
+      skills: data.skills,
+      github: data.Github,
+      link: data.live,
+      image: imageUrl,
+      technologies: data.technologies,
+    };
+
+    try {
+      if (isUpdate) {
+        await updateProject(ProjectData);
+      } else {
+        await addProject(ProjectData);
+      }
+    } catch (error) {
+      console.error("Failed to submit project", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getProjects = async () => {
     try {
-      const id = params.id[0];
+      const id = params?.id[0];
 
       const response = await fetch("/api/portfolio/project/" + id, {
         method: "GET",
@@ -63,57 +108,26 @@ const Page = ({ params }: any) => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data);
+        setIsUpdate(true);
         setValue("title", data.data[0].title);
         setValue("description", data.data[0].description);
         setValue("live", data.data[0].link);
         setValue("Github", data.data[0].githublink);
+        setValue("technologies", data.data[0].technologies);
+        setImagePreview(data.data[0].image);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const addProject = async () => {
-    try {
-      const response = await fetch("/api/portfolio/project/addproject/" + session?.user?.id, {
-        method: "POST",
-        body: JSON.stringify({
-          title: getValues("title"),
-          description: getValues("description"),
-          skills: getValues("skills"),
-          github: getValues("Github"),
-          link: getValues("live"),
-          // image: getValues("image"),
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("new project added", data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const updateProject = async (id: any) => {
+  const addProject = async (projectData: any) => {
     try {
       const response = await fetch(
-        "/api/portfolio/project/" + id,
+        "/api/portfolio/project/addproject/" + session?.user?.id,
         {
-          method: "PUT",
-          body: JSON.stringify({
-            title: getValues("title"),
-            description: getValues("description"),
-            skills: getValues("skills"),
-            github: getValues("Github"),
-            link: getValues("live"),
-          }),
+          method: "POST",
+          body: JSON.stringify(projectData),
           headers: {
             "Content-Type": "application/json",
           },
@@ -123,7 +137,29 @@ const Page = ({ params }: any) => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("project updated", data);
+        console.log("New project added", data);
+        reset(); // Reset form after successful addition
+        setImagePreview("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateProject = async (projectData: any) => {
+    try {
+      const response = await fetch("/api/portfolio/project/" + projectId, {
+        method: "PUT",
+        body: JSON.stringify(projectData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Project updated", data);
       }
     } catch (error) {
       console.log(error);
@@ -136,10 +172,26 @@ const Page = ({ params }: any) => {
     return error?.message;
   };
 
+  useEffect(() => {
+    if (params.id[0]) {
+      setProjectId(params.id[0]);
+      getProjects();
+      setIsUpdate(true);
+    } else {
+      setIsUpdate(false);
+    }
+  }, [params.id]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="w-full mt-2 border rounded-md p-4">
       <div className="w-full flex justify-between items-center">
-        <h1 className="text-2xl font-medium">Add New Project</h1>
+        <h1 className="text-2xl font-medium">
+          {isUpdate ? "Update Project" : "Add New Project"}
+        </h1>
       </div>
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full mt-4 grid grid-cols-2 gap-x-6">
@@ -214,8 +266,8 @@ const Page = ({ params }: any) => {
               type="file"
               label="Image"
               placeholder="Upload project image"
-              // onChange={handleChange}
-              // {...register("image")}
+              onChange={handleChange}
+              error={getErrorMessage(errors.image)}
               image={!!imagePreview}
               imageUrl={imagePreview}
             />
@@ -237,9 +289,12 @@ const Page = ({ params }: any) => {
             />
           </div>
         </div>
-        <Button type="submit" className="mt-4">
-          {" "}
-          Add Project
+        <Button type="submit" className="mt-4" disabled={isLoading}>
+          {isLoading ? (
+            <span>Loading...</span>
+          ) : (
+            <span>{isUpdate ? "Update Project" : "Add Project"}</span>
+          )}
         </Button>
       </form>
     </div>
