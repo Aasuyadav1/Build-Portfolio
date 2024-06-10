@@ -1,20 +1,15 @@
 "use client";
-import Image from "next/image";
-import React from "react";
-import { Button } from "@/components/ui/button";
-import Signup from "@/components/signup";
-import InputAdmin from "@/components/AdminComponent/InputAdmin";
-import PortfolioAbout from "@/components/portfolio/PortfolioAbout";
-import LinkCard from "@/components/AdminComponent/LinkCard";
-import SkillCard from "@/components/AdminComponent/SkillCard";
-import ProjectCard from "@/components/AdminComponent/ProjectCard";
-import { SkillField } from "@/components/AdminComponent/SkillField";
+import { useSession } from "next-auth/react";
+import React, { useEffect } from "react";
+
 
 export default function Home() {
   const [formData, setFormData] = React.useState({
     name: "",
     headlines: "",
   });
+
+  const { data: session, status } = useSession();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormData({
@@ -23,6 +18,34 @@ export default function Home() {
     });
     console.log(formData);
   };
+
+  const getUserPortfolio = async () => {
+    try {
+      const response = await fetch('/api/portfolio/'+ session?.user?.id);
+
+      const data = await response.json();
+
+      if(response.ok){
+        console.log("user portfolio fetched successfully", data)
+      }
+    } catch (error) {
+      console.log("error on fetching the user portfolio " ,error)
+    }
+  }
+
+  useEffect(()=>{
+    if(status === "authenticated"){
+      getUserPortfolio()
+    }
+  },[status === "authenticated"])
+
+  if(status === "loading"){
+    return (
+      <main className="h-full w-full">
+        Loading...
+      </main>
+    )
+  }
 
   return (
     <main className="h-full w-full">
