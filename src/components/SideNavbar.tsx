@@ -22,12 +22,12 @@ export default function SideNavbar() {
     },
     {
       name: "Projects",
-      href: "/dashboard/project",
+      href: "/dashboard/project/view",
       icon: MountainIcon,
     },
     {
-      name: "Link",
-      href: "/dashboard/link",
+      name: "Contact info",
+      href: "/dashboard/contact",
       icon: UserIcon,
     },
   ];

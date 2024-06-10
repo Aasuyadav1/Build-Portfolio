@@ -109,12 +109,12 @@ const Page = ({ params }: any) => {
 
       if (response.ok) {
         setIsUpdate(true);
-        setValue("title", data.data[0].title);
-        setValue("description", data.data[0].description);
-        setValue("live", data.data[0].link);
-        setValue("Github", data.data[0].githublink);
-        setValue("technologies", data.data[0].technologies);
-        setImagePreview(data.data[0].image);
+        setValue("title", data.data.title);
+        setValue("description", data.data.description);
+        setValue("live", data.data.link);
+        setValue("Github", data.data.github);
+        setValue("technologies", data.data.technologies);
+        setImagePreview(data.data.image);
       }
     } catch (error) {
       console.log(error);
@@ -160,6 +160,8 @@ const Page = ({ params }: any) => {
 
       if (response.ok) {
         console.log("Project updated", data);
+        reset(); // Reset form after successful update
+        setImagePreview("");
       }
     } catch (error) {
       console.log(error);
@@ -173,14 +175,14 @@ const Page = ({ params }: any) => {
   };
 
   useEffect(() => {
-    if (params.id[0]) {
-      setProjectId(params.id[0]);
+    if (params?.id) {
+      setProjectId(params?.id);
       getProjects();
       setIsUpdate(true);
     } else {
       setIsUpdate(false);
     }
-  }, [params.id]);
+  }, [params?.id]);
 
   if (status === "loading") {
     return <div>Loading...</div>;

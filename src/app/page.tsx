@@ -26,24 +26,7 @@ export default function Home() {
 
   return (
     <main className="h-full w-full">
-      <InputAdmin
-        label="Name"
-        placeholder="Enter your name"
-        onChange={handleChange}
-        value={formData.name}
-        name="name"
-      />
-      <InputAdmin
-        label="Headlines"
-        placeholder="Enter your headlines"
-        onChange={handleChange}
-        value={formData.headlines}
-        name="headlines"
-      />
-      {/* <LinkCard/> */}
-      {/* <SkillCard/> */}
-      {/* <SkillField/> */}
-      <ProjectCard/>
+      Portfolio Preview
     </main>
   );
 }

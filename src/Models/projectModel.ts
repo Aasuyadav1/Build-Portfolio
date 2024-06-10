@@ -2,20 +2,12 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 
 interface ProjectType extends Document {
   userid: mongoose.Types.ObjectId;
-  projects: [
-    {
-      projectname: string;
-      description: string;
-      skills: [
-        {
-          skillname: string;
-        }
-      ];
-      githublink: string;
-      projectlink: string;
-      image: string;
-    }
-  ];
+  title: string;
+  description: string;
+  github: string;
+  image: string;
+  link: string;
+  technologies: string;
 }
 
 const projectSchema: Schema<ProjectType> = new Schema({
@@ -24,20 +16,26 @@ const projectSchema: Schema<ProjectType> = new Schema({
     ref: "User",
     required: true,
   },
-  projects: [
-    {
-      projectname: String,
-      description: String,
-      skills: [
-        {
-          skillname: String,
-        },
-      ],
-      githublink: String,
-      projectlink: String,
-      image: String,
-    },
-  ],
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  github: {
+    type: String,
+  },
+  image: {
+    type: String,
+  },
+  link: {
+    type: String,
+  },
+  technologies: {
+    type: String,
+  }
 });
 
 const Project =

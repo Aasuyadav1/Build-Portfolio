@@ -7,26 +7,24 @@ export const POST = async (req: NextRequest, {params}:any) => {
          
         const userid = params.id
 
-        const { projectname, description, skills, githublink, projectlink, image } : any = req.json()
+        const { title, description, github, image, link, technologies } : any = await req.json()
 
-        if(!projectname || !description || !skills || !githublink || !projectlink || !image){
+        if(!title || !description || !github || !image || !link || !technologies) {
+            
             return new NextResponse("Missing fields", {status: 400})
+           
         }
 
         await dbConnect()
 
         const newProject = await Project.create({
             userid,
-            projects: [
-                {
-                    projectname,
-                    description,
-                    skills,
-                    githublink,
-                    projectlink,
-                    image
-                }
-            ]
+            title,
+            description,
+            github,
+            image,
+            link,
+            technologies
         })
 
         if(!newProject){

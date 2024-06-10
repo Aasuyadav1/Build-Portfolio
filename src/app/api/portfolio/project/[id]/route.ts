@@ -39,22 +39,24 @@ export const PUT = async (req: NextRequest, { params }: any) => {
     try {
         const id = params.id
 
-        const { projectname, description, skills, githublink, projectlink, image } = await req.json()
+        const { title, description, github, image, link, technologies } : any = await req.json()
 
-        if(!projectname || !description || !skills || !githublink || !projectlink || !image){
+        if(!title || !description || !github || !image || !link || !technologies) {
+            
             return new NextResponse("Missing fields", {status: 400})
+           
         }
 
         await dbConnect()
 
         const updateProject = await Project.findByIdAndUpdate(id, {
             $set: {
-                projectname,
+                title,
                 description,
-                skills,
-                githublink,
-                projectlink,
-                image
+                github,
+                image,
+                link,
+                technologies
             }
         })
 
