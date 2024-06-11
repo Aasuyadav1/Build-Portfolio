@@ -4,6 +4,7 @@ import InputAdmin from "@/components/AdminComponent/InputAdmin";
 import { Button } from "@/components/ui/button";
 import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
+import { Publish } from "@/components/Publish";
 
 type AboutFormData = {
   userid: string | undefined;
@@ -177,11 +178,12 @@ const Page: React.FC = () => {
   return (
     <div className="w-full mt-2 border rounded-md px-4 py-10">
       <h1 className="text-2xl font-medium">Personal Details</h1>
-      <div className="w-full flex justify-end">
+      <div className="w-full flex gap-10 justify-end">
         <Button onClick={handleSubmit(onSubmit)} disabled={isLoading}>
           {isUpdate ? "Update" : "Add"}
           {isLoading && <span className="loader ml-2"></span>}
         </Button>
+        <Publish/>
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
