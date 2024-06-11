@@ -8,7 +8,7 @@ interface Icon {
   body: string;
 }
 
-const SkillsSection = ({id}:any) => {
+const SkillsSection = ({id}:any, {skillData} : any) => {
   const [skillIcons, setSkillIcons] = useState<Icon[]>([]);
   const [allSkills, setAllSkills] = useState([])
 

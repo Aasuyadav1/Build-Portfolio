@@ -8,17 +8,16 @@ export const GET = async (req: NextRequest, { params }: any) => {
     const domain = params?.domain;
 
     if (!domain) {
-      return new NextResponse("domain not provided", { status: 400 });
+      return new NextResponse("Domain not provided", { status: 400 });
     }
 
     await dbConnect();
 
-    const userDomain = await Portfolio.find(
+    const userDomain = await Portfolio.findOne(
       { domain: domain },
       {
         userid: 1,
         _id: 0,
-        domain: 0,
       }
     );
 
@@ -28,11 +27,11 @@ export const GET = async (req: NextRequest, { params }: any) => {
 
     return NextResponse.json({
       success: true,
-      message: "domain fetched successfully",
-      data: userDomain,
+      message: "Domain fetched successfully",
+      data: userDomain, // Return the first matching document
     });
   } catch (error) {
-    console.log(error);
+    console.error("Internal Server Error:", error); // Enhanced logging
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
@@ -54,9 +53,10 @@ export const POST = async (req: NextRequest, { params }: any) => {
 
     await dbConnect();
 
-    const isExistsDomain = await Portfolio.find({ domain: domain });
+    const isExistsDomain = await Portfolio.findOne({ domain: domain });
 
     if (isExistsDomain) {
+      console.log('this domain already exists', isExistsDomain);
       return new NextResponse("domain already exists", { status: 400 });
     }
 

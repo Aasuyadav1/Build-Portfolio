@@ -26,7 +26,7 @@ export function Publish() {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('/api/portfolio/domain' + session?.user?.id, {
+      const response = await fetch('/api/portfolio/domain/' + session?.user?.id, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

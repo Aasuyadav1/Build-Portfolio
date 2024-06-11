@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-const PortfolioProjectCard = ({id}:any) => {
+const PortfolioProjectCard = ({id}:any, {projectData} : any) => {
   const [allProjects, setAllProjects] = useState([]);
 
   const getProjects = async () => {

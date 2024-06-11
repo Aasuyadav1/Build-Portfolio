@@ -9,15 +9,19 @@ import { useSession } from 'next-auth/react'
 
 const page = ({params}: any) => {
   const [userid, setUserId] = useState('')
+  const [portfolioData, setPortfolioData] = useState()
 
-  const fetchPortfolio = async () => {
+  const fetchPortfolio = async (id : any) => {
     try {
-      const response = await fetch('/api/portfolio/domain'+ userid);
+      const response = await fetch('/api/portfolio/'+ id, {
+        method: 'GET'
+      });
  
       const data = await response.json();
 
       if(response.ok){
-        console.log("portfolio fetched successfully", data)
+        setPortfolioData(data.data)
+        console.log("portfolio fetched successfully", data.data)
       }
     } catch (error) {
       console.log("error on fetching the user " ,error)
@@ -26,14 +30,17 @@ const page = ({params}: any) => {
 
   const isValidDomain = async () => {
     try {
-      const response = await fetch('/api/portfolio/domain/'+ params.username);
+      const response = await fetch('/api/portfolio/domain/'+ params.username, {
+        method: 'GET'
+      });
 
       const data = await response.json();
 
       if(response.ok){
-        fetchPortfolio();
-        console.log("domain fetched successfully", data)
         setUserId(data?.data?.userid)
+        fetchPortfolio(data.data.userid);
+        console.log("domain fetched successfully", data.data.userid)
+        
       }
     } catch (error) {
       console.log("error on fetching the domain " ,error)
@@ -46,13 +53,21 @@ const page = ({params}: any) => {
   
 
   return (
-    <section className='flex flex-col gap-10 py-2 px-2'>
-      <PortfolioAbout id={userid}/>
-      <SkillsSection id={userid}/>
-      <PortfolioProjectCard id={userid}/>
-      <PortfolioContact id={userid}/>
-      <SingleShare id={userid}/>
-    </section>
+    <>
+      {
+      portfolioData ? (
+        <>
+        <section className='flex flex-col gap-10 py-2 px-2'>
+        <PortfolioAbout id={userid} aboutDatas={portfolioData?.about}/>
+        <SkillsSection id={userid} skillData={portfolioData?.skills}/>
+        <PortfolioProjectCard id={userid} projectData={portfolioData?.projects}/>
+        <PortfolioContact id={userid} contactData={portfolioData?.links}/>
+        <SingleShare id={userid}/>
+      </section>
+        </>
+      ) : null
+    }
+    </>
   )
 }
 
