@@ -8,7 +8,7 @@ interface Icon {
   body: string;
 }
 
-const SkillsSection = ({ id }: any, { skillData }: any) => {
+const SkillsSection = ({ id, skillData }: any) => {
   return (
     <div className=" mt-4 w-full ">
       <h1 className="text-2xl font-bold text-primary">#Skills</h1>

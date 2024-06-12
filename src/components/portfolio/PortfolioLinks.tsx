@@ -8,19 +8,19 @@ interface Props {
 
 const allIcons = getKeys();
 
-const PortfolioLinks = ({id}: any,{ allSkills } : Props, ) => {
+const PortfolioLinks = ({id, allLinks} : any) => {
   useEffect(() => {
-    console.log(allIcons);
-  }, []);
+    console.log("this ksills",allLinks);
+  }, [allLinks]);
   return (
     <section className="w-fit p-3 ">
       <div className="mt-1 flex flex-wrap justify-center items-center w-fit gap-2">
-      {allSkills.map((skill) => (
+      { allLinks && allLinks.map((skill : any) => (
         <SocialIcon 
-          key={skill.network}
-          url={skill.url}
+          key={skill?.label}
+          url={skill?.link}
           style={{ height: 40, width: 40 }}
-          network={skill.network.toLowerCase()}
+          network={skill?.label?.toLowerCase()}
           target="_blank"
         />
       ))

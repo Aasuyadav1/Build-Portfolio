@@ -51,6 +51,17 @@ const page = ({params}: any) => {
   useEffect(() => {
     isValidDomain();
   }, [])
+
+  useEffect(()=> {
+ if(portfolioData){
+  console.log("main data",portfolioData)
+  console.log("about", portfolioData?.about)
+  console.log("links", portfolioData?.links)
+  console.log("skills", portfolioData?.skills)
+  console.log("projects", portfolioData?.projects)
+ }
+
+  },[portfolioData])
   
 
   return (
@@ -59,8 +70,7 @@ const page = ({params}: any) => {
       portfolioData ? (
         <>
         <section className='flex flex-col gap-10 py-2 px-2'>
-        <PortfolioAbout id={userid} aboutDatas={portfolioData?.about}/>
-        <PortfolioLinks id={userid} allSkills={portfolioData?.links}/>
+        <PortfolioAbout id={userid} aboutDatas={portfolioData?.about} allLinks={portfolioData?.links}/>
         <SkillsSection id={userid} skillData={portfolioData?.skills}/>
         <PortfolioProjectCard id={userid} projectData={portfolioData?.projects}/>
         <PortfolioContact id={userid}/>
