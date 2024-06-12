@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 
 
-const PortfolioAbout = ({id} : any) => {
+const PortfolioAbout = ({id} : any, {aboutDatas} : any) => {
   const [aboutData, setAboutData] = useState([])
   const [allLinks, setAllLinks] = useState([])
   const allSkills = [

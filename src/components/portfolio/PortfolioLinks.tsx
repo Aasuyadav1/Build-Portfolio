@@ -8,7 +8,7 @@ interface Props {
 
 const allIcons = getKeys();
 
-const PortfolioLinks = ({ allSkills } : Props) => {
+const PortfolioLinks = ({id}: any,{ allSkills } : Props, ) => {
   useEffect(() => {
     console.log(allIcons);
   }, []);

@@ -6,10 +6,11 @@ import PortfolioProjectCard from '@/components/portfolio/PortfolioProjectCard'
 import PortfolioContact from '@/components/portfolio/PortfolioContact'
 import SingleShare from '@/components/portfolio/SingleShare'
 import { useSession } from 'next-auth/react'
+import PortfolioLinks from '@/components/portfolio/PortfolioLinks'
 
 const page = ({params}: any) => {
   const [userid, setUserId] = useState('')
-  const [portfolioData, setPortfolioData] = useState()
+  const [portfolioData, setPortfolioData] = useState<any>()
 
   const fetchPortfolio = async (id : any) => {
     try {
@@ -59,9 +60,10 @@ const page = ({params}: any) => {
         <>
         <section className='flex flex-col gap-10 py-2 px-2'>
         <PortfolioAbout id={userid} aboutDatas={portfolioData?.about}/>
+        <PortfolioLinks id={userid} allSkills={portfolioData?.links}/>
         <SkillsSection id={userid} skillData={portfolioData?.skills}/>
         <PortfolioProjectCard id={userid} projectData={portfolioData?.projects}/>
-        <PortfolioContact id={userid} contactData={portfolioData?.links}/>
+        <PortfolioContact id={userid}/>
         <SingleShare id={userid}/>
       </section>
         </>
