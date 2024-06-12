@@ -2,10 +2,9 @@ import React from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 
 interface Props {
-  getSkills?: () => void,
-  deleteSkill?: (id: any) => void,
-  skill: any[],
-  isAdmin?: boolean
+  getSkills: () => void,
+  deleteSkill: (id: any) => void,
+  skill: any[]
 }
 const SkillCard = ({getSkills, deleteSkill, skill}: Props, {}) => {
   // const skill = [
