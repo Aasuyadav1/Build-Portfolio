@@ -14,7 +14,6 @@ const portfolioSchema: Schema<PortfolioType> = new Schema({
   domain: {
     type: String,
   },
- 
 });
 
 const Portfolio =

@@ -37,9 +37,9 @@ const page = () => {
         method: "DELETE",
        })
 
-       if(response.ok){
-        console.log("project deleted")
-       }
+       await getProjects();
+
+       
     } catch (error) {
       console.log(error)
     }

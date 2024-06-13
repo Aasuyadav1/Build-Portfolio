@@ -2,14 +2,16 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
+
 
 export default function SideNavbar() {
+  const { data: session, status } = useSession();
+  const pathName = usePathname();
+
   const NavList = [
-    {
-      name: "Preview",
-      href: "/",
-      icon: HomeIcon,
-    },
     {
       name: "About",
       href: "/dashboard/about",
@@ -31,12 +33,23 @@ export default function SideNavbar() {
       icon: UserIcon,
     },
   ];
+
+  const checkView = () => {
+    if (pathName) {
+      console.log(pathName);
+    }
+  };
+
+  useEffect(() => {
+    checkView();
+  }, [pathName]);
+
   return (
     <>
       <nav className="hidden fixed   h-screen w-64 shrink-0 border-r  bg-gray-100 dark:border-gray-800 dark:bg-gray-900 md:block ">
         <div className="flex h-full flex-col justify-between py-6">
           <div className="space-y-6 px-4">
-            <Link href='/' className="flex items-center gap-2 font-bold" >
+            <Link href="/" className="flex items-center gap-2 font-bold">
               <MountainIcon className="h-6 w-6" />
               <span>Acme Inc</span>
             </Link>
@@ -53,7 +66,6 @@ export default function SideNavbar() {
                   </Link>
                 );
               })}
-             
             </div>
           </div>
           <div className="px-4">

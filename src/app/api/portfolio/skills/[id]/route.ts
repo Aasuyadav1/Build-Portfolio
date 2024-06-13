@@ -43,7 +43,7 @@ export const DELETE = async (req: NextRequest, {params}: any) => {
 
        await dbConnect()
 
-       const deleteSkill = await Skill.findByIdAndDelete(id)
+    await Skill.findByIdAndDelete(id)
 
        return new NextResponse("deleted successfully", {status: 200})
     } catch (error) {

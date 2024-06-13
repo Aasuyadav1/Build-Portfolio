@@ -27,9 +27,10 @@ export const DELETE = async (req: NextRequest, { params }: any) => {
 
         await dbConnect()
 
-        const deleteProject = await Project.findByIdAndDelete(id)
+       await Project.findByIdAndDelete(id)
 
-        if(!deleteProject) return new NextResponse("Failed to delete project", {status: 500})
+       return new NextResponse("Project deleted successfully", {status: 200})
+       
     } catch (error) {
         console.log(error)
     }

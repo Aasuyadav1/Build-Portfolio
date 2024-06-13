@@ -56,12 +56,6 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
     (framework) => framework.value === value
   );
 
-  // useEffect(() => {
-  //   console.log("Current frameworks:", frameworks);
-  //   console.log("Selected value:", value);
-  //   console.log("Selected framework:", selectedFramework);
-  // }, [value, selectedFramework, frameworks]);
-
   const isValidUrl = (url: string) => {
     const urlPattern = new RegExp(
       /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g

@@ -21,15 +21,6 @@ export const POST = async (req: NextRequest) => {
       return new NextResponse("Missing fields", { status: 400 });
     }
 
-    // const form = new FormData();
-    // form.set("file", image);
-
-    // const res = await fetch("/api/image/upload", {
-    //   method: "POST",
-    //   body: form,
-    // });
-
-    // const data = await res.json();
 
     await dbConnect();
 

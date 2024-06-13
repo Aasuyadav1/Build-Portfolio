@@ -1,5 +1,5 @@
 import React from "react";
-import { AiOutlineDelete } from "react-icons/ai";
+import DeleteModel from "../DeleteModel";
 
 interface Props {
   getSkills: () => void,
@@ -21,9 +21,9 @@ const SkillCard = ({getSkills, deleteSkill, skill}: Props, {}) => {
       {skill && skill.length > 0 ? (
         skill.map((icon) => (
           <div className="flex truncate flex-col justify-center items-center  gap-2 bg-slate-100 px-4 py-2 max-w-[150px] w-full rounded-md relative">
-            
-                <AiOutlineDelete onClick={() => deleteSkill(icon._id)} className="absolute text-md text-red-500 top-3 right-2 cursor-pointer"/>
-  
+                  <div className="absolute text-md text-red-500 top-3 right-2 cursor-pointer">
+                    <DeleteModel item={icon} onDelete={deleteSkill}/>
+                  </div>
             <img
               style={{ height: 50, width: 50 }}
               key={icon.value}
