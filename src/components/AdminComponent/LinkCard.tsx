@@ -18,7 +18,7 @@ interface Props {
 const LinkCard = ({fetchLinks, removeLinks, icons}: Props) => {
  
   return (
-    <div className="flex flex-wrap mt-10 gap-2">
+    <div className="flex flex-wrap justify-center sm:justify-normal mt-10 gap-2">
       { icons && icons.length > 0 ? (
         icons.map((icon) => (
         <div key={icon._id} className="flex flex-col  gap-2 bg-slate-100 px-4 py-2 max-w-[250px] w-full rounded-md relative">

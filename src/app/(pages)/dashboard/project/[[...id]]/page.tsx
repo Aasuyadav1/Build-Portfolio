@@ -199,8 +199,8 @@ const Page = ({ params }: any) => {
         </h1>
       </div>
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-        <div className="w-full mt-4 grid grid-cols-2 gap-x-6">
-          <div className="flex flex-col gap-9">
+        <div className="w-full mt-4 lg:grid lg:grid-cols-2 gap-x-6">
+          <div className="flex  flex-col gap-9">
             <InputAdmin
               label="Title"
               placeholder="Enter project name"
@@ -266,7 +266,7 @@ const Page = ({ params }: any) => {
               error={getErrorMessage(errors?.live)}
             />
           </div>
-          <div className="flex flex-col gap-9">
+          <div className="flex mt-9 lg:mt-0 flex-col gap-9">
             <InputAdmin
               type="file"
               label="Image"

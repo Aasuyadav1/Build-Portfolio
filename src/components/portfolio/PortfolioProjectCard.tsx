@@ -14,7 +14,7 @@ const PortfolioProjectCard = ({ id, projectData }: any) => {
   return (
     <section className="mt-4 w-full ">
       <h1 className="text-2xl font-bold text-primary">#Projects</h1>
-      <div className="w-full mt-4 border-2 px-2 py-6 border-solid border-iconbg rounded-sm flex flex-wrap gap-2">
+      <div className="w-full mt-4 border-2 px-2 py-6 border-solid border-iconbg rounded-sm flex flex-wrap sm:justify-normal justify-center gap-2">
         {projectData &&
           projectData.map((project: any, i: number) => (
             <div

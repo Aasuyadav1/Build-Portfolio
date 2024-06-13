@@ -12,7 +12,7 @@ const SkillsSection = ({ id, skillData }: any) => {
   return (
     <div className=" mt-4 w-full ">
       <h1 className="text-2xl font-bold text-primary">#Skills</h1>
-      <div className="flex mt-4 px-2 py-6 border-2 border-solid border-iconbg rounded-sm w-full h-full flex-wrap gap-2 ">
+      <div className="flex mt-4 px-2 py-6 border-2 border-solid border-iconbg rounded-sm w-full h-full sm:justify-normal justify-center flex-wrap gap-2 ">
         {skillData &&
           skillData.map((icon: any, i: number) => (
             <div className="flex truncate flex-col justify-center items-center  gap-2 bg-slate-100 px-4 py-2 max-w-[150px] w-full rounded-md ">

@@ -6,9 +6,9 @@ import Image from "next/image";
 const PortfolioAbout = ({ id, aboutDatas, allLinks }: any) => {
   return (
     <section className=" w-full h-full">
-      <h1 className="text-2xl font-bold rounded-sm text-primary mt-4">
+      {/* <h1 className="text-2xl font-bold rounded-sm text-primary mt-4">
         #About
-      </h1>
+      </h1> */}
       <div className="w-full h-full mt-2 py-6 px-2 flex flex-col justify-center items-center border-2 border-solid border-iconbg">
         <div className="flex justify-center items-center w-full max-w-[200px]  md:max-w-[250px] aspect-square p-1 rounded-full border-solid border-4 border-secondary">
           <Image

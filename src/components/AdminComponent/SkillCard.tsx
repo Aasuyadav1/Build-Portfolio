@@ -17,7 +17,7 @@ const SkillCard = ({getSkills, deleteSkill, skill}: Props, {}) => {
   // ];
 
   return (
-    <div className="flex flex-wrap mt-10 gap-2">
+    <div className="flex flex-wrap justify-center sm:justify-normal mt-10 gap-2">
       {skill && skill.length > 0 ? (
         skill.map((icon) => (
           <div className="flex truncate flex-col justify-center items-center  gap-2 bg-slate-100 px-4 py-2 max-w-[150px] w-full rounded-md relative">
