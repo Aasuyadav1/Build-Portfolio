@@ -7,7 +7,7 @@ interface ProjectType extends Document {
   github: string;
   image: string;
   link: string;
-  technologies: string;
+  technologies: string[];
 }
 
 const projectSchema: Schema<ProjectType> = new Schema({
@@ -34,7 +34,7 @@ const projectSchema: Schema<ProjectType> = new Schema({
     type: String,
   },
   technologies: {
-    type: String,
+    type: [String],
   }
 });
 

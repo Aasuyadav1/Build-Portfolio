@@ -73,6 +73,9 @@ const Page = ({ params }: any) => {
       }
     }
 
+    // Split technologies string into an array
+    const technologiesArray = data.technologies.split(',');
+
     const ProjectData = {
       userid: session?.user?.id,
       title: data.title,
@@ -81,7 +84,7 @@ const Page = ({ params }: any) => {
       github: data.Github,
       link: data.live,
       image: imageUrl,
-      technologies: data.technologies,
+      technologies: technologiesArray,
     };
 
     try {
@@ -113,7 +116,7 @@ const Page = ({ params }: any) => {
         setValue("description", data.data.description);
         setValue("live", data.data.link);
         setValue("Github", data.data.github);
-        setValue("technologies", data.data.technologies);
+        setValue("technologies", data.data.technologies.join(", "));
         setImagePreview(data.data.image);
       }
     } catch (error) {

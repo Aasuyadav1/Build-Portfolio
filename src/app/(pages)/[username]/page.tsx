@@ -73,8 +73,8 @@ const page = ({params}: any) => {
         <PortfolioAbout id={userid} aboutDatas={portfolioData?.about} allLinks={portfolioData?.links}/>
         <SkillsSection id={userid} skillData={portfolioData?.skills}/>
         <PortfolioProjectCard id={userid} projectData={portfolioData?.projects}/>
-        <PortfolioContact id={userid}/>
-        <SingleShare id={userid}/>
+        {/* <PortfolioContact id={userid}/>
+        <SingleShare id={userid}/> */}
       </section>
         </>
       ) : null

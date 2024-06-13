@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import ProjectCard from "@/components/AdminComponent/ProjectCard";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const page = () => {
   const { data: session, status } = useSession();
@@ -56,6 +58,9 @@ const page = () => {
   return (
     <div className="w-full mt-2 border rounded-md px-4 py-10">
       <h1 className="text-2xl font-medium">Manage Projects</h1>
+      <Link href={"/dashboard/project"}>
+      <Button className="mt-4" >Add Project</Button>
+      </Link>
       <ProjectCard getProjects={getProjects} data={data} deleteProject={deleteProject} />
     </div>
   );

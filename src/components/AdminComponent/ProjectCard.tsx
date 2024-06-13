@@ -1,5 +1,7 @@
 import React from "react";
-
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+import Link from "next/link";
 interface Props {
   data: {
     title: string;
@@ -30,6 +32,14 @@ const ProjectCard = ({data, getProjects, deleteProject}: Props ) => {
             <p className="truncate text-[#000000ea]  text-sm">
               {project.description}
             </p>
+            <div className="flex mt-4 gap-4 justify-end items-center">
+                <Link href={project._id}>
+                <MdDeleteOutline className="text-red-400 cursor-pointer text-[24px]"/>
+                </Link>
+                <Link href={`/dashboard/project/${project._id}`}>
+                <FaEdit className="text-blue-400 cursor-pointer text-xl"/>
+                </Link>
+            </div>
           </div>
         ))
       ) : (
