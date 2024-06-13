@@ -4,8 +4,18 @@ import { Button } from "@/components/ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
-
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export default function SideNavbar() {
   const { data: session, status } = useSession();
@@ -34,18 +44,38 @@ export default function SideNavbar() {
     },
   ];
 
-  const checkView = () => {
-    if (pathName) {
-      console.log(pathName);
-    }
-  };
-
-  useEffect(() => {
-    checkView();
-  }, [pathName]);
-
   return (
-    <>
+    <div>
+      <div className="w-full flex justify-end gap-4 bg-gray-100 border fixed py-2 px-10">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+          
+              <Avatar className="h-9 w-9">
+                <AvatarImage src={session?.user?.image} />
+                <AvatarFallback>{session?.user?.name?.charAt(0)}</AvatarFallback>
+              </Avatar>
+            
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[240px] top-4">
+            <DropdownMenuLabel>
+              <div className="flex flex-col">
+                <div className="font-medium">{
+                  session?.user?.name
+                  }</div>
+                <div className="text-sm text-gray-500 dark:text-gray-400">
+                  {session?.user?.email}
+                </div>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-red-600 hover:bg-red-100" onClick={() => signOut()}>
+              Logout
+              
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Button disabled={true}>Publish</Button>
+      </div>
       <nav className="hidden fixed   h-screen w-64 shrink-0 border-r  bg-gray-100 dark:border-gray-800 dark:bg-gray-900 md:block ">
         <div className="flex h-full flex-col justify-between py-6">
           <div className="space-y-6 px-4">
@@ -134,7 +164,7 @@ export default function SideNavbar() {
           </p>
         </main> */}
       </div>
-    </>
+    </div>
   );
 }
 
