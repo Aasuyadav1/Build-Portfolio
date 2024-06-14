@@ -6,15 +6,8 @@ import { aboutValidation } from "@/Schema/aboutValidation";
 export const POST = async (req: NextRequest) => {
   try {
     // Parse and validate the incoming data using Zod
-    const json = await req.json();
-    const parseResult = aboutValidation.safeParse(json);
-
-    if (!parseResult.success) {
-      console.log(parseResult.error);
-      return new NextResponse("Invalid data", { status: 400 });
-    }
-
-    const { name, image, about, heading } = parseResult.data;
+    const { name, image, about, heading, userid } = await req.json();
+   
 
     // Check if required fields are present
     if (!name || !about || !heading) {
@@ -25,11 +18,11 @@ export const POST = async (req: NextRequest) => {
     await dbConnect();
 
     const newAbout = await About.create({
-      userid: json.userid, // Ensure this matches your schema
+      userid: userid, // Ensure this matches your schema
       name,
       heading,
       about,
-      // image: data.result.secure_url,
+      image,
     });
 
     if (!newAbout) {

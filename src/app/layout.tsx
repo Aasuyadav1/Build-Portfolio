@@ -3,6 +3,7 @@ import { Inter , Poppins} from "next/font/google";
 import "./globals.css";
 import SideNavbar from "@/components/SideNavbar";
 import Provider from "@/components/Provider";
+import { Toaster } from 'sonner'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Provider>
+          <Toaster />
         <div className="flex flex-col gap-1 md:flex-row md:gap-2">
           {/* <SideNavbar /> */}
           <div className="  w-full h-full">{children}</div>

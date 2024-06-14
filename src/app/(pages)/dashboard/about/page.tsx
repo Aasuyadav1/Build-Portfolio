@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { Publish } from "@/components/Publish";
+import { toast } from "sonner";
 
 type AboutFormData = {
   userid: string | undefined;
@@ -96,12 +97,13 @@ const Page: React.FC = () => {
       const res = await response.json();
 
       if (response.ok) {
-        console.log(res);
+        toast.success("About added successfully");
       } else {
         console.error("Failed to submit data", res);
       }
     } catch (error) {
       console.log(error);
+
     }
   };
 
@@ -139,7 +141,6 @@ const Page: React.FC = () => {
     data: Omit<AboutFormData, "image"> & { image: string }
   ) => {
     try {
-      console.log(data);
       const response = await fetch(`/api/portfolio/about/${aboutId}`, {
         method: "PUT",
         body: JSON.stringify(data),
@@ -151,12 +152,13 @@ const Page: React.FC = () => {
       const res = await response.json();
 
       if (response.ok) {
-        console.log(res);
+        toast.success(res.message);
       } else {
         console.error("Failed to submit data", res);
       }
     } catch (error) {
       console.log(error);
+      
     }
   };
 
@@ -176,14 +178,15 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="w-full mt-2 border rounded-md px-4 py-10">
-      <h1 className="text-2xl font-medium">Personal Details</h1>
-      <div className="w-full flex gap-4 mt-4 justify-end">
-        <Button onClick={handleSubmit(onSubmit)} disabled={isLoading}>
+    <div className="mt-16">
+       <h1 className="text-2xl font-medium">Personal Details</h1>
+    <div className="w-full mt-2  border rounded-md px-4 py-4">
+      <div className="w-full flex gap-4  justify-end">
+        <Button className="flex gap-2 px-6" onClick={handleSubmit(onSubmit)} disabled={isLoading}>
           {isUpdate ? "Update" : "Add"}
           {isLoading && <span className="loader ml-2"></span>}
         </Button>
-        <Publish/>
+      
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -221,13 +224,14 @@ const Page: React.FC = () => {
             imageUrl={imagePreview}
           />
         </div>
-        <div className="col-span-2 flex justify-end">
+        {/* <div className="col-span-2 flex justify-end">
           <Button type="submit" className="flex gap-4" disabled={isLoading}>
             {isUpdate ? "Update" : "Add"}
             {isLoading && <span className="loader ml-2"></span>}
           </Button>
-        </div>
+        </div> */}
       </form>
+    </div>
     </div>
   );
 };

@@ -44,22 +44,7 @@ export const PUT = async (req: NextRequest, { params }: any) => {
   try {
     const id = params.id;
 
-    const data = await req.json();
-
-    console.log(data);
-    console.log(id);
-
-    const validation = await aboutValidation.safeParse(data);
-
-    console.log("val", validation);
-
-    if (!validation.success) {
-      console.log(validation.error);
-      return new NextResponse("Validation failed", { status: 400 });
-    }
-
-    console.log(validation.data);
-    const { heading, about, name, image } = validation.data;
+    const { heading, about, name, image } = await req.json();
 
     await dbConnect();
 
