@@ -4,6 +4,7 @@ import SkillCard from '@/components/AdminComponent/SkillCard'
 import { SkillField } from '@/components/AdminComponent/SkillField'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { toast } from 'sonner';
 
 const page = () => {
   const {data: session, status} = useSession()
@@ -36,11 +37,12 @@ const page = () => {
       })
 
       if(response.ok){
-        console.log("skill deleted successfully")
+        toast.success('Skill Deleted Successfully')
         getSkills()
       }
     } catch (error) {
       console.log(error)
+      toast.error('Skill Deletion Failed')
     }
   }
 
@@ -53,12 +55,14 @@ const page = () => {
   if(status === 'loading') return <div className="w-full h-screen flex justify-center items-center">...loading</div>
  
   return (
-    <div className="w-full mt-2 border rounded-md p-4">
-        <h1 className="text-2xl font-medium">Skills</h1>
-        <div className='mt-4 max-w-[200px] w-full'>
+    <div className='mt-16'>
+        <h1 className="text-2xl font-medium">Skill Info</h1>
+      <div className="w-full mt-2 border rounded-md p-4">
+        <div className=' w-full'>
         <SkillField getSkills={getSkills}/>
         </div>
         <SkillCard skill={skills} deleteSkill={deleteSkill} getSkills={getSkills}/>
+    </div>
     </div>
   )
 }

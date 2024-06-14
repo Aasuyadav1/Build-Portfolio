@@ -30,6 +30,8 @@ import {
 } from "@/components/ui/popover";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
+import { Label } from "../ui/label";
 
 interface Framework {
   value: string;
@@ -42,6 +44,8 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
   const [frameworks, setFrameworks] = useState<Framework[]>([]);
   const [customLink, setCustomLink] = useState("");
   const { data: session } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     const allIcons = getKeys();
@@ -64,12 +68,17 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
   };
 
   const addLink = async () => {
+    setIsLoading(true);
     if (!customLink || !selectedFramework?.value) {
-      return alert("Please fill in all fields.");
+      toast.info("Please fill in all fields.");
+      setIsLoading(false);
+      return;
     }
 
     if (!isValidUrl(customLink)) {
-      return alert("Please enter a valid URL.");
+      toast.info("Please enter a valid URL.");
+      setIsLoading(false);
+      return;
     }
 
     try {
@@ -91,48 +100,64 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
 
       if (response.ok) {
         fetchLinks();
+        toast.success("Link added successfully");
+        setTimeout(() => {
+          setIsLoading(false);
+          setOpen(false);
+          setDialogOpen(false);
+          setValue("");
+          setCustomLink("");
+        }, 1000);
+      } else {
+        toast.error("Failed to add link");
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
+      toast.error("An error occurred while adding the link");
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="max-w-[400px]">
-      <Dialog>
+    <div className="w-full flex justify-end">
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
-          <Button className="w-full">Add Link</Button>
+          <Button onClick={() => setDialogOpen(true)} className="px-6">Add Link</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Add Link</DialogTitle>
             <DialogDescription>
-              Add a new link to your portfolio
+              Add a new contact link to your portfolio
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={open}
-                  className="w-full justify-between"
-                >
-                  {selectedFramework ? (
-                    <div>
-                      <SocialIcon
-                        style={{ height: 30, width: 30 }}
-                        url={`https://${selectedFramework.value}.com`}
-                        className="mr-2"
-                      />
-                      {selectedFramework.label}
-                    </div>
-                  ) : (
-                    "Select Links..."
-                  )}
-                  <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
+                <div>
+                  <Label>Select logo</Label>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-full justify-between"
+                  >
+                    {selectedFramework ? (
+                      <div>
+                        <SocialIcon
+                          style={{ height: 30, width: 30 }}
+                          url={`https://${selectedFramework.value}.com`}
+                          className="mr-2"
+                        />
+                        {selectedFramework.label}
+                      </div>
+                    ) : (
+                      "Select Links..."
+                    )}
+                    <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </div>
               </PopoverTrigger>
               <PopoverContent className="w-[--radix-popover-trigger-width] max-h-[--radix-popover-content-available-height] p-0">
                 <Command className="w-full">
@@ -175,16 +200,20 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
                 </Command>
               </PopoverContent>
             </Popover>
-            <Input
-              type="text"
-              placeholder="ex. https://example.com"
-              value={customLink}
-              onChange={(e) => setCustomLink(e.target.value)}
-            />
+            <div>
+              <Label htmlFor="name">Redirect URL</Label>
+              <Input
+                type="text"
+                id="name"
+                placeholder="ex. https://example.com"
+                value={customLink}
+                onChange={(e) => setCustomLink(e.target.value)}
+              />
+            </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={addLink}>
-              Add now
+            <Button type="submit" onClick={addLink} disabled={isLoading}>
+              {isLoading?<span className="loader "></span>:"Add now"}
             </Button>
           </DialogFooter>
         </DialogContent>

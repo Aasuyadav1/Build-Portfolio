@@ -4,6 +4,7 @@ import ProjectCard from "@/components/AdminComponent/ProjectCard";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { toast } from 'sonner';
 
 const page = () => {
   const { data: session, status } = useSession();
@@ -36,12 +37,13 @@ const page = () => {
        const response = await fetch(`/api/portfolio/project/${id}`, {
         method: "DELETE",
        })
-
        await getProjects();
 
+       toast.success('Project Deleted Successfully')
        
     } catch (error) {
       console.log(error)
+      toast.error('Project Deletion Failed')
     }
   }
 
@@ -56,12 +58,18 @@ const page = () => {
   }
 
   return (
-    <div className="w-full mt-2 border rounded-md px-4 py-10">
+    <div className="mt-16">
       <h1 className="text-2xl font-medium">Manage Projects</h1>
+      <div className="w-full border mt-2 rounded-md px-4 py-6">
+      <div className="w-full flex justify-end ">
       <Link href={"/dashboard/project"}>
-      <Button className="mt-4" >Add Project</Button>
+      <Button >Add Project</Button>
       </Link>
+      </div>
+      
       <ProjectCard getProjects={getProjects} data={data} deleteProject={deleteProject} />
+      
+    </div>
     </div>
   );
 };

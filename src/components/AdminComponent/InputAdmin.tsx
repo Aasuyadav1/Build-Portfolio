@@ -16,6 +16,7 @@ interface InputProps {
   image?: boolean;
   imageUrl?: string;
   error?: string | undefined;
+  message?: string;
 }
 
 const InputAdmin = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(({
@@ -31,6 +32,7 @@ const InputAdmin = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps
   image = false,
   imageUrl,
   error,
+  message,
 }, ref) => {
   return (
     <div className={`flex flex-col gap-2 px-4 rounded-md py-4 text-black bg-gray-100 border ${classes}`}>
@@ -57,6 +59,7 @@ const InputAdmin = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps
             onChange={onChange}
             ref={ref as React.Ref<HTMLInputElement>}
           />
+          {message && <span className="text-red-600  text-sm">{message}</span>}
           {image && <img className='aspect-video object-cover rounded-md' src={imageUrl} alt="image" />}
         </>
       )}

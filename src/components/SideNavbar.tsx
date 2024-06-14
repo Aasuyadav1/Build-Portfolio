@@ -47,6 +47,7 @@ export default function SideNavbar() {
   return (
     <div>
       <div className="w-full flex justify-end gap-4 bg-gray-100 border fixed py-2 px-10">
+        <Button variant={"outline"} >Publish Portfolio</Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
           
@@ -74,7 +75,6 @@ export default function SideNavbar() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button variant={"outline"} >Publish Portfolio</Button>
       </div>
       <nav className="hidden fixed   h-screen w-64 shrink-0 border-r  bg-gray-100 dark:border-gray-800 dark:bg-gray-900 md:block ">
         <div className="flex h-full flex-col justify-between py-6">

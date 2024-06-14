@@ -30,8 +30,11 @@ export default function DeleteModel({ item, onDelete }: { item: any, onDelete: (
           <Button variant="outline" onClick={() => setIsOpen(false)} disabled={isLoading}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={handleDelete} disabled={isLoading}>
-            {isLoading ? 'Deleting...' : 'Delete'}
+          <Button className='flex items-center gap-4 px-6'  onClick={handleDelete} disabled={isLoading}>
+            Delete
+            {
+              isLoading &&  <span className="loader "></span>
+            }
           </Button>
         </DialogFooter>
       </DialogContent>

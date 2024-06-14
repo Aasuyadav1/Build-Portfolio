@@ -94,12 +94,12 @@ const Page: React.FC = () => {
         },
       });
 
-      const res = await response.json();
+      
 
       if (response.ok) {
         toast.success("About added successfully");
       } else {
-        console.error("Failed to submit data", res);
+        console.error("Failed to submit data");
       }
     } catch (error) {
       console.log(error);
@@ -149,12 +149,16 @@ const Page: React.FC = () => {
         },
       });
 
-      const res = await response.json();
+      console.log("response", response);
+      // const res = await response.json();
+
+      // console.log(res);
+      console.log(response)
 
       if (response.ok) {
-        toast.success(res.message);
+        toast.success("About updated successfully");
       } else {
-        console.error("Failed to submit data", res);
+        console.error("Failed to submit data");
       }
     } catch (error) {
       console.log(error);

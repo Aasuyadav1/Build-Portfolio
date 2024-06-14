@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import LinkCard from "@/components/AdminComponent/LinkCard";
 import { LinkField } from "@/components/AdminComponent/LinkField";
 import { useSession } from "next-auth/react";
+import { toast } from 'sonner';
 
 const page = () => {
   const { data: session, status } = useSession();
@@ -27,11 +28,12 @@ const page = () => {
         method: 'DELETE',
       });
       if (response.ok) {
-        console.log('Product is deleted successfully');
+        toast.success('Link Deleted Successfully');
         getLinks();
       }
     } catch (error) {
       console.error(error);
+      toast.error('Link Deletion Failed');
     }
   };
 
@@ -45,12 +47,15 @@ const page = () => {
     <h1>Loading...</h1>
   </div>;
   return (
-    <div className="w-full mt-2 border rounded-md p-4">
-      <h1 className="text-2xl font-medium">Links</h1>
-      <div className="mt-4 max-w-[200px] w-full">
+    <div className="mt-16">
+      <h1 className="text-2xl font-medium">Contact Detail</h1>
+      <div className="w-full mt-4 border rounded-md p-4">
+      
+      <div className="  w-full">
         <LinkField fetchLinks={getLinks} />
       </div>
       <LinkCard fetchLinks={getLinks} removeLinks={removeLinks} icons={icons}/>
+    </div>
     </div>
   );
 };

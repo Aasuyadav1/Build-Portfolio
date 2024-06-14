@@ -29,6 +29,7 @@ import { useState, useEffect } from "react";
 import skillIcons from "@/Data/skillIcon";
 import { Separator } from "../ui/separator";
 import { useSession } from "next-auth/react";
+import { toast } from 'sonner';
 
 interface Skill {
   value: string;
@@ -74,6 +75,7 @@ export function SkillField({getSkills} : {getSkills: () => void}) {
       const data = await response.json();
 
       if (response.ok) {
+        toast.success("Skill added successfully");
         setCustomSkill({ value: "", label: "" });
         getSkills();
         setValue("");
@@ -103,10 +105,12 @@ export function SkillField({getSkills} : {getSkills: () => void}) {
   }, []);
 
   return (
-    <div className="max-w-[400px]">
+    <div className="w-full flex justify-end">
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
+        
           <Button onClick={() => setDialogOpen(true)}>Select Skill</Button>
+          
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -177,7 +181,7 @@ export function SkillField({getSkills} : {getSkills: () => void}) {
               </PopoverContent>
             </Popover>
             <Separator />
-            <p className="text-sm text-primary">
+            <p className="text-sm text-red-600">
               * Enter custom image and skill name
             </p>
             <Input
