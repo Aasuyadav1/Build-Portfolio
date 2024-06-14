@@ -18,21 +18,21 @@ export default function PortfolioNavbar() {
         <nav className="hidden space-x-4 md:flex">
           <Link
             href="#about"
-            className="nav-link"
+            className="nav-link transition-colors hover:text-portfolioPrimary"
             prefetch={false}
           >
             About
           </Link>
           <Link
             href="#skill"
-            className="nav-link"
+            className="nav-link transition-colors hover:text-portfolioPrimary"
             prefetch={false}
           >
             Skills
           </Link>
           <Link
             href="#project"
-            className="nav-link"
+            className="nav-link transition-colors hover:text-portfolioPrimary"
             prefetch={false}
           >
             Projects
@@ -50,7 +50,7 @@ export default function PortfolioNavbar() {
               <SheetClose asChild>
                 <Link
                   href="#about"
-                  className="flex w-full items-center py-2 text-lg font-semibold"
+                  className="flex w-full items-center py-2 text-lg font-semibold transition-colors hover:text-portfolioPrimary"
                   prefetch={false}
                 >
                   About
@@ -59,7 +59,7 @@ export default function PortfolioNavbar() {
               <SheetClose asChild>
                 <Link
                   href="#skill"
-                  className="flex w-full items-center py-2 text-lg font-semibold"
+                  className="flex w-full items-center py-2 text-lg font-semibold transition-colors hover:text-portfolioPrimary"
                   prefetch={false}
                 >
                   Skills
@@ -68,7 +68,7 @@ export default function PortfolioNavbar() {
               <SheetClose asChild>
                 <Link
                   href="#project"
-                  className="flex w-full items-center py-2 text-lg font-semibold"
+                  className="flex w-full items-center py-2 text-lg font-semibold transition-colors hover:text-portfolioPrimary"
                   prefetch={false}
                 >
                   Projects
