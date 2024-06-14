@@ -28,6 +28,12 @@ const config = {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
+        portfolioPrimary: {
+          DEFAULT: "#6E01B1",
+        },
+        portfolioSecondary: {
+          DEFAULT:  "#9637D8",
+        },
         secondary: {
           DEFAULT:  "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",

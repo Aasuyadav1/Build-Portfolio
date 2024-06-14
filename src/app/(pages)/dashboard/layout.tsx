@@ -1,9 +1,7 @@
-// Assuming you are using TypeScript based on your type annotations
 
-"use client";
 import React from "react";
 import SideNavbar from "@/components/SideNavbar";
-import { useEffect } from "react";
+
 
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (

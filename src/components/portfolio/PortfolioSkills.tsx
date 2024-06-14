@@ -10,8 +10,8 @@ interface Icon {
 
 const SkillsSection = ({ id, skillData }: any) => {
   return (
-    <div className=" mt-4 w-full ">
-      <h1 className="text-2xl font-bold text-primary">#Skills</h1>
+    <section id="skill" className=" mt-4 w-full ">
+      <h1 className="text-2xl font-bold text-portfolioPrimary">#Skills</h1>
       <div className="flex mt-4 px-2 py-6 border-2 border-solid border-iconbg rounded-sm w-full h-full sm:justify-normal justify-center flex-wrap gap-2 ">
         {skillData &&
           skillData.map((icon: any, i: number) => (
@@ -32,7 +32,7 @@ const SkillsSection = ({ id, skillData }: any) => {
             </div>
           ))}
       </div>
-    </div>
+    </section>
   );
 };
 

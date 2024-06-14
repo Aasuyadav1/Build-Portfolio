@@ -22,7 +22,7 @@ export const GET = async (req: NextRequest, { params }: any) => {
     );
 
     if (!userDomain) {
-      return new NextResponse("Domain not published", { status: 404 });
+      return new NextResponse("User not added links", { status: 404 });
     }
 
     return NextResponse.json({

@@ -12,8 +12,8 @@ const PortfolioProjectCard = ({ id, projectData }: any) => {
   }, [projectData]);
 
   return (
-    <section className="mt-4 w-full ">
-      <h1 className="text-2xl font-bold text-primary">#Projects</h1>
+    <section id="project" className="mt-4 w-full ">
+      <h1 className="text-2xl font-bold text-portfolioPrimary">#Projects</h1>
       <div className="w-full mt-4 border-2 px-2 py-6 border-solid border-iconbg rounded-sm flex flex-wrap sm:justify-normal justify-center gap-2">
         {projectData &&
           projectData.map((project: any, i: number) => (
@@ -39,7 +39,7 @@ const PortfolioProjectCard = ({ id, projectData }: any) => {
                     project?.technologies.map((tech: any, j: number) => (
                       <span
                         key={j}
-                        className="font-medium bg-iconbg border-[1px] border-solid border-primary rounded-full px-2 text-secondary text-[13px]"
+                        className="font-medium bg-iconbg border-[1px] border-solid border-portfolioPrimary rounded-full px-2 text-portfolioSecondary text-[13px]"
                       >
                         {tech}
                       </span>
