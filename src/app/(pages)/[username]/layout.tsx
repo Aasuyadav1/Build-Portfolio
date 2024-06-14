@@ -1,5 +1,6 @@
 import React from "react";
 import PortfolioNavbar from "@/components/portfolio/PortfolioNavbar";
+import Footer from "@/components/Footer";
 
 
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
@@ -10,6 +11,7 @@ const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
       {
         children
       }
+      <Footer/>
     </div>
   );
 };
