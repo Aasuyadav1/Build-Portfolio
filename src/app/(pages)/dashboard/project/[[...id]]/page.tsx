@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { toast } from 'sonner';
+import { useRouter } from "next/navigation";
 
 type ProjectFormData = {
   title: string;
@@ -31,6 +32,7 @@ const Page = ({ params }: any) => {
   const [projectId, setProjectId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [pageLoading, setPageLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   const handleChange = (e: any) => {
     if (
@@ -154,6 +156,7 @@ const Page = ({ params }: any) => {
 
       if (response.ok) {
         toast.success("Project added successfully");
+        router.push("/dashboard/project/view");
         reset(); // Reset form after successful addition
         setImagePreview("");
       }
@@ -175,6 +178,7 @@ const Page = ({ params }: any) => {
 
       if (response.ok) {
         toast.success("Project updated successfully");
+        router.push("/dashboard/project/view");
         reset(); // Reset form after successful update
         setImagePreview("");
       }

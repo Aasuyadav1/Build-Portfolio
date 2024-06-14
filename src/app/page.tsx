@@ -6,6 +6,7 @@ import { FaGithub } from "react-icons/fa";
 import { signIn, signOut } from 'next-auth/react';
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation"; // Fixed import from "next/navigation" to "next/router"
 
 export default function Component() {
@@ -17,6 +18,7 @@ export default function Component() {
   useEffect(() => {
     if (status === 'authenticated') {
       router.push('/dashboard/about')
+      toast.success('Signed in successfully!');
       if(loadingGoogle || loadingGithub){
         setLoadingGoogle(false);
         setLoadingGithub(false);

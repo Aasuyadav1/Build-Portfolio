@@ -65,6 +65,12 @@ const Page: React.FC = () => {
         setIsLoading(false);
         return;
       }
+    } else {
+      if (!imagePreview) {
+        toast.error("Please select an image");
+        setIsLoading(false);
+        return;
+      }
     }
 
     const aboutData = {
