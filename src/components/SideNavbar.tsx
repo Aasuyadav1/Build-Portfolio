@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { FiExternalLink } from "react-icons/fi";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -16,10 +17,14 @@ import {
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { toast } from "sonner";
 
 export default function SideNavbar() {
   const { data: session, status } = useSession();
   const pathName = usePathname();
+  const [domain, setDomain] = useState("");
+  const [isPublish, setIsPublilsh] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const NavList = [
     {
@@ -44,34 +49,105 @@ export default function SideNavbar() {
     },
   ];
 
+  const onSubmit = async () => {
+    setIsPublishing(true);
+    try {
+      if (domain === "") return toast.error("Please enter a domain name");
+
+      const response = await fetch(
+        "/api/portfolio/domain/" + session?.user?.id,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ domain: domain }),
+        }
+      );
+
+      const added = await response.json();
+
+      if (response.ok) {
+        toast.success("Portfolio published successfully");
+        setIsPublilsh(true);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to publish portfolio");
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
+  const getDomainName = async (domain: string) => {
+    try {
+      console.log("domain get", domain);
+      const response = await fetch(`/api/portfolio/domain/${domain}`, {
+        method: "GET",
+      });
+
+      console.log("response", response);
+
+      if (response.ok) {
+        setIsPublilsh(true);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to get domain name");
+    }
+  };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      const domain = session?.user?.name?.split(" ")[0]?.toLowerCase();
+
+      setDomain(domain);
+
+      if (domain) {
+        getDomainName(domain);
+      }
+    }
+  }, [status === "authenticated"]);
+
   return (
     <div>
       <div className="w-full flex justify-end gap-4 bg-gray-100 border fixed py-2 px-10">
-        <Button variant={"outline"} >Publish Portfolio</Button>
+        {!isPublish && (
+          <Button variant="outline" onClick={onSubmit}>
+            Publish Portfolio
+          </Button>
+        )}
+        {isPublish && (
+          <Button
+          onClick={() => window.open(`/${domain}`, "_blank")}
+            variant="outline"
+            size="icon"
+          >
+            <FiExternalLink className="h-4 w-4" />
+          </Button>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-          
-              <Avatar className="h-9 w-9">
-                <AvatarImage src={session?.user?.image} />
-                <AvatarFallback>{session?.user?.name?.charAt(0)}</AvatarFallback>
-              </Avatar>
-            
+            <Avatar className="h-9 w-9">
+              <AvatarImage src={session?.user?.image} />
+              <AvatarFallback>{session?.user?.name?.charAt(0)}</AvatarFallback>
+            </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[240px] top-4">
             <DropdownMenuLabel>
               <div className="flex flex-col">
-                <div className="font-medium">{
-                  session?.user?.name
-                  }</div>
+                <div className="font-medium">{session?.user?.name}</div>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
                   {session?.user?.email}
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600 hover:bg-red-100" onClick={() => signOut()}>
+            <DropdownMenuItem
+              className="text-red-600 hover:bg-red-100"
+              onClick={() => signOut()}
+            >
               Logout
-              
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
