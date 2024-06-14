@@ -27,6 +27,7 @@ const Page: React.FC = () => {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [aboutId, setAboutId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [pageLoading, setPageLoading] = useState<boolean>(true); // Add a state for page loading
 
   useEffect(() => {
     if (session) {
@@ -94,8 +95,6 @@ const Page: React.FC = () => {
         },
       });
 
-      
-
       if (response.ok) {
         toast.success("About added successfully");
       } else {
@@ -103,11 +102,11 @@ const Page: React.FC = () => {
       }
     } catch (error) {
       console.log(error);
-
     }
   };
 
   const getUserAbout = async () => {
+    setPageLoading(true); // Set pageLoading to true when starting data fetch
     try {
       const response = await fetch(
         `/api/portfolio/about/getabout/${session?.user?.id}`,
@@ -119,7 +118,6 @@ const Page: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("update user data");
         setIsUpdate(true);
         setValue("name", data.data[0].name);
         setAboutId(data.data[0]._id);
@@ -127,13 +125,14 @@ const Page: React.FC = () => {
         setValue("about", data.data[0].about);
         setImagePreview(data.data[0].image); // Set the current image preview
       } else {
+        
         setIsUpdate(false);
         console.log(data);
       }
-
-      console.log("add user data");
     } catch (error) {
       console.log("error getting user about", error);
+    } finally {
+      setPageLoading(false); // Set pageLoading to false when data fetch is complete
     }
   };
 
@@ -149,12 +148,6 @@ const Page: React.FC = () => {
         },
       });
 
-      console.log("response", response);
-      // const res = await response.json();
-
-      // console.log(res);
-      console.log(response)
-
       if (response.ok) {
         toast.success("About updated successfully");
       } else {
@@ -162,7 +155,6 @@ const Page: React.FC = () => {
       }
     } catch (error) {
       console.log(error);
-      
     }
   };
 
@@ -181,61 +173,65 @@ const Page: React.FC = () => {
     return error?.message;
   };
 
+  if(pageLoading){
+    return <main className="flex justify-center items-center w-full h-screen">
+      <span className="loader2"></span>
+    </main>
+  }
+  
+
   return (
     <div className="md:mt-16 mt-4 px-2">
-       <h1 className="text-2xl font-medium">Personal Details</h1>
-    <div className="w-full mt-2  border rounded-md px-4 py-4">
-      <div className="w-full flex gap-4  justify-end">
-        <Button className="flex gap-2 px-6" onClick={handleSubmit(onSubmit)} disabled={isLoading}>
-          {isUpdate ? "Update" : "Add"}
-          {isLoading && <span className="loader ml-2"></span>}
-        </Button>
-      
-      </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full mt-4  lg:grid lg:grid-cols-2 gap-x-6"
-      >
-        <div className="flex flex-col gap-9">
-          <InputAdmin
-            label="Name"
-            placeholder="Enter your name"
-            {...register("name")}
-            error={getErrorMessage(errors.name)}
-          />
-          <InputAdmin
-            label="About"
-            placeholder="Enter details about yourself"
-            {...register("about")}
-            error={getErrorMessage(errors.about)}
-            textarea={true}
-          />
-        </div>
-        <div className="flex mt-9 lg:mt-0 flex-col gap-9">
-          <InputAdmin
-            label="Heading"
-            placeholder="Enter your headlines"
-            {...register("heading")}
-            error={getErrorMessage(errors.heading)}
-          />
-          <InputAdmin
-            type="file"
-            label="Image"
-            placeholder="Upload project image"
-            onChange={handleImageChange} // Use onImageChange for file input
-            error={getErrorMessage(errors.image)}
-            image={!!imagePreview}
-            imageUrl={imagePreview}
-          />
-        </div>
-        {/* <div className="col-span-2 flex justify-end">
-          <Button type="submit" className="flex gap-4" disabled={isLoading}>
+      <h1 className="text-2xl font-medium">Personal Details</h1>
+      <div className="w-full mt-2 border rounded-md px-4 py-4">
+        <div className="w-full flex gap-4 justify-end">
+          <Button
+            className="flex gap-2 px-6"
+            onClick={handleSubmit(onSubmit)}
+            disabled={isLoading}
+          >
             {isUpdate ? "Update" : "Add"}
             {isLoading && <span className="loader ml-2"></span>}
           </Button>
-        </div> */}
-      </form>
-    </div>
+        </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full mt-4 lg:grid lg:grid-cols-2 gap-x-6"
+        >
+          <div className="flex flex-col gap-9">
+            <InputAdmin
+              label="Name"
+              placeholder="Enter your name"
+              {...register("name")}
+              error={getErrorMessage(errors.name)}
+            />
+            <InputAdmin
+              label="About"
+              placeholder="Enter details about yourself"
+              {...register("about")}
+              error={getErrorMessage(errors.about)}
+              textarea={true}
+            />
+          </div>
+          <div className="flex mt-9 lg:mt-0 flex-col gap-9">
+            <InputAdmin
+              label="Heading"
+              placeholder="Enter your headlines"
+              {...register("heading")}
+              error={getErrorMessage(errors.heading)}
+            />
+            <InputAdmin
+              type="file"
+              label="Image"
+              placeholder="Upload project image"
+              onChange={handleImageChange} // Use onImageChange for file input
+              error={getErrorMessage(errors.image)}
+              image={!!imagePreview}
+              imageUrl={imagePreview}
+            />
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

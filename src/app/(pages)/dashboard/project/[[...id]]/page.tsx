@@ -30,6 +30,7 @@ const Page = ({ params }: any) => {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [projectId, setProjectId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [pageLoading, setPageLoading] = useState<boolean>(true);
 
   const handleChange = (e: any) => {
     if (
@@ -110,6 +111,7 @@ const Page = ({ params }: any) => {
   };
 
   const getProjects = async () => {
+
     try {
       const id = params?.id[0];
 
@@ -130,6 +132,8 @@ const Page = ({ params }: any) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setPageLoading(false);
     }
   };
 
@@ -193,13 +197,17 @@ const Page = ({ params }: any) => {
       setIsUpdate(true);
     } else {
       setIsUpdate(false);
+      setPageLoading(false);
     }
   }, [params?.id]);
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
+  if (status === "loading" || pageLoading) {
+    return (
+      <main className="flex justify-center items-center w-full h-screen">
+        <span className="loader2"></span>
+      </main>
+    );
   }
-
   return (
     <div className="md:mt-16 mt-4 px-2">
       <h1 className="text-2xl font-medium">
