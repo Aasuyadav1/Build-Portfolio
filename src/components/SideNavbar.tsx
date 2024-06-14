@@ -1,7 +1,12 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { SheetTrigger, SheetContent, Sheet, SheetClose } from "@/components/ui/sheet";
+import {
+  SheetTrigger,
+  SheetContent,
+  Sheet,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
@@ -169,9 +174,13 @@ export default function SideNavbar() {
       <nav className="hidden fixed   h-screen w-64 shrink-0 border-r  bg-gray-100 dark:border-gray-800 dark:bg-gray-900 md:block ">
         <div className="flex h-full flex-col justify-between py-6">
           <div className="space-y-6 px-4">
-            <Link href="/" className="flex items-center gap-2 font-bold">
-              <MountainIcon className="h-6 w-6" />
-              <span>Acme Inc</span>
+            <Link href="/" className="flex text-lg items-end font-bold">
+              <img
+                src="https://res.cloudinary.com/driaaeuhp/image/upload/v1718370102/myPortfolio/private/idi0ioweymygbowtvotd.png"
+                alt=""
+                className="h-[35px] w-[35px] object-cover"
+              />
+              <span className="text-[#1D3944]">myPortfolio</span>
             </Link>
             <div className="space-y-2">
               {NavList.map((item, index) => {
@@ -251,7 +260,7 @@ export default function SideNavbar() {
               </Tooltip>
             )}
           </div>
-          <Sheet >
+          <Sheet>
             <SheetTrigger asChild>
               <Button className="rounded-full" size="icon" variant="outline">
                 <MenuIcon className="h-6 w-6" />
@@ -261,23 +270,26 @@ export default function SideNavbar() {
             <SheetContent side="left">
               <div className="flex h-full flex-col justify-between py-2">
                 <div className="space-y-6 px-1">
-                  <Link className="flex items-center gap-2 font-bold" href="/">
-                    <MountainIcon className="h-6 w-6" />
-                    <span>myPortfolio</span>
+                  <Link href="/" className="flex text-lg items-end font-bold">
+                    <img
+                      src="https://res.cloudinary.com/driaaeuhp/image/upload/v1718370102/myPortfolio/private/idi0ioweymygbowtvotd.png"
+                      alt=""
+                      className="h-[35px] w-[35px] object-cover"
+                    />
+                    <span className="text-[#1D3944]">myPortfolio</span>
                   </Link>
                   <div className="space-y-2">
                     {NavList.map((item, index) => {
                       return (
-                       <SheetClose key={index} asChild >
-                         <Link
-                          
-                          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
-                          href={item.href}
-                        >
-                          {item.icon && <item.icon className="h-5 w-5" />}
-                          {item.name}
-                        </Link>
-                       </SheetClose>
+                        <SheetClose key={index} asChild>
+                          <Link
+                            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                            href={item.href}
+                          >
+                            {item.icon && <item.icon className="h-5 w-5" />}
+                            {item.name}
+                          </Link>
+                        </SheetClose>
                       );
                     })}
                   </div>

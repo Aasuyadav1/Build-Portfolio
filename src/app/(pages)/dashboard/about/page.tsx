@@ -97,6 +97,7 @@ const Page: React.FC = () => {
 
       if (response.ok) {
         toast.success("About added successfully");
+        setIsUpdate(true); // Set to update mode after adding
       } else {
         console.error("Failed to submit data");
       }
@@ -117,7 +118,7 @@ const Page: React.FC = () => {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok && data.data && data.data.length > 0) {
         setIsUpdate(true);
         setValue("name", data.data[0].name);
         setAboutId(data.data[0]._id);
@@ -125,8 +126,8 @@ const Page: React.FC = () => {
         setValue("about", data.data[0].about);
         setImagePreview(data.data[0].image); // Set the current image preview
       } else {
-        
         setIsUpdate(false);
+        setAboutId(""); // Reset aboutId if there's no existing data
         console.log(data);
       }
     } catch (error) {
@@ -178,7 +179,6 @@ const Page: React.FC = () => {
       <span className="loader2"></span>
     </main>
   }
-  
 
   return (
     <div className="md:mt-16 mt-4 px-2">

@@ -11,9 +11,9 @@ export default function PortfolioNavbar() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm dark:bg-gray-950 dark:text-gray-50">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="text-lg font-bold" prefetch={false}>
-          <MountainIcon className="h-6 w-6" />
-          <span className="sr-only">My Portfolio</span>
+        <Link href="/" className="text-lg flex items-end font-bold" prefetch={false}>
+        <img src="https://res.cloudinary.com/driaaeuhp/image/upload/v1718370102/myPortfolio/private/idi0ioweymygbowtvotd.png" alt=""  className="h-[35px] w-[35px] object-cover"/>
+          <span className="text-[#1D3944]">myPortfolio</span>
         </Link>
         <nav className="hidden space-x-4 md:flex">
           <Link
