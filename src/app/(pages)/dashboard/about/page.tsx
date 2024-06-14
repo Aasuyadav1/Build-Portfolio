@@ -182,7 +182,7 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="mt-16">
+    <div className="md:mt-16 mt-4 px-2">
        <h1 className="text-2xl font-medium">Personal Details</h1>
     <div className="w-full mt-2  border rounded-md px-4 py-4">
       <div className="w-full flex gap-4  justify-end">

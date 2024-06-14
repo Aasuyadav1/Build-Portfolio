@@ -58,7 +58,7 @@ const page = () => {
   }
 
   return (
-    <div className="mt-16">
+    <div className="md:mt-16 mt-4 px-2">
       <h1 className="text-2xl font-medium">Manage Projects</h1>
       <div className="w-full border mt-2 rounded-md px-4 py-6">
       <div className="w-full flex justify-end ">

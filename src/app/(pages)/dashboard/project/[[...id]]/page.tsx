@@ -201,7 +201,7 @@ const Page = ({ params }: any) => {
   }
 
   return (
-    <div className="mt-16">
+    <div className="md:mt-16 mt-4 px-2">
       <h1 className="text-2xl font-medium">
         {isUpdate ? "Update Project" : "Add New Project"}
       </h1>

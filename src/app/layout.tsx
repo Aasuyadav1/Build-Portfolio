@@ -4,7 +4,8 @@ import "./globals.css";
 import SideNavbar from "@/components/SideNavbar";
 import Provider from "@/components/Provider";
 import { Toaster } from 'sonner'
-
+import { TooltipProvider } from "@/components/ui/tooltip";
+ 
 const inter = Inter({ subsets: ["latin"] });
 
 const poppins = Poppins({
@@ -29,10 +30,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider>
           <Toaster />
+          <TooltipProvider>
         <div className="flex flex-col gap-1 md:flex-row md:gap-2">
           {/* <SideNavbar /> */}
           <div className="  w-full h-full">{children}</div>
         </div>
+        </TooltipProvider>
         </Provider>
       </body>
     </html>

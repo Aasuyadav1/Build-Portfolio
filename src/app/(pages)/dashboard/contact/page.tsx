@@ -47,7 +47,7 @@ const page = () => {
     <h1>Loading...</h1>
   </div>;
   return (
-    <div className="mt-16">
+    <div className="md:mt-16 mt-4 px-2">
       <h1 className="text-2xl font-medium">Contact Detail</h1>
       <div className="w-full mt-4 border rounded-md p-4">
       

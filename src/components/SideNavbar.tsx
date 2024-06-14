@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
+import { SheetTrigger, SheetContent, Sheet, SheetClose } from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
@@ -18,6 +18,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function SideNavbar() {
   const { data: session, status } = useSession();
@@ -25,6 +30,7 @@ export default function SideNavbar() {
   const [domain, setDomain] = useState("");
   const [isPublish, setIsPublilsh] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const NavList = [
     {
@@ -118,14 +124,22 @@ export default function SideNavbar() {
           </Button>
         )}
         {isPublish && (
-          <Button
-          onClick={() => window.open(`/${domain}`, "_blank")}
-            variant="outline"
-            size="icon"
-          >
-            <FiExternalLink className="h-4 w-4" />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={() => window.open(`/${domain}`, "_blank")}
+                variant="outline"
+                size="icon"
+              >
+                <FiExternalLink className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Preview</p>
+            </TooltipContent>
+          </Tooltip>
         )}
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="h-9 w-9">
@@ -185,13 +199,59 @@ export default function SideNavbar() {
           </div>
         </div>
       </nav>
-      <div className=" w-full fixed md:hidden">
-        <header className="flex h-14 items-center justify-between border-b bg-white px-4 dark:border-gray-800 dark:bg-gray-900 ">
-          <Link className="flex items-center gap-2 font-bold" href="#">
-            <MountainIcon className="h-6 w-6" />
-            <span>Acme Inc</span>
-          </Link>
-          <Sheet>
+      <div className="p-2 w-full fixed z-50 md:hidden">
+        <header className="flex h-14 items-center justify-between border-b bg-white px-4 dark:border-gray-800 z-[999] dark:bg-gray-900 ">
+          <div className="flex items-center gap-4 w-full">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="h-9 w-9">
+                  <AvatarImage src={session?.user?.image} />
+                  <AvatarFallback>
+                    {session?.user?.name?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[240px] top-4">
+                <DropdownMenuLabel>
+                  <div className="flex flex-col">
+                    <div className="font-medium">{session?.user?.name}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                      {session?.user?.email}
+                    </div>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="text-red-600 hover:bg-red-100"
+                  onClick={() => signOut()}
+                >
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {!isPublish && (
+              <Button variant="outline" onClick={onSubmit}>
+                Publish Portfolio
+              </Button>
+            )}
+            {isPublish && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={() => window.open(`/${domain}`, "_blank")}
+                    variant="outline"
+                    size="icon"
+                  >
+                    <FiExternalLink className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Preview</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </div>
+          <Sheet >
             <SheetTrigger asChild>
               <Button className="rounded-full" size="icon" variant="outline">
                 <MenuIcon className="h-6 w-6" />
@@ -199,28 +259,30 @@ export default function SideNavbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <div className="flex h-full flex-col justify-between py-6">
-                <div className="space-y-6 px-4">
-                  <Link className="flex items-center gap-2 font-bold" href="#">
+              <div className="flex h-full flex-col justify-between py-2">
+                <div className="space-y-6 px-1">
+                  <Link className="flex items-center gap-2 font-bold" href="/">
                     <MountainIcon className="h-6 w-6" />
-                    <span>Acme Inc</span>
+                    <span>myPortfolio</span>
                   </Link>
                   <div className="space-y-2">
                     {NavList.map((item, index) => {
                       return (
-                        <Link
-                          key={index}
+                       <SheetClose key={index} asChild >
+                         <Link
+                          
                           className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
                           href={item.href}
                         >
                           {item.icon && <item.icon className="h-5 w-5" />}
                           {item.name}
                         </Link>
+                       </SheetClose>
                       );
                     })}
                   </div>
                 </div>
-                <div className="px-4">
+                {/* <div className="px-4">
                   <Link
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
                     href="#"
@@ -228,7 +290,7 @@ export default function SideNavbar() {
                     <SettingsIcon className="h-5 w-5" />
                     Settings
                   </Link>
-                </div>
+                </div> */}
               </div>
             </SheetContent>
           </Sheet>

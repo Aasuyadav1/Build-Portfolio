@@ -55,7 +55,7 @@ const page = () => {
   if(status === 'loading') return <div className="w-full h-screen flex justify-center items-center">...loading</div>
  
   return (
-    <div className='mt-16'>
+    <div className="md:mt-16 mt-4 px-2">
         <h1 className="text-2xl font-medium">Skill Info</h1>
       <div className="w-full mt-2 border rounded-md p-4">
         <div className=' w-full'>
