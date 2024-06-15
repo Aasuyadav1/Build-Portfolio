@@ -40,7 +40,7 @@ const LinkCard = ({fetchLinks, removeLinks, icons}: Props) => {
               clipRule="evenodd"
             />
           </svg></DropdownMenuTrigger>
-            <DropdownMenuContent className="absolute top-4 -left-4">
+            <DropdownMenuContent  align="end" className="mt-4">
              
               <DropdownMenuItem className="hover:bg-accent font-normal" onClick={(e) => {
                 if(!icon.link.startsWith('http://') && !icon.link.startsWith('https://')) {

@@ -17,7 +17,7 @@ type AboutFormData = {
 
 const Page: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string>("");
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const {
     register,
     handleSubmit,
@@ -30,10 +30,10 @@ const Page: React.FC = () => {
   const [pageLoading, setPageLoading] = useState<boolean>(true); // Add a state for page loading
 
   useEffect(() => {
-    if (session) {
+    if (status === "authenticated") {
       getUserAbout();
     }
-  }, [session]);
+  }, [status === "authenticated"]);
 
   useEffect(() => {
     return () => {
@@ -135,6 +135,7 @@ const Page: React.FC = () => {
         setIsUpdate(false);
         setAboutId(""); // Reset aboutId if there's no existing data
         // console.log(data);
+        setPageLoading(false);
       }
     } catch (error) {
       console.log("error getting user about", error);
@@ -180,7 +181,7 @@ const Page: React.FC = () => {
     return error?.message;
   };
 
-  if(pageLoading){
+  if(pageLoading || status === "loading") {
     return <main className="flex justify-center items-center w-full h-screen">
       <span className="loader2"></span>
     </main>

@@ -6,18 +6,15 @@ import { FaGithub } from "react-icons/fa";
 import { signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation"; // Fixed import from "next/navigation" to "next/router"
+
 
 export default function Component() {
   const { data: session, status } = useSession();
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [loadingGithub, setLoadingGithub] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     if (status === "authenticated") {
-      router.push("/dashboard/about");
       if (loadingGoogle || loadingGithub) {
         setLoadingGoogle(false);
         setLoadingGithub(false);
@@ -27,12 +24,12 @@ export default function Component() {
 
   const handleSignInGoogle = async () => {
     setLoadingGoogle(true);
-    await signIn("google", { redirect: false }); // Use redirect: false to handle redirection manually
+    await signIn("google", { callbackUrl: "/dashboard/about" }); // Use redirect: false to handle redirection manually
   };
 
   const handleSignInGithub = async () => {
     setLoadingGithub(true);
-    await signIn("github", { redirect: false }); // Use redirect: false to handle redirection manually
+    await signIn("github", { callbackUrl: "/dashboard/about" }); // Use redirect: false to handle redirection manually
   };
 
   return (
