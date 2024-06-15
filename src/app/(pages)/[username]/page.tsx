@@ -20,7 +20,7 @@ const Page = ({ params }: any) => {
 
       if (response.ok) {
         setPortfolioData(data.data)
-        console.log("portfolio fetched successfully", data.data)
+        // console.log("portfolio fetched successfully", data.data)
       }
     } catch (error) {
       console.log("error on fetching the user ", error)
@@ -40,7 +40,7 @@ const Page = ({ params }: any) => {
       if (response.ok) {
         setUserId(data?.data?.userid)
         fetchPortfolio(data.data.userid);
-        console.log("domain fetched successfully", data.data.userid)
+        // console.log("domain fetched successfully", data.data.userid)
       }
     } catch (error) {
       console.log("error on fetching the domain ", error)
@@ -52,15 +52,6 @@ const Page = ({ params }: any) => {
     isValidDomain();
   }, [])
 
-  useEffect(() => {
-    if (portfolioData) {
-      console.log("main data", portfolioData)
-      console.log("about", portfolioData?.about)
-      console.log("links", portfolioData?.links)
-      console.log("skills", portfolioData?.skills)
-      console.log("projects", portfolioData?.projects)
-    }
-  }, [portfolioData])
 
   return (
     <>

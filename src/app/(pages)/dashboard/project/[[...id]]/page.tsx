@@ -134,6 +134,7 @@ const Page = ({ params }: any) => {
       }
     } catch (error) {
       console.log(error);
+     
     } finally {
       setPageLoading(false);
     }

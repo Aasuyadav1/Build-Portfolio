@@ -1,7 +1,4 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import SkillCard from "../AdminComponent/SkillCard";
+import React from "react";
 
 interface Icon {
   name: string;
@@ -12,10 +9,10 @@ const SkillsSection = ({ id, skillData }: any) => {
   return (
     <section id="skill" className=" mt-4 w-full ">
       <h1 className="text-2xl font-bold text-portfolioPrimary">#Skills</h1>
-      <div className="flex mt-4 px-2 py-6 border-2 border-solid border-iconbg rounded-sm w-full h-full sm:justify-normal justify-center flex-wrap gap-2 ">
+      <div className=" px-2 py-6 rounded-sm w-full h-full sm:flex sm:flex-wrap  sm:justify-normal mt-10 gap-3 md:gap-5 grid grid-cols-2 min-[413px]:grid-cols-3 border-2">
         {skillData &&
           skillData.map((icon: any, i: number) => (
-            <div className="flex truncate flex-col justify-center items-center  gap-2 bg-slate-100 px-4 py-2 max-w-[150px] w-full rounded-md ">
+            <div className="flex border truncate flex-col justify-center items-center  gap-2 bg-slate-100 px-4 py-2 max-w-[150px] w-full rounded-md ">
               <img
                 style={{ height: 50, width: 50 }}
                 key={icon.value}

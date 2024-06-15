@@ -1,17 +1,13 @@
-"use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { SocialIcon, getKeys } from "react-social-icons";
 
 interface Props {
   allSkills: { network: string; url: string }[];
 }
 
-const allIcons = getKeys();
 
 const PortfolioLinks = ({id, allLinks} : any) => {
-  useEffect(() => {
-    console.log("this ksills",allLinks);
-  }, [allLinks]);
+  
   return (
     <section className="w-fit p-3 ">
       <div className="mt-1 flex flex-wrap justify-center items-center w-fit gap-2">
@@ -19,6 +15,7 @@ const PortfolioLinks = ({id, allLinks} : any) => {
         <SocialIcon 
           key={skill?.label}
           url={skill?.link}
+          className="hover:scale-110 transition-all cursor-pointer"
           style={{ height: 40, width: 40 }}
           network={skill?.label?.toLowerCase()}
           target="_blank"

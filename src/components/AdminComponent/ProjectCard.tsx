@@ -20,12 +20,12 @@ interface Props {
 const ProjectCard = ({data, getProjects, deleteProject}: Props ) => {
   
   return (
-    <div className="flex flex-wrap justify-center sm:justify-normal gap-2 mt-4">
+    <div className="flex flex-wrap justify-center sm:justify-normal gap-5 mt-4">
       {data && data.length > 0 ? (
         data.map((project : any) => (
-          <div key={project._id} className="flex flex-col mt-1   bg-slate-100 px-4 py-2 max-w-[250px] w-full rounded-md ">
+          <div key={project._id} className="flex flex-col mt-1   bg-slate-100 px-4 py-2 sm:max-w-[250px] max-w-full w-full border  rounded-md ">
             <img
-              className="w-full object-cover h-[150px] aspect-square rounded-md"
+              className="w-full object-cover sm:h-[150px] h-[200px] border-2 aspect-square rounded-md"
               src={project.image}
               alt=""
             />

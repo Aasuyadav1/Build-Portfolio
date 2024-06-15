@@ -52,9 +52,9 @@ export function SkillField({getSkills} : {getSkills: () => void}) {
 
   const addNewSkill = async () => {
     if (customSkill.value && customSkill.label && value) {
-      alert("Only one skill can be added at a time");
-      console.log("custom skill", customSkill);
-      console.log("value", value);
+      toast.info("Only one skill can be added at a time");
+      // console.log("custom skill", customSkill);
+      // console.log("value", value);
       return;
     }
 
@@ -100,7 +100,7 @@ export function SkillField({getSkills} : {getSkills: () => void}) {
       }));
       setSkills(skillList);
     } else {
-      console.error("skillIcons is not an array:", skillIcons);
+      console.error("skillIcons is not an array:");
     }
   }, []);
 

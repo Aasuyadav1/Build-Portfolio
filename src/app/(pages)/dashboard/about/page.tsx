@@ -134,7 +134,7 @@ const Page: React.FC = () => {
       } else {
         setIsUpdate(false);
         setAboutId(""); // Reset aboutId if there's no existing data
-        console.log(data);
+        // console.log(data);
       }
     } catch (error) {
       console.log("error getting user about", error);
