@@ -92,7 +92,7 @@ export default function SideNavbar() {
 
   const getDomainName = async (domain: string) => {
     try {
-      console.log("domain get", domain);
+      // console.log("domain get", domain);
       const response = await fetch(`/api/portfolio/domain/${domain}`, {
         method: "GET",
       });
