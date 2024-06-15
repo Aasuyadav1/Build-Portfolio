@@ -3,6 +3,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
 import { Button } from "@/components/ui/button";
 import { MdDeleteOutline } from "react-icons/md";
 
+
 export default function DeleteModel({ item, onDelete }: { item: any, onDelete: (id: number) => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

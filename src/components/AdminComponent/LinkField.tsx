@@ -33,6 +33,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { Label } from "../ui/label";
 
+
 interface Framework {
   value: string;
   label: string;
@@ -62,7 +63,7 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
 
   const isValidUrl = (url: string) => {
     const urlPattern = new RegExp(
-      /^(https?:\/\/)?([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,6}(\/[a-zA-Z0-9-_#]+\/?)*$/
+       /^(https?:\/\/)?([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,6}(\/[a-zA-Z0-9-_#]+\/?)*$/
     );
     return urlPattern.test(url);
   };
