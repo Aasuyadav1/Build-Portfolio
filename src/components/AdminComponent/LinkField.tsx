@@ -62,7 +62,7 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
 
   const isValidUrl = (url: string) => {
     const urlPattern = new RegExp(
-      /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g
+      /^(https?:\/\/)?([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,6}(\/[a-zA-Z0-9-_#]+\/?)*$/
     );
     return urlPattern.test(url);
   };
