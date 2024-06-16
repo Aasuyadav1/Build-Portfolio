@@ -6,6 +6,8 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import SharePortfolio from "./SharePortfolio";
+
 
 export default function PortfolioNavbar() {
   return (
@@ -15,6 +17,7 @@ export default function PortfolioNavbar() {
         <img src="https://res.cloudinary.com/driaaeuhp/image/upload/v1718370102/myPortfolio/private/idi0ioweymygbowtvotd.png" alt=""  className="h-[35px] w-[35px] object-cover"/>
           <span className="text-[#1D3944]">myPortfolio</span>
         </Link>
+        <SharePortfolio />
         <nav className="hidden space-x-4 md:flex">
           <Link
             href="#about"
