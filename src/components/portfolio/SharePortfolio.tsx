@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { IoShareSocialSharp } from "react-icons/io5";
 import {
   FacebookShareButton,
   WhatsappShareButton,
@@ -34,6 +35,7 @@ import {
   LinkedinIcon,
   MailruIcon,
 } from "react-share";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 function SharePortfolio() {
   const [shareData, setShareData] = React.useState(window.location.href || ""); // Set your share data here
@@ -95,8 +97,18 @@ function SharePortfolio() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Share</Button>
+      <DialogTrigger>
+      <Tooltip >
+            <TooltipTrigger asChild>
+            <Button variant="outline"  size="icon">
+              <IoShareSocialSharp  className="text-gray-600 h-4 w-4" />
+              <span className="sr-only">Share</span>
+            </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Share</p>
+            </TooltipContent>
+          </Tooltip>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

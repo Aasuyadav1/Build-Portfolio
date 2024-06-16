@@ -17,8 +17,7 @@ export default function PortfolioNavbar() {
         <img src="https://res.cloudinary.com/driaaeuhp/image/upload/v1718370102/myPortfolio/private/idi0ioweymygbowtvotd.png" alt=""  className="h-[35px] w-[35px] object-cover"/>
           <span className="text-[#1D3944]">myPortfolio</span>
         </Link>
-        <SharePortfolio />
-        <nav className="hidden space-x-4 md:flex">
+        <nav className="hidden space-x-8 md:flex">
           <Link
             href="#about"
             className="nav-link transition-colors hover:text-portfolioPrimary"
@@ -41,6 +40,8 @@ export default function PortfolioNavbar() {
             Projects
           </Link>
         </nav>
+       <div className="flex items-center gap-4">
+       <SharePortfolio />
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="md:hidden">
@@ -80,6 +81,7 @@ export default function PortfolioNavbar() {
             </div>
           </SheetContent>
         </Sheet>
+       </div>
       </div>
     </header>
   );
