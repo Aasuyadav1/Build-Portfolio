@@ -5,6 +5,7 @@ import SideNavbar from "@/components/SideNavbar";
 import Provider from "@/components/Provider";
 import { Toaster } from 'sonner'
 import { TooltipProvider } from "@/components/ui/tooltip";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
  
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <GoogleAnalytics />
       <body className={inter.className}>
         <Provider>
           <Toaster />
