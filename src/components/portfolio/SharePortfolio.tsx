@@ -1,12 +1,10 @@
 "use client";
 import React, { useEffect } from "react";
-import Link from "next/link";
 import { CopyIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -24,7 +22,6 @@ import {
   PinterestShareButton,
   TwitterShareButton,
   LinkedinShareButton,
-  MailruShareButton,
   EmailShareButton,
   FacebookIcon,
   EmailIcon,
@@ -33,23 +30,22 @@ import {
   PinterestIcon,
   TwitterIcon,
   LinkedinIcon,
-  MailruIcon,
 } from "react-share";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 function SharePortfolio() {
-  const [shareData, setShareData] = React.useState(window.location.href || ""); // Set your share data here
+  const [shareData, setShareData] = React.useState<string>("");
 
   useEffect(() => {
     setShareData(window.location.href || "");
-  }, [window.location.href]);
+  }, []);
 
   const share = [
     {
       outlet: "Whatsapp",
       icon: (
         <WhatsappShareButton url={shareData}>
-          <WhatsappIcon size={32} round={true} />{" "}
+          <WhatsappIcon size={32} round={true} />
         </WhatsappShareButton>
       ),
     },
@@ -57,7 +53,7 @@ function SharePortfolio() {
       outlet: "Linkedin",
       icon: (
         <LinkedinShareButton url={shareData}>
-          <LinkedinIcon size={32} round={true} />{" "}
+          <LinkedinIcon size={32} round={true} />
         </LinkedinShareButton>
       ),
     },
@@ -65,7 +61,7 @@ function SharePortfolio() {
       outlet: "Twitter",
       icon: (
         <TwitterShareButton url={shareData}>
-          <TwitterIcon size={32} round={true} />{" "}
+          <TwitterIcon size={32} round={true} />
         </TwitterShareButton>
       ),
     },
@@ -73,7 +69,7 @@ function SharePortfolio() {
       outlet: "Email",
       icon: (
         <EmailShareButton url={shareData}>
-          <EmailIcon size={32} round={true} />{" "}
+          <EmailIcon size={32} round={true} />
         </EmailShareButton>
       ),
     },
@@ -81,7 +77,7 @@ function SharePortfolio() {
       outlet: "Telegram",
       icon: (
         <TelegramShareButton url={shareData}>
-          <TelegramIcon size={32} round={true} />{" "}
+          <TelegramIcon size={32} round={true} />
         </TelegramShareButton>
       ),
     },
@@ -89,7 +85,7 @@ function SharePortfolio() {
       outlet: "Facebook",
       icon: (
         <FacebookShareButton url={shareData}>
-          <FacebookIcon size={32} round={true} />{" "}
+          <FacebookIcon size={32} round={true} />
         </FacebookShareButton>
       ),
     },
@@ -97,18 +93,20 @@ function SharePortfolio() {
 
   return (
     <Dialog>
-      <DialogTrigger>
-      <Tooltip >
-            <TooltipTrigger asChild>
-            <Button variant="outline"  size="icon">
-              <IoShareSocialSharp  className="text-gray-600 h-4 w-4" />
-              <span className="sr-only">Share</span>
-            </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Share</p>
-            </TooltipContent>
-          </Tooltip>
+      <DialogTrigger asChild>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <Button variant="outline" size="icon">
+                <IoShareSocialSharp className="text-gray-600 h-4 w-4" />
+                <span className="sr-only">Share</span>
+              </Button>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Share</p>
+          </TooltipContent>
+        </Tooltip>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
@@ -136,10 +134,10 @@ function SharePortfolio() {
             <CopyIcon className="h-4 w-4" />
           </Button>
         </div>
-        <div className="flex gap-2 relative items-center justify-start  py-1 pt-2  border border-solid border-accent rounded-full">
+        <div className="flex gap-2 relative items-center justify-start py-1 pt-2 border border-solid border-accent rounded-full">
           {share.map((item, index) => (
             <span
-              className="w-fit h-fil cursor-pointer hover:scale-105 transition-all "
+              className="w-fit h-full cursor-pointer hover:scale-105 transition-all"
               key={index}
             >
               {item.icon}
