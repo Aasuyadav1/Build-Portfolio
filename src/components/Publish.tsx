@@ -64,7 +64,6 @@ export function Publish({
         reset();
       } else {
         setIsPublishing(false);
-        toast.error(added.message || "Failed to publish domain");
         reset();
       }
     } catch (error) {

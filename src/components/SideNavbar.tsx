@@ -204,9 +204,7 @@ export default function SideNavbar() {
               </DropdownMenuContent>
             </DropdownMenu>
             {!isPublish && (
-              <Button variant="outline" >
-                Publish Portfolio
-              </Button>
+              <Publish isPublishing={isPublishing} setIsPublishing={setIsPublishing} domain={domain} setDomain={setDomain} />
             )}
             {isPublish && (
               <Tooltip>
