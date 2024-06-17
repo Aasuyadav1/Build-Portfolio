@@ -4,6 +4,7 @@ import GithubProvider from 'next-auth/providers/github';
 import { dbConnect } from '@/lib/dbConnect';
 import User from '@/Models/userModel';
 
+
 const authOptions: any = {
   providers: [
     GoogleProvider({
@@ -47,6 +48,9 @@ const authOptions: any = {
         return false;
       }
     },
+  },
+  pages: {
+    signIn: '/',
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

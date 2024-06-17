@@ -33,7 +33,7 @@ const Page: React.FC = () => {
     if (status === "authenticated") {
       getUserAbout();
     }
-  }, [status === "authenticated"]);
+  }, [status]);
 
   useEffect(() => {
     return () => {
