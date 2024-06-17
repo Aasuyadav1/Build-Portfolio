@@ -62,17 +62,10 @@ export default function SideNavbar() {
 
   const getDomainName = async (domain : string) => {
     try {
-      // console.log("domain get", domain);
       const response = await fetch(`/api/portfolio/domain/${domain}`, {
         method: "GET",
       });
-
-      // console.log("response", response);
-
       const data = await response.json()
-
-      console.log(data)
-
       if (response.ok) {
         setIsPublilsh(true);
         setDomain(data.data.domain)

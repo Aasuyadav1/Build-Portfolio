@@ -68,7 +68,6 @@ export function Publish({
         reset();
       }
     } catch (error) {
-      console.error(error);
       toast.error("An error occurred while publishing");
       setIsPublishing(false);
       setIsOpen(false);
