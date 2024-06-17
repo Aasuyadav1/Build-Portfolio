@@ -76,7 +76,6 @@ export default function SideNavbar() {
       
     } catch (error) {
       console.log(error);
-      toast.error("Failed to get domain name");
     }
   };
 
@@ -90,25 +89,22 @@ export default function SideNavbar() {
   return (
     <div>
       <div className="w-full flex justify-end gap-4 bg-gray-100 border fixed py-2 px-10">
-        {!isPublish && (
-          <Publish isPublishing={isPublishing} setIsPublishing={setIsPublishing} domain={domain} setDomain={setDomain} />
-        )}
-        {isPublish && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                onClick={() => window.open(`/${domain}`, "_blank")}
-                variant="outline"
-                size="icon"
-              >
-                <FiExternalLink className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Preview</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
+        {
+          isPublish ?  <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={() => window.open(`/${domain}`, "_blank")}
+              variant="outline"
+              size="icon"
+            >
+              <FiExternalLink className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Preview</p>
+          </TooltipContent>
+        </Tooltip> : <Publish isPublishing={isPublishing} setIsPublishing={setIsPublishing} domain={domain} setDomain={setDomain} />
+        }
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
