@@ -9,7 +9,7 @@ interface Props {
 const PortfolioLinks = ({id, allLinks} : any) => {
   
   return (
-    <section className="w-fit p-3 ">
+    <section className="w-fit p-3 mt-3">
       <div className="mt-1 flex flex-wrap justify-center items-center w-fit gap-2">
       { allLinks && allLinks.map((skill : any) => (
         <SocialIcon 

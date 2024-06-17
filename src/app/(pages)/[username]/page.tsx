@@ -36,7 +36,7 @@ const Page = ({ params }: any) => {
   }, []);
 
   return (
-    <>
+    <section className="scroll-smooth!" style={{scrollBehavior: "smooth"}}>
       {isLoading ? (
         <div className="flex justify-center items-center w-full h-screen">
           <span className="loader2"></span>
@@ -44,20 +44,26 @@ const Page = ({ params }: any) => {
       ) : (
         portfolioData && (
           <section className="flex scroll-smooth  flex-col gap-10 py-2 px-2">
-            <PortfolioAbout
+            {
+              portfolioData?.about && portfolioData?.about.length > 0 ? <PortfolioAbout
               aboutDatas={portfolioData?.about}
               allLinks={portfolioData?.links}
-            />
-            <SkillsSection skillData={portfolioData?.skills} />
-            <PortfolioProjectCard
+            /> : null
+            }
+            {
+              portfolioData?.skills && portfolioData?.skills.length > 0 ? <SkillsSection skillData={portfolioData?.skills} /> : null
+            }
+            {
+              portfolioData?.projects && portfolioData?.projects.length > 0 ? <PortfolioProjectCard
               projectData={portfolioData?.projects}
-            />
+            /> : null
+            }
             {/* <PortfolioContact/>
             <SingleShare/> */}
           </section>
         )
       )}
-    </>
+    </section>
   );
 };
 

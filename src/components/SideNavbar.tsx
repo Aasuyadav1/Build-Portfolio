@@ -90,7 +90,7 @@ export default function SideNavbar() {
     <div>
       <div className="w-full flex justify-end gap-4 bg-gray-100 border fixed py-2 px-10">
         {
-          isPublish ?  <Tooltip>
+         status === "authenticated" && (isPublish ?  <Tooltip>
           <TooltipTrigger asChild>
             <Button
               onClick={() => window.open(`/${domain}`, "_blank")}
@@ -103,7 +103,7 @@ export default function SideNavbar() {
           <TooltipContent>
             <p>Preview</p>
           </TooltipContent>
-        </Tooltip> : <Publish isPublishing={isPublishing} setIsPublishing={setIsPublishing} domain={domain} setDomain={setDomain} />
+        </Tooltip> : <Publish isPublishing={isPublishing} setIsPublishing={setIsPublishing} domain={domain} setDomain={setDomain} />)
         }
 
         <DropdownMenu>
