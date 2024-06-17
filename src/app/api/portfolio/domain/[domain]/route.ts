@@ -7,22 +7,29 @@ export const GET = async (req: NextRequest, { params }: any) => {
   try {
     const domain = params?.domain;
 
+    
+
     if (!domain) {
       return new NextResponse("Domain not provided", { status: 400 });
     }
 
     await dbConnect();
 
+
+    console.log("Domain:", domain);
     const userDomain = await Portfolio.findOne(
-      { domain: domain },
+      { userid: domain },
       {
         userid: 1,
+        domain: 1,
         _id: 0,
       }
     );
 
+    console.log("userDomain:", userDomain);
+
     if (!userDomain) {
-      return new NextResponse("User not added links", { status: 404 });
+      return new NextResponse("User not published", { status: 404 });
     }
 
     return NextResponse.json({
@@ -39,25 +46,45 @@ export const GET = async (req: NextRequest, { params }: any) => {
 // for add domain
 export const POST = async (req: NextRequest, { params }: any) => {
   try {
+
     const userid = params?.domain;
 
     if (!userid) {
-      return new NextResponse("user id not provided", { status: 400 });
+      return NextResponse.json({
+        message: "userid not provided",
+        success: false
+      });
+    }
+
+    await dbConnect();
+
+    const isAlredyProvided = await Portfolio.findOne({ userid: userid });
+
+    if(isAlredyProvided){
+      return NextResponse.json({
+        message: "Portfolio already published",
+        success: false
+      })
     }
 
     const { domain } = await req.json();
 
     if (!domain) {
-      return new NextResponse("domain not provided", { status: 400 });
+      return NextResponse.json({
+        message: "domain not provided",
+        success: false,
+      })
     }
-
-    await dbConnect();
+  
 
     const isExistsDomain = await Portfolio.findOne({ domain: domain });
 
     if (isExistsDomain) {
       console.log('this domain already exists', isExistsDomain);
-      return new NextResponse("domain already exists", { status: 400 });
+      return NextResponse.json({
+        message: "Domain already exists",
+        success: false,
+      });
     }
 
     const createDomain = await Portfolio.create({
@@ -66,7 +93,10 @@ export const POST = async (req: NextRequest, { params }: any) => {
     });
 
     if (!createDomain) {
-      return new NextResponse("domain not created", { status: 404 });
+      return NextResponse.json({
+        message: "domain not created",
+        success: false,
+      });
     }
 
     return NextResponse.json({
@@ -76,7 +106,10 @@ export const POST = async (req: NextRequest, { params }: any) => {
     });
   } catch (error) {
     console.log(error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return NextResponse.json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 };
 

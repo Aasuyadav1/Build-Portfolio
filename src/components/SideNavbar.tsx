@@ -28,14 +28,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Publish } from "./Publish";
 
 export default function SideNavbar() {
   const { data: session, status } = useSession();
-  const pathName = usePathname();
-  const [domain, setDomain] = useState("");
+  const pathName = usePathname()
   const [isPublish, setIsPublilsh] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [domain, setDomain] = useState("");
 
   const NavList = [
     {
@@ -60,37 +60,7 @@ export default function SideNavbar() {
     },
   ];
 
-  const onSubmit = async () => {
-    setIsPublishing(true);
-    try {
-      if (domain === "") return toast.error("Please enter a domain name");
-
-      const response = await fetch(
-        "/api/portfolio/domain/" + session?.user?.id,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ domain: domain }),
-        }
-      );
-
-      const added = await response.json();
-
-      if (response.ok) {
-        toast.success("Portfolio published successfully");
-        setIsPublilsh(true);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to publish portfolio");
-    } finally {
-      setIsPublishing(false);
-    }
-  };
-
-  const getDomainName = async (domain: string) => {
+  const getDomainName = async (domain : string) => {
     try {
       // console.log("domain get", domain);
       const response = await fetch(`/api/portfolio/domain/${domain}`, {
@@ -99,9 +69,18 @@ export default function SideNavbar() {
 
       // console.log("response", response);
 
+      const data = await response.json()
+
+      console.log(data)
+
       if (response.ok) {
         setIsPublilsh(true);
+        setDomain(data.data.domain)
+      }else {
+        setIsPublilsh(false);
+        setDomain("")
       }
+      
     } catch (error) {
       console.log(error);
       toast.error("Failed to get domain name");
@@ -110,13 +89,8 @@ export default function SideNavbar() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      const domain = session?.user?.name?.split(" ")[0]?.toLowerCase();
-
-      setDomain(domain);
-
-      if (domain) {
-        getDomainName(domain);
-      }
+      
+      getDomainName(session?.user?.id)
     }
   }, [status === "authenticated"]);
 
@@ -124,9 +98,7 @@ export default function SideNavbar() {
     <div>
       <div className="w-full flex justify-end gap-4 bg-gray-100 border fixed py-2 px-10">
         {!isPublish && (
-          <Button variant="outline" onClick={onSubmit}>
-            Publish Portfolio
-          </Button>
+          <Publish isPublishing={isPublishing} setIsPublishing={setIsPublishing} domain={domain} setDomain={setDomain} />
         )}
         {isPublish && (
           <Tooltip>
@@ -239,7 +211,7 @@ export default function SideNavbar() {
               </DropdownMenuContent>
             </DropdownMenu>
             {!isPublish && (
-              <Button variant="outline" onClick={onSubmit}>
+              <Button variant="outline" >
                 Publish Portfolio
               </Button>
             )}
@@ -318,65 +290,6 @@ export default function SideNavbar() {
   );
 }
 
-function BriefcaseIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-      <rect width="20" height="14" x="2" y="6" rx="2" />
-    </svg>
-  );
-}
-
-function FolderIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
-    </svg>
-  );
-}
-
-function HomeIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-      <polyline points="9 22 9 12 15 12 15 22" />
-    </svg>
-  );
-}
-
 function InfoIcon(props: any) {
   return (
     <svg
@@ -434,26 +347,6 @@ function MountainIcon(props: any) {
       strokeLinejoin="round"
     >
       <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}
-
-function SettingsIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-      <circle cx="12" cy="12" r="3" />
     </svg>
   );
 }

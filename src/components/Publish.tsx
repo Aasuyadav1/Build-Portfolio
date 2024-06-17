@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,86 +13,89 @@ import { useSession } from "next-auth/react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, FieldError } from "react-hook-form";
-import { useEffect } from "react";
+import React, { useState } from "react";
+import { toast } from "sonner";
 
-export function Publish() {
+type PublishProps = {
+  isPublishing: boolean;
+  setIsPublishing: React.Dispatch<React.SetStateAction<boolean>>;
+  domain: string;
+  setDomain: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export function Publish({
+  isPublishing,
+  setIsPublishing,
+  domain,
+  setDomain,
+}: PublishProps) {
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm();
-  const {data: session, status} = useSession()
+  const { data: session, status } = useSession();
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onSubmit = async (data: any) => {
+    setIsSubmit(true);
     try {
-      const response = await fetch('/api/portfolio/domain/' + session?.user?.id, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      
+      const response = await fetch(
+        "/api/portfolio/domain/" + session?.user?.id,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       const added = await response.json();
 
-      if(response.ok) {
-        alert("Domain added successfully");
+      if (response.ok && added.success) {
+        setIsPublishing(true);
+        setDomain(added.data?.domain || ""); // Safe access to domain property
+        toast.success(added.message);
+        setIsOpen(false);
+        reset();
+      } else {
+        setIsPublishing(false);
+        toast.error(added.message || "Failed to publish domain");
+        reset();
       }
-
-
     } catch (error) {
-      console.log(error);
-
+      console.error(error);
+      toast.error("An error occurred while publishing");
+      setIsPublishing(false);
+      setIsOpen(false);
+    } finally {
+      setIsSubmit(false);
+      setIsOpen(false);
     }
   };
 
-  // const getDomainName = async () => {
-  //   try {
-  //     const response = await fetch('/api/portfolio/domain' + session?.userid?.id, {
-  //       method: 'GET',
-  //     })
-
-  //     const added = await response.json();
-
-  //     if(response.ok) {
-  //       setValue("domain", added?.data?.domain);
-  //     }
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
   const getErrorMessage = (
-    error: FieldError | undefined 
-    | any
+    error: FieldError | undefined | any
   ): string | undefined => {
     return error?.message;
   };
 
-  // useEffect(()=>{
-  //   if(status === "authenticated") {
-  //     getDomainName()
-  //   }
-  // },[status === "authenticated"])
-
-  if(status === "loading"){
-    return <div>Loading...</div>
-  }
-
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Publish Portfolio</Button>
       </DialogTrigger>
-      
+
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add Domain</DialogTitle>
           <DialogDescription className="text-black">
-            The domain will be used to host your portfolio for access to your portfolio.
+            The domain will be used to host your portfolio for access to your
+            portfolio.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -103,15 +106,16 @@ export function Publish() {
               </Label>
               <Input
                 id="domain"
+                placeholder="domain"
                 className="col-span-3 text-md"
                 {...register("domain", {
                   required: "Domain is required",
                   minLength: {
-                    value: 2,
-                    message: "Domain must be at least 2 characters",
+                    value: 4,
+                    message: "Domain must be at least 4 characters",
                   },
                   maxLength: {
-                    value: 10,
+                    value: 10, // Corrected to 10
                     message: "Domain must be at most 10 characters",
                   },
                   pattern: {
@@ -120,11 +124,17 @@ export function Publish() {
                   },
                 })}
               />
-              {errors.domain && <span className="text-red-500 text-sm">{getErrorMessage(errors.domain)}</span>}
+              {errors.domain && (
+                <span className="text-red-500 text-sm">
+                  {getErrorMessage(errors.domain)}
+                </span>
+              )}
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Publish now</Button>
+            <Button type="submit">
+              {isSubmit ? <span className="loader"></span> : "Publish now"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

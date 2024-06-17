@@ -7,15 +7,29 @@ export const GET = async (req: NextRequest, { params }: any) => {
   try {
     const { id } = params;
 
-    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-      console.log("Invalid or missing ID");
-      return new NextResponse("Invalid or missing ID", { status: 400 });
+    await dbConnect();
+
+    const findPortfolio = await Portfolio.findOne({ domain: id });
+
+    if (!findPortfolio) {
+      return NextResponse.json({
+        success: false,
+        message: "Portfolio not found",
+      });
     }
 
-    await dbConnect();
-    console.log("Database connected");
+    console.log("Portfolio found:", findPortfolio);
 
-    const userIdObject = new mongoose.Types.ObjectId(id);
+    if (!findPortfolio?.userid || !mongoose.Types.ObjectId.isValid(findPortfolio?.userid)) {
+      console.log("Invalid or missing ID");
+      return NextResponse.json({
+        success: false,
+        message: "Invalid or missing ID",
+      });
+    }
+
+
+    const userIdObject = new mongoose.Types.ObjectId(findPortfolio?.userid);
     console.log("UserId Object:", userIdObject);
 
 
