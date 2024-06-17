@@ -12,7 +12,7 @@ const SkillsSection = ({ id, skillData }: any) => {
       <div className=" px-2 py-6 rounded-sm w-full h-full sm:flex sm:flex-wrap  sm:justify-normal mt-10 gap-3 md:gap-5 grid grid-cols-2 min-[413px]:grid-cols-3 border-2">
         {skillData &&
           skillData.map((icon: any, i: number) => (
-            <div className="flex border truncate flex-col justify-center items-center  gap-2 bg-slate-100 px-4 py-2 max-w-[150px] w-full rounded-md ">
+            <div key={i} className="flex border truncate flex-col justify-center items-center  gap-2 bg-slate-100 px-4 py-2 max-w-[150px] w-full rounded-md ">
               <img
                 style={{ height: 50, width: 50 }}
                 key={icon.value}
