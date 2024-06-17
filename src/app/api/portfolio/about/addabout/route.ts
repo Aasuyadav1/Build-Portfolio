@@ -1,7 +1,6 @@
 import { dbConnect } from "@/lib/dbConnect";
 import About from "@/Models/aboutModel";
 import { NextRequest, NextResponse } from "next/server";
-import { aboutValidation } from "@/Schema/aboutValidation";
 
 export const POST = async (req: NextRequest) => {
   try {

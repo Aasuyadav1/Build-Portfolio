@@ -6,6 +6,8 @@ export const GET = async (req: NextRequest, { params } : any) => {
     try {
         const userid = params?.id
 
+        await dbConnect()
+
        const about = await About.find({
             userid: userid
         })
