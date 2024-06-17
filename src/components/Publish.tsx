@@ -59,7 +59,7 @@ export function Publish({
       if (response.ok && added.success) {
         setIsPublishing(true);
         setDomain(added.data?.domain || ""); // Safe access to domain property
-        toast.success(added.message);
+        toast.success(added.message || "Domain added successfully");
         setIsOpen(false);
         reset();
       } else {
