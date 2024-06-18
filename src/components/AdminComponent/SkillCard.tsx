@@ -10,7 +10,7 @@ const SkillCard = ({getSkills, deleteSkill, skill}: Props, {}) => {
 
 
   return (
-    <div className="sm:flex sm:flex-wrap  sm:justify-normal mt-10 gap-3 md:gap-5 grid grid-cols-2 min-[413px]:grid-cols-3">
+    <div className={`sm:flex sm:flex-wrap  sm:justify-normal mt-10 gap-3 md:gap-5 grid grid-cols-2 min-[413px]:grid-cols-3`}>
       {skill && skill.length > 0 ? (
         skill.map((icon,i) => (
           <div key={i} className="flex truncate flex-col justify-center items-center  gap-2 border bg-slate-100 px-4 py-2 max-w-[150px] w-full rounded-md relative">
@@ -28,7 +28,7 @@ const SkillCard = ({getSkills, deleteSkill, skill}: Props, {}) => {
           </div>
         ))
       ) : (
-        <div className="!text-left">No Links Found</div>
+        <div className="!text-left">No Skills Found</div>
       )
     }
     </div>
