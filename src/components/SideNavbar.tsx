@@ -181,11 +181,11 @@ export default function SideNavbar() {
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-[240px] top-4">
+              <DropdownMenuContent align="end" className="w-[240px] ml-2 px-2 top-4">
                 <DropdownMenuLabel>
-                  <div className="flex flex-col">
-                    <div className="font-medium">{session?.user?.name}</div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                  <div className="flex flex-col ">
+                    <div className="font-medium truncate">{session?.user?.name}</div>
+                    <div className="text-sm text-gray-500 truncate  dark:text-gray-400">
                       {session?.user?.email}
                     </div>
                   </div>

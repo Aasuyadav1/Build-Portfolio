@@ -17,27 +17,27 @@ export default function PortfolioNavbar() {
         <img src="https://res.cloudinary.com/driaaeuhp/image/upload/v1718370102/myPortfolio/private/idi0ioweymygbowtvotd.png" alt=""  className="h-[35px] w-[35px] object-cover"/>
           <span className="text-[#1D3944]">myPortfolio</span>
         </Link>
-        <nav className="hidden space-x-8 md:flex">
+        <nav className="hidden space-x-10 md:flex">
           <Link
             href="#about"
-            className="nav-link transition-colors hover:text-portfolioPrimary"
+            className="nav-link font-medium transition-colors hover:text-portfolioPrimary"
             prefetch={false}
           >
             About
           </Link>
           <Link
             href="#skill"
-            className="nav-link transition-colors hover:text-portfolioPrimary"
+            className="nav-link font-medium transition-colors hover:text-portfolioPrimary"
             prefetch={false}
           >
-            Skills
+            Skill
           </Link>
           <Link
             href="#project"
-            className="nav-link transition-colors hover:text-portfolioPrimary"
+            className="nav-link font-medium transition-colors hover:text-portfolioPrimary"
             prefetch={false}
           >
-            Projects
+            Project
           </Link>
         </nav>
        <div className="flex items-center gap-4">
@@ -50,6 +50,10 @@ export default function PortfolioNavbar() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
+          <Link href="/" className="text-lg flex items-end font-bold" prefetch={false}>
+        <img src="https://res.cloudinary.com/driaaeuhp/image/upload/v1718370102/myPortfolio/private/idi0ioweymygbowtvotd.png" alt=""  className="h-[35px] w-[35px] object-cover"/>
+          <span className="text-[#1D3944]">myPortfolio</span>
+        </Link>
             <div className="grid gap-2 py-6">
               <SheetClose asChild>
                 <Link

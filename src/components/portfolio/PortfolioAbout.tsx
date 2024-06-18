@@ -11,7 +11,7 @@ const PortfolioAbout = ({ id, aboutDatas, allLinks }: any) => {
       <div className="w-full h-full mt-2 py-6 px-2 flex flex-col justify-center items-center border-2 border-solid ">
        {
          aboutDatas[0]?.image && 
-          <div className="flex justify-center items-center w-full max-w-[180px]  md:max-w-[200px] aspect-square p-1 rounded-full border-solid border-4 border-portfolioSecondary">
+          <div className="flex justify-center object-cover items-center w-full max-w-[180px]  md:max-w-[200px] aspect-square p-1 overflow-hidden rounded-full border-solid border-4 border-portfolioSecondary">
           <Image
             className="rounded-full object-cover w-full h-full"
             src={aboutDatas[0]?.image}

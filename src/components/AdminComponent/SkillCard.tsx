@@ -28,7 +28,7 @@ const SkillCard = ({getSkills, deleteSkill, skill}: Props, {}) => {
           </div>
         ))
       ) : (
-        <div>No Links Found</div>
+        <div className="!text-left">No Links Found</div>
       )
     }
     </div>

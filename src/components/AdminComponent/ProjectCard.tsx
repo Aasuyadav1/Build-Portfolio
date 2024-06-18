@@ -20,7 +20,7 @@ interface Props {
 const ProjectCard = ({data, getProjects, deleteProject}: Props ) => {
   
   return (
-    <div className="flex flex-wrap justify-center sm:justify-normal gap-5 mt-4">
+    <div className={`flex flex-wrap ${ data.length > 0 ? "justify-center" : "justify-normal"} sm:justify-normal gap-5 mt-4`}>
       {data && data.length > 0 ? (
         data.map((project : any) => (
           <div key={project._id} className="flex flex-col mt-1   bg-slate-100 px-4 py-2 sm:max-w-[250px] max-w-full w-full border  rounded-md ">
@@ -43,7 +43,7 @@ const ProjectCard = ({data, getProjects, deleteProject}: Props ) => {
           </div>
         ))
       ) : (
-        <div>No Projects Found</div>
+        <div className="!text-left">No Projects Found</div>
       )}
     </div>
   );
