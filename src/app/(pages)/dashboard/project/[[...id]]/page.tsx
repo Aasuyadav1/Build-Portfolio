@@ -4,8 +4,9 @@ import InputAdmin from "@/components/AdminComponent/InputAdmin";
 import { Button } from "@/components/ui/button";
 import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+// import { deleteFromCloudinary } from "@/utils/handleupload";
 
 type ProjectFormData = {
   title: string;
@@ -32,6 +33,8 @@ const Page = ({ params }: any) => {
   const [projectId, setProjectId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [pageLoading, setPageLoading] = useState<boolean>(true);
+  const [previousImage, setPreviousImage] = useState<string>("");
+
   const router = useRouter();
 
   const handleChange = (e: any) => {
@@ -62,6 +65,13 @@ const Page = ({ params }: any) => {
       const formData = new FormData();
       formData.append("file", data.image[0]);
 
+      if (previousImage) {
+        console.log("previousImage", previousImage);
+        const response = fetch(`/api/image/upload/${previousImage}`, {
+          method: "DELETE",
+        });
+      }
+
       const imageResponse = await fetch("/api/image/upload", {
         method: "POST",
         body: formData,
@@ -70,6 +80,7 @@ const Page = ({ params }: any) => {
       const imageResult = await imageResponse.json();
       if (imageResponse.ok) {
         imageUrl = imageResult.imgUrl;
+        setPreviousImage(imageUrl);
       } else {
         console.error("Failed to upload image", imageResult);
         setIsLoading(false);
@@ -113,7 +124,6 @@ const Page = ({ params }: any) => {
   };
 
   const getProjects = async () => {
-
     try {
       const id = params?.id[0];
 
@@ -131,10 +141,10 @@ const Page = ({ params }: any) => {
         setValue("Github", data.data.github);
         setValue("technologies", data.data.technologies.join(", "));
         setImagePreview(data.data.image);
+        setPreviousImage(data.data.image);
       }
     } catch (error) {
       console.log(error);
-     
     } finally {
       setPageLoading(false);
     }
@@ -220,7 +230,11 @@ const Page = ({ params }: any) => {
       </h1>
       <div className="w-full mt-2 border rounded-md p-4">
         <div className="w-full flex justify-end">
-          <Button className="flex gap-2 px-6 items-center" onClick={handleSubmit(onSubmit)} disabled={isLoading}>
+          <Button
+            className="flex gap-2 px-6 items-center"
+            onClick={handleSubmit(onSubmit)}
+            disabled={isLoading}
+          >
             <span>{isUpdate ? "Update Project" : "Add Project"}</span>
             {isLoading && <span className="loader ml-2"></span>}
           </Button>

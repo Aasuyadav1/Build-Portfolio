@@ -21,9 +21,34 @@ const uploadToCloudinary = (
         resolve({ success: true, result });
       })
       .catch((error) => {
-        reject({ success: false, error });
+        resolve({ success: false, error });
       });
   });
 };
 
-export default uploadToCloudinary
+const extractPublicIdFromUrl = (url: string): string => {
+  const urlParts = url.split('/');
+  const publicIdWithExtension = urlParts[urlParts.length - 1];
+  const [publicId] = publicIdWithExtension.split('.');
+  return publicId;
+};
+
+const deleteFromCloudinary = (url: string): Promise<UploadResponse> => {
+  return new Promise((resolve, reject) => {
+    const publicId = extractPublicIdFromUrl(url);
+
+    cloudinary.uploader
+      .destroy(publicId)
+      .then((result) => {
+        resolve({ success: true, result });
+      })
+      .catch((error) => {
+        resolve({ success: false, error });
+      });
+  });
+};
+
+export {
+  uploadToCloudinary,
+  deleteFromCloudinary
+};

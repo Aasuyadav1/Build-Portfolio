@@ -28,6 +28,7 @@ const Page: React.FC = () => {
   const [aboutId, setAboutId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [pageLoading, setPageLoading] = useState<boolean>(true); // Add a state for page loading
+  const [previousImage, setPreviousImage] = useState<string>("");
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -52,14 +53,24 @@ const Page: React.FC = () => {
       const formData = new FormData();
       formData.append("file", data.image[0]);
 
+      // delete the previous image if it exists
+
       const imageResponse = await fetch("/api/image/upload", {
         method: "POST",
         body: formData,
       });
 
       const imageResult = await imageResponse.json();
+
+      if (previousImage) {
+        console.log("previousImage", previousImage);
+        const response = fetch(`/api/image/upload/${previousImage}`, {
+          method: "DELETE",
+        });
+      }
       if (imageResponse.ok) {
         imageUrl = imageResult.imgUrl;
+        setPreviousImage(imageUrl);
       } else {
         console.error("Failed to upload image", imageResult);
         setIsLoading(false);
@@ -130,6 +141,7 @@ const Page: React.FC = () => {
         setAboutId(data.data[0]._id);
         setValue("heading", data.data[0].heading);
         setValue("about", data.data[0].about);
+        setPreviousImage(data.data[0].image);
         setImagePreview(data.data[0].image); // Set the current image preview
       } else {
         setIsUpdate(false);
@@ -181,10 +193,12 @@ const Page: React.FC = () => {
     return error?.message;
   };
 
-  if(pageLoading || status === "loading") {
-    return <main className="flex justify-center items-center w-full h-screen">
-      <span className="loader2"></span>
-    </main>
+  if (pageLoading || status === "loading") {
+    return (
+      <main className="flex justify-center items-center w-full h-screen">
+        <span className="loader2"></span>
+      </main>
+    );
   }
 
   return (

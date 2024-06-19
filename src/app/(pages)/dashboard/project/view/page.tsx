@@ -36,6 +36,7 @@ const Page = () => {
   };
 
   const deleteProject = async (id: any) => {
+    deleteImage(id)
     try {
       const response = await fetch(`/api/portfolio/project/${id}`, {
         method: "DELETE",
@@ -48,6 +49,27 @@ const Page = () => {
       toast.error('Project Deletion Failed');
     }
   };
+
+  const deleteImage = async (id : string) => {
+    try {
+      const response = await fetch("/api/portfolio/project/" + id, {
+        method: "GET",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        const image = data.data.image;
+        if(image){
+          const response = fetch(`/api/image/upload/${image}`, {
+            method: "DELETE",
+          });
+        }
+      }
+    } catch (error) {
+      console.log("error on deleting image",error);
+    }
+  }
 
   useEffect(() => {
     if (status === "authenticated") {
