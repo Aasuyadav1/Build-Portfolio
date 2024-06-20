@@ -7,7 +7,6 @@ import { signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-// import useStore from "@/store/useStore";
 import { useRouter } from "next/navigation"; // Fixed import from "next/navigation" to "next/router"
 
 export default function Component() {
@@ -15,11 +14,11 @@ export default function Component() {
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [loadingGithub, setLoadingGithub] = useState(false);
   const router = useRouter();
-  // const { getUser } = useStore((state) => state);
+
 
   useEffect(() => {
     if (status === "authenticated") {
-      // getUser(session?.user);
+     
       router.push("/dashboard/about");
       if (loadingGoogle || loadingGithub) {
         setLoadingGoogle(false);
