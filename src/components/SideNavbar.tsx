@@ -79,13 +79,11 @@ export default function SideNavbar() {
     }
   };
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      
-      getDomainName(session?.user?.id)
-    }
-  }, [status === "authenticated"]);
 
+  if (session?.user?.id) {
+    getDomainName(session.user.id);
+  }
+  
   return (
     <div>
       <div className="w-full flex justify-end gap-4 bg-gray-100 border fixed py-2 px-10">
