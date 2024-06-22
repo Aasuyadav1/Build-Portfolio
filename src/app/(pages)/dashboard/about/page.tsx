@@ -137,17 +137,20 @@ const Page: React.FC = () => {
 
       if (response.ok && data.data && data.data.length > 0) {
         setIsUpdate(true);
+        setIsLoading(false);
         setValue("name", data.data[0].name);
         setAboutId(data.data[0]._id);
         setValue("heading", data.data[0].heading);
         setValue("about", data.data[0].about);
         setPreviousImage(data.data[0].image);
+        
         setImagePreview(data.data[0].image); // Set the current image preview
       } else {
         setIsUpdate(false);
+        setIsLoading(false);
         setAboutId(""); // Reset aboutId if there's no existing data
         // console.log(data);
-        setPageLoading(false);
+      
       }
     } catch (error) {
       console.log("error getting user about", error);
