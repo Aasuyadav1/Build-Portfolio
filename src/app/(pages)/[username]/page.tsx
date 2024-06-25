@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import PortfolioAbout from "../../../components/portfolio/PortfolioAbout";
 import SkillsSection from "@/components/portfolio/PortfolioSkills";
 import PortfolioProjectCard from "@/components/portfolio/PortfolioProjectCard";
-import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
 const Page = ({ params }: {
@@ -16,6 +15,7 @@ const Page = ({ params }: {
     try {
       const response = await fetch("/api/portfolio/" + params?.username, {
         method: "GET",
+        cache: "no-store",
       });
 
       const data = await response.json();
