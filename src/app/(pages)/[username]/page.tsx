@@ -6,7 +6,9 @@ import PortfolioProjectCard from "@/components/portfolio/PortfolioProjectCard";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
-const Page = ({ params }: any) => {
+const Page = ({ params }: {
+  params: { username: string };
+}) => {
   const [portfolioData, setPortfolioData] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
 

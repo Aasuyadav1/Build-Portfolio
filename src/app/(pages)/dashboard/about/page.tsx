@@ -30,11 +30,6 @@ const Page: React.FC = () => {
   const [pageLoading, setPageLoading] = useState<boolean>(true); // Add a state for page loading
   const [previousImage, setPreviousImage] = useState<string>("");
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      getUserAbout();
-    }
-  }, [status]);
 
   useEffect(() => {
     return () => {
@@ -130,6 +125,7 @@ const Page: React.FC = () => {
         `/api/portfolio/about/getabout/${session?.user?.id}`,
         {
           method: "GET",
+          cache: "default"
         }
       );
 
@@ -195,6 +191,12 @@ const Page: React.FC = () => {
   ): string | undefined => {
     return error?.message;
   };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      getUserAbout();
+    }
+  }, [status === "authenticated"]);
 
   if (pageLoading || status === "loading") {
     return (

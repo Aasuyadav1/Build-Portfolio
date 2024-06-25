@@ -6,7 +6,9 @@ interface Props {
 }
 
 
-const PortfolioLinks = ({id, allLinks} : any) => {
+const PortfolioLinks = ({allLinks} : {
+  allLinks: { network: string; url: string }[]
+}) => {
   
   return (
     <section className="w-fit p-3 mt-3">

@@ -37,12 +37,12 @@ interface Skill {
 }
 
 export function SkillField({getSkills} : {getSkills: () => void}) {
-  const [open, setOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [open, setOpen] = useState<boolean>(false);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<string>("");
   const [skills, setSkills] = useState<Skill[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [customSkill, setCustomSkill] = useState({
+  const [customSkill, setCustomSkill] = useState<Skill>({
     value: "",
     label: "",
   });

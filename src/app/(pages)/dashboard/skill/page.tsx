@@ -47,9 +47,11 @@ const Page = () => {
   };
 
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (skills.length === 0) {
       getSkills();
+      console.log("calling skill function");
     }
+    console.log("skills", skills);
   }, [status === 'authenticated']);
 
   if (status === 'loading' || pageLoading) {

@@ -5,8 +5,8 @@ import { MdDeleteOutline } from "react-icons/md";
 
 
 export default function DeleteModel({ item, onDelete }: { item: any, onDelete: (id: number) => void }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleDelete = async () => {
     setIsLoading(true);

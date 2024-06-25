@@ -11,8 +11,8 @@ import { useRouter } from "next/navigation"; // Fixed import from "next/navigati
 
 export default function Component() {
   const { data: session, status } = useSession();
-  const [loadingGoogle, setLoadingGoogle] = useState(false);
-  const [loadingGithub, setLoadingGithub] = useState(false);
+  const [loadingGoogle, setLoadingGoogle] = useState<boolean>(false);
+  const [loadingGithub, setLoadingGithub] = useState<boolean>(false);
   const router = useRouter();
 
 

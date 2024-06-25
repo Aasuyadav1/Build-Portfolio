@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import PortfolioLinks from "./PortfolioLinks";
 import Image from "next/image";
 
-const PortfolioAbout = ({ id, aboutDatas, allLinks }: any) => {
+const PortfolioAbout = ({ aboutDatas, allLinks }: {
+  aboutDatas: any;
+  allLinks: any;
+}) => {
   return (
     <section id="about" className=" w-full h-full">
       {/* <h1 className="text-2xl font-bold rounded-sm text-portfolioPrimary mt-4">

@@ -18,7 +18,9 @@ type ProjectFormData = {
   image: FileList;
 };
 
-const Page = ({ params }: any) => {
+const Page = ({ params }: {
+  params: { id: string };
+}) => {
   const [imagePreview, setImagePreview] = useState("");
   const {
     register,

@@ -72,7 +72,7 @@ const Page = () => {
   }
 
   useEffect(() => {
-    if (status === "authenticated") {
+    if (data.length === 0) {
       getProjects();
     }
   }, [status === "authenticated"]);

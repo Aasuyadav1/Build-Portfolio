@@ -4,7 +4,8 @@ import { Label } from '../ui/label'
 import { Button } from '../ui/button'
 import { Textarea } from '../ui/textarea'
 
-const PortfolioContact = ({id}:any, {contactData}: any ) => {
+const PortfolioContact = ({contactData}: {
+  contactData: {name: string, email: string, message: string}} ) => {
   return (
     <section className='mt-4 w-full  h-full '>
       <h1 className='text-2xl  font-bold text-portfolioPrimary'>#Contact Me</h1>

@@ -33,8 +33,8 @@ import { Publish } from "./Publish";
 export default function SideNavbar() {
   const { data: session, status } = useSession();
   const pathName = usePathname()
-  const [isPublish, setIsPublilsh] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
+  const [isPublish, setIsPublilsh] = useState<boolean>(false);
+  const [isPublishing, setIsPublishing] = useState<boolean>(false);
   const [domain, setDomain] = useState("");
 
   const NavList = [
@@ -64,6 +64,7 @@ export default function SideNavbar() {
     try {
       const response = await fetch(`/api/portfolio/domain/${domain}`, {
         method: "GET",
+        cache: "default"
       });
       const data = await response.json()
       if (response.ok) {
@@ -80,9 +81,16 @@ export default function SideNavbar() {
   };
 
 
-  if (session?.user?.id) {
-    getDomainName(session.user.id);
-  }
+  // if (session?.user?.id) {
+  //   getDomainName(session.user.id);
+  //   console.log("calling domain function");
+  // }
+
+  useEffect(()=>{
+    if(session){
+      getDomainName(session?.user?.id);
+    }
+  },[status === "authenticated"])
   
   return (
     <div>
@@ -111,11 +119,11 @@ export default function SideNavbar() {
               <AvatarFallback>{session?.user?.name?.charAt(0)}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[240px] top-4">
+          <DropdownMenuContent align="end" className="w-[240px] top-4 px-2 mt-2">
             <DropdownMenuLabel>
               <div className="flex flex-col">
-                <div className="font-medium">{session?.user?.name}</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">
+                <div className="font-medium truncate">{session?.user?.name}</div>
+                <div className="text-sm truncate text-gray-500 dark:text-gray-400">
                   {session?.user?.email}
                 </div>
               </div>

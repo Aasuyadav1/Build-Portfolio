@@ -5,7 +5,9 @@ interface Icon {
   body: string;
 }
 
-const SkillsSection = ({ id, skillData }: any) => {
+const SkillsSection = ({skillData }: {
+  skillData: Icon[]
+}) => {
   return (
     <section id="skill" className=" mt-4 w-full ">
       <h1 className="text-2xl font-bold text-portfolioPrimary">#Skills</h1>

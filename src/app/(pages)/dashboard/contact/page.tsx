@@ -42,10 +42,10 @@ const Page: React.FC = () => {
   };
 
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (icons.length === 0) {
       getLinks();
     }
-  }, [status]);
+  }, [status === 'authenticated']);
 
   if (status === 'loading' || pageLoading) {
     return (

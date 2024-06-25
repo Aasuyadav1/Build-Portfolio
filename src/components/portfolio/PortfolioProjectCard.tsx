@@ -3,7 +3,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 
-const PortfolioProjectCard = ({ id, projectData }: any) => {
+const PortfolioProjectCard = ({ projectData }:any ) => {
  
   return (
     <section id="project" className="mt-4 w-full ">
