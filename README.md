@@ -4,7 +4,7 @@
 
 With MyPortfoli, you can present your skills, projects, about, contact info and visually appealing manner. 
 
-[MyPortfoli](https://my--portfolios.vercel.app/)
+[MyPortfoli](https://build-portfolios.vercel.app/aasu)
 
 
 ![MyPortfoli](https://res.cloudinary.com/driaaeuhp/image/upload/v1718886951/myPortfolio/private/z0px6lbaqsssyhxuuue5.png)
