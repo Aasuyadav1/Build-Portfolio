@@ -17,8 +17,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "myPortfolio",
-  description: "myPortfolio enables you to effortlessly display your work to the world. It is fully responsive, customizable, and simple to set up.",
+  title: "buildPortfolio",
+  description: "buildPortfolio enables you to effortlessly display your work to the world. It is fully responsive, customizable, and simple to set up.",
   icons: {
     icon: "https://res.cloudinary.com/driaaeuhp/image/upload/v1718370102/myPortfolio/private/idi0ioweymygbowtvotd.png",
   },

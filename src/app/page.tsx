@@ -45,16 +45,16 @@ export default function Component() {
           alt=""
           className="h-[35px] w-[35px] object-cover"
         />
-        <span className="text-[#1D3944]">myPortfolio</span>
+        <span className="text-[#1D3944]">buildPortfolio</span>
       </Link>
       <main className="flex-1 px-4 md:px-6 py-12 md:py-24 lg:py-32 flex flex-col items-center justify-center space-y-8">
         <div className="max-w-xl space-y-4 text-center">
           <h1 className="text-2xl font-bold tracking-tighter sm:text-2xl md:text-4xl">
             Welcome to{" "}
-            <span className="text-portfolioPrimary text-3xl md:text-5xl">myPortfolio</span>
+            <span className="text-portfolioPrimary text-3xl md:text-5xl">buildPortfolio</span>
           </h1>
           <p className="text-gray-700 text-md md:text-lg dark:text-gray-400">
-          MyPortfoli is a web platform enabling users to create and deploy stunning portfolio effortlessly. Elevate your online presence and attract opportunities with MyPortfoli
+          buildPortfolio is a web platform enabling users to create and deploy stunning portfolio effortlessly. Elevate your online presence and attract opportunities with MyPortfoli
           </p>
         </div>
         <div className="w-full max-w-md space-y-4">

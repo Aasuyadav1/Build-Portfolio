@@ -22,7 +22,7 @@ export default function PortfolioNavbar() {
             alt=""
             className="h-[35px] w-[35px] object-cover"
           />
-          <span className="text-[#1D3944]">myPortfolio</span>
+          <span className="text-[#1D3944]">buildPortfolio</span>
         </Link>
         <nav className="hidden space-x-10 md:flex">
           <Link
@@ -67,7 +67,7 @@ export default function PortfolioNavbar() {
                   alt=""
                   className="h-[35px] w-[35px] object-cover"
                 />
-                <span className="text-[#1D3944]">myPortfolio</span>
+                <span className="text-[#1D3944]">buildPortfolio</span>
               </Link>
               <div className="grid gap-2 py-6">
                 <SheetClose asChild>

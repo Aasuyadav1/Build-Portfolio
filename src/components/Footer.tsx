@@ -11,7 +11,7 @@ const Footer = () => {
           href="/"
           className="hover:underline font-medium  text-portfolioSecondary transition-colors"
         >
-          myPortfolio &#8599;
+          buildPortfolio &#8599;
         </Link>
       </p>
     </footer>

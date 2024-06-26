@@ -147,7 +147,7 @@ export default function SideNavbar() {
                 alt=""
                 className="h-[35px] w-[35px] object-cover"
               />
-              <span className="text-[#1D3944]">myPortfolio</span>
+              <span className="text-[#1D3944]">buildPortfolio</span>
             </Link>
             <div className="space-y-2">
               {NavList.map((item, index) => {
@@ -241,7 +241,7 @@ export default function SideNavbar() {
                       alt=""
                       className="h-[35px] w-[35px] object-cover"
                     />
-                    <span className="text-[#1D3944]">myPortfolio</span>
+                    <span className="text-[#1D3944]">buildPortfolio</span>
                   </Link>
                   <div className="space-y-2">
                     {NavList.map((item, index) => {
