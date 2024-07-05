@@ -1,4 +1,3 @@
-import React from "react";
 import { SocialIcon, getKeys } from "react-social-icons";
 
 interface Props {

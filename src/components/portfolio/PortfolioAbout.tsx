@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import PortfolioLinks from "./PortfolioLinks";
 import Image from "next/image";
 
