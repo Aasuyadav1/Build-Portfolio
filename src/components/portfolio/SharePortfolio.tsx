@@ -21,24 +21,20 @@ import {
   FacebookShareButton,
   WhatsappShareButton,
   TelegramShareButton,
-  PinterestShareButton,
   TwitterShareButton,
   LinkedinShareButton,
-  MailruShareButton,
   EmailShareButton,
   FacebookIcon,
   EmailIcon,
   WhatsappIcon,
   TelegramIcon,
-  PinterestIcon,
   TwitterIcon,
   LinkedinIcon,
-  MailruIcon,
 } from "react-share";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 function SharePortfolio() {
-  const [shareData, setShareData] = React.useState(window.location.href || ""); // Set your share data here
+  const [shareData, setShareData] = React.useState(window.location.href || "");
 
   useEffect(() => {
     setShareData(window.location.href || "");
