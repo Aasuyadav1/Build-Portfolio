@@ -19,6 +19,8 @@ const authOptions: any = {
   callbacks: {
     async session({ session }: any) {
       // Store the user id from MongoDB to session
+      await dbConnect();
+      
       const sessionUser = await User.findOne({ email: session.user.email });
 
       if (sessionUser) {
