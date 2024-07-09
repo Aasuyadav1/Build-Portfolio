@@ -6,6 +6,7 @@ import Provider from "@/components/Provider";
 import { Toaster } from 'sonner'
 import { TooltipProvider } from "@/components/ui/tooltip";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import NextTopLoader from 'nextjs-toploader';
  
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,6 +35,8 @@ export default function RootLayout({
       <GoogleAnalytics />
       <body className={inter.className}>
         <Provider>
+        <NextTopLoader height={4}
+        />
           <Toaster />
           <TooltipProvider>
         <div className="flex flex-col gap-1 md:flex-row md:gap-2">
