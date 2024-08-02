@@ -7,9 +7,6 @@ const PortfolioAbout = ({ aboutDatas, allLinks }: {
 }) => {
   return (
     <section id="about" className=" w-full h-full">
-      {/* <h1 className="text-2xl font-bold rounded-sm text-portfolioPrimary mt-4">
-        #About
-      </h1> */}
       <div className="w-full h-full mt-2 py-6 px-2 flex flex-col justify-center items-center border-2 border-solid ">
        {
          aboutDatas[0]?.image && 

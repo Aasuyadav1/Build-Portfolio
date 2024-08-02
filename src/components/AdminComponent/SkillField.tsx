@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import * as React from "react";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
@@ -29,14 +29,14 @@ import { useState, useEffect } from "react";
 import skillIcons from "@/Data/skillIcon";
 import { Separator } from "../ui/separator";
 import { useSession } from "next-auth/react";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
 interface Skill {
   value: string;
   label: string;
 }
 
-export function SkillField({getSkills} : {getSkills: () => void}) {
+export function SkillField({ getSkills }: { getSkills: () => void }) {
   const [open, setOpen] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
@@ -53,24 +53,25 @@ export function SkillField({getSkills} : {getSkills: () => void}) {
   const addNewSkill = async () => {
     if (customSkill.value && customSkill.label && value) {
       toast.info("Only one skill can be added at a time");
-      // console.log("custom skill", customSkill);
-      // console.log("value", value);
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const response = await fetch(`/api/portfolio/skills/addskill/${session?.user?.id}`, {
-        method: "POST",
-        body: JSON.stringify({
-          value: customSkill.value || value,
-          label: customSkill.label || value,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `/api/portfolio/skills/addskill/${session?.user?.id}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            value: customSkill.value || value,
+            label: customSkill.label || value,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
 
@@ -80,7 +81,6 @@ export function SkillField({getSkills} : {getSkills: () => void}) {
         getSkills();
         setValue("");
         setDialogOpen(false);
-
       }
 
       setIsLoading(false);
@@ -108,9 +108,7 @@ export function SkillField({getSkills} : {getSkills: () => void}) {
     <div className="w-full flex justify-end">
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
-        
           <Button onClick={() => setDialogOpen(true)}>Select Skill</Button>
-          
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -210,11 +208,7 @@ export function SkillField({getSkills} : {getSkills: () => void}) {
               onClick={addNewSkill}
               disabled={isLoading}
             >
-              {isLoading ? (
-                <span className="loader"></span>
-              ) : (
-                "Add Skill"
-              )}
+              {isLoading ? <span className="loader"></span> : "Add Skill"}
             </Button>
           </DialogFooter>
         </DialogContent>

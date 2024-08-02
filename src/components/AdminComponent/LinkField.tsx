@@ -33,7 +33,6 @@ import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { Label } from "../ui/label";
 
-
 interface Framework {
   value: string;
   label: string;
@@ -63,7 +62,7 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
 
   const isValidUrl = (url: string) => {
     const urlPattern = new RegExp(
-       /^(https?:\/\/)?([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,6}(\/[a-zA-Z0-9-_#]+\/?)*$/
+      /^(https?:\/\/)?([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,6}(\/[a-zA-Z0-9-_#]+\/?)*$/
     );
     return urlPattern.test(url);
   };
@@ -124,7 +123,9 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
     <div className="w-full flex justify-end">
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
-          <Button onClick={() => setDialogOpen(true)} className="px-6">Add Link</Button>
+          <Button onClick={() => setDialogOpen(true)} className="px-6">
+            Add Link
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -214,7 +215,7 @@ export function LinkField({ fetchLinks }: { fetchLinks: () => void }) {
           </div>
           <DialogFooter>
             <Button type="submit" onClick={addLink} disabled={isLoading}>
-              {isLoading?<span className="loader "></span>:"Add now"}
+              {isLoading ? <span className="loader "></span> : "Add now"}
             </Button>
           </DialogFooter>
         </DialogContent>

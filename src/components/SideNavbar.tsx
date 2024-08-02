@@ -32,7 +32,7 @@ import { Publish } from "./Publish";
 
 export default function SideNavbar() {
   const { data: session, status } = useSession();
-  const pathName = usePathname()
+  const pathName = usePathname();
   const [isPublish, setIsPublilsh] = useState<boolean>(false);
   const [isPublishing, setIsPublishing] = useState<boolean>(false);
   const [domain, setDomain] = useState("");
@@ -60,57 +60,58 @@ export default function SideNavbar() {
     },
   ];
 
-  const getDomainName = async (domain : string) => {
+  const getDomainName = async (domain: string) => {
     try {
       const response = await fetch(`/api/portfolio/domain/${domain}`, {
         method: "GET",
-        cache: "default"
+        cache: "default",
       });
-      const data = await response.json()
+      const data = await response.json();
       if (response.ok) {
         setIsPublilsh(true);
-        setDomain(data.data.domain)
-      }else {
+        setDomain(data.data.domain);
+      } else {
         setIsPublilsh(false);
-        setDomain("")
+        setDomain("");
       }
-      
     } catch (error) {
       console.log(error);
     }
   };
 
-
-  // if (session?.user?.id) {
-  //   getDomainName(session.user.id);
-  //   console.log("calling domain function");
-  // }
-
-  useEffect(()=>{
-    if(session){
+  useEffect(() => {
+    if (session) {
       getDomainName(session?.user?.id);
     }
-  },[status === "authenticated"])
-  
+  }, [status === "authenticated"]);
+
   return (
     <div>
       <div className="w-full flex justify-end gap-4 bg-gray-100 border fixed py-2 px-10">
-        {
-         status === "authenticated" && (isPublish ?  <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              onClick={() => window.open(`/${domain}`, "_blank")}
-              variant="outline"
-              size="icon"
-            >
-              <FiExternalLink className="h-4 w-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Preview</p>
-          </TooltipContent>
-        </Tooltip> : <Publish isPublishing={isPublishing} setIsPublishing={setIsPublishing} domain={domain} setDomain={setDomain} />)
-        }
+        {status === "authenticated" &&
+          (isPublish ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={() => window.open(`/${domain}`, "_blank")}
+                  variant="outline"
+                  size="icon"
+                >
+                  <FiExternalLink className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Preview</p>
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <Publish
+              isPublishing={isPublishing}
+              setIsPublishing={setIsPublishing}
+              domain={domain}
+              setDomain={setDomain}
+            />
+          ))}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -119,10 +120,15 @@ export default function SideNavbar() {
               <AvatarFallback>{session?.user?.name?.charAt(0)}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[240px] top-4 px-2 mt-2">
+          <DropdownMenuContent
+            align="end"
+            className="w-[240px] top-4 px-2 mt-2"
+          >
             <DropdownMenuLabel>
               <div className="flex flex-col">
-                <div className="font-medium truncate">{session?.user?.name}</div>
+                <div className="font-medium truncate">
+                  {session?.user?.name}
+                </div>
                 <div className="text-sm truncate text-gray-500 dark:text-gray-400">
                   {session?.user?.email}
                 </div>
@@ -164,15 +170,6 @@ export default function SideNavbar() {
               })}
             </div>
           </div>
-          {/* <div className="px-4">
-            <Link
-              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
-              href="#"
-            >
-              <SettingsIcon className="h-5 w-5" />
-              Settings
-            </Link>
-          </div> */}
         </div>
       </nav>
       <div className="p-2 w-full fixed z-50 md:hidden">
@@ -187,10 +184,15 @@ export default function SideNavbar() {
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-[240px] ml-2 px-2 top-4">
+              <DropdownMenuContent
+                align="end"
+                className="w-[240px] ml-2 px-2 top-4"
+              >
                 <DropdownMenuLabel>
                   <div className="flex flex-col ">
-                    <div className="font-medium truncate">{session?.user?.name}</div>
+                    <div className="font-medium truncate">
+                      {session?.user?.name}
+                    </div>
                     <div className="text-sm text-gray-500 truncate  dark:text-gray-400">
                       {session?.user?.email}
                     </div>
@@ -206,7 +208,12 @@ export default function SideNavbar() {
               </DropdownMenuContent>
             </DropdownMenu>
             {!isPublish && (
-              <Publish isPublishing={isPublishing} setIsPublishing={setIsPublishing} domain={domain} setDomain={setDomain} />
+              <Publish
+                isPublishing={isPublishing}
+                setIsPublishing={setIsPublishing}
+                domain={domain}
+                setDomain={setDomain}
+              />
             )}
             {isPublish && (
               <Tooltip>
@@ -259,25 +266,10 @@ export default function SideNavbar() {
                     })}
                   </div>
                 </div>
-                {/* <div className="px-4">
-                  <Link
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800"
-                    href="#"
-                  >
-                    <SettingsIcon className="h-5 w-5" />
-                    Settings
-                  </Link>
-                </div> */}
               </div>
             </SheetContent>
           </Sheet>
         </header>
-        {/* <main className="p-4 md:p-6">
-          <h1 className="text-2xl font-bold">Welcome to Acme Inc</h1>
-          <p className="mt-2 text-gray-500 dark:text-gray-400">
-            This is the main content area.
-          </p>
-        </main> */}
       </div>
     </div>
   );
