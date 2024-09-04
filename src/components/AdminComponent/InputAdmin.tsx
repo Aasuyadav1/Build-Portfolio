@@ -44,7 +44,8 @@ const InputAdmin = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps
           placeholder={placeholder}
           name={name}
           value={value}
-          className={`${classes} `}
+          className={`${classes} resize-y overflow-auto`}
+          rows={8}
           onChange={onChange}
           ref={ref as React.Ref<HTMLTextAreaElement>}
         />

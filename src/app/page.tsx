@@ -54,7 +54,7 @@ export default function Component() {
             <span className="text-portfolioPrimary text-3xl md:text-5xl">buildPortfolio</span>
           </h1>
           <p className="text-gray-700 text-md md:text-lg dark:text-gray-400">
-          buildPortfolio is a web platform enabling users to create and deploy stunning portfolio effortlessly. Elevate your online presence and attract opportunities with MyPortfoli
+          buildPortfolio is a web platform enabling users to create and deploy stunning portfolio effortlessly. Elevate your online presence and attract opportunities with BuildPortfolio
           </p>
         </div>
         <div className="w-full max-w-md space-y-4">
