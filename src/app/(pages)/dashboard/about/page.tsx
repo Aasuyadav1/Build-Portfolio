@@ -4,7 +4,6 @@ import InputAdmin from "@/components/AdminComponent/InputAdmin";
 import { Button } from "@/components/ui/button";
 import { useForm, FieldError } from "react-hook-form";
 import { useSession } from "next-auth/react";
-import { Publish } from "@/components/Publish";
 import { toast } from "sonner";
 
 type AboutFormData = {

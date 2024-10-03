@@ -7,6 +7,7 @@ import { Toaster } from 'sonner'
 import { TooltipProvider } from "@/components/ui/tooltip";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import NextTopLoader from 'nextjs-toploader';
+import { redirect } from "next/navigation";
  
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,11 +26,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+ await redirect('https://www.buildportfolio.co/')
   return (
     <html lang="en">
       <GoogleAnalytics />

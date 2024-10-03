@@ -19,10 +19,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuItem,
-  DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { toast } from "sonner";
+import { useParams } from "next/navigation";
 import {
   Tooltip,
   TooltipContent,
@@ -32,6 +31,7 @@ import { Publish } from "./Publish";
 
 export default function SideNavbar() {
   const { data: session, status } = useSession();
+  const params = useParams();
   const pathName = usePathname();
   const [isPublish, setIsPublilsh] = useState<boolean>(false);
   const [isPublishing, setIsPublishing] = useState<boolean>(false);
